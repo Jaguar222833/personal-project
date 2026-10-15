@@ -1252,6 +1252,113 @@ blockquote {
 
 
 /* ============================================================
+   8. МЕНЮ БЕЗ JS І ДОСТУПНІСТЬ
+   ============================================================ */
+
+/* [ЗАВДАННЯ] меню на <details>: тег сам уміє відкриватись і закриватись,
+   працює з клавіатури (Tab, потім Enter чи пробіл) і оголошується читалкою
+   як «згорнуто / розгорнуто» (практика 5, крок 7).
+   БАЗА (телефон): кнопка «Меню», список випадає під шапкою.
+   Широкий екран (від 48rem): кнопки немає, пункти в рядок — розділ 9. */
+.menu {
+    & summary {
+        list-style: none;               /* прибрати стандартний трикутник */
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        min-height: 44px;               /* зона натискання для пальця */
+        padding: 0 1rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--surface);
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    & summary::-webkit-details-marker {
+        display: none;                  /* трикутник у Safari */
+    }
+
+    & summary::before {
+        content: "☰";
+        font-size: 1.125rem;
+    }
+
+    &[open] summary::before {
+        content: "✕";                   /* відкрито → хрестик */
+    }
+}
+
+.menu-list {
+    list-style: none;
+    margin: 0;
+    padding: .5rem;
+
+    /* список випадає під шапкою на всю ширину .header-inner */
+    position: absolute;
+    top: calc(100% + .5rem);
+    left: 0;
+    right: 0;
+
+    display: grid;
+    gap: .25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+
+    & a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 1rem;
+        border-radius: .5rem;
+        color: var(--text);
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover {
+            background: var(--surface-2);
+        }
+
+        /* поточна сторінка (aria-current="page" стоїть в HTML) */
+        &[aria-current="page"] {
+            color: var(--accent);
+            background: var(--surface-2);
+        }
+    }
+}
+
+/* [ЗАВДАННЯ] видимий фокус для тих, хто ходить клавіатурою (Tab).
+   :focus-visible — рамка лише при навігації з клавіатури, не при кліку мишею */
+:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+}
+
+/* [ЗАВДАННЯ] «Перейти до змісту»: схована за верхнім краєм, з'являється при першому Tab */
+.skip-link {
+    position: absolute;
+    top: -5rem;
+    left: 1rem;
+    z-index: 100;
+    padding: .75rem 1.25rem;
+    border-radius: .5rem;
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 700;
+
+    &:focus {
+        top: 1rem;
+    }
+
+    &:hover {
+        color: var(--bg);
+    }
+}
+
+
+/* ============================================================
    9. МЕДІАЗАПИТИ
    [ЗАВДАННЯ] точки зламу в rem, запис діапазоном (width >= …), mobile-first:
    кожен блок лише ДОДАЄ те, що змінюється на ширшому екрані (лекція 3, слайди 5–7).
@@ -1273,6 +1380,32 @@ blockquote {
 
 /* ---------- від 48rem (768px) ---------- */
 @media (width >= 48rem) {
+
+    /* [ЗАВДАННЯ] меню: кнопка «Меню» зникає, пункти завжди видно в рядок (практика 5, крок 7).
+       ::details-content — відносно новий псевдоелемент (вміст <details>), тому правило
+       загорнуте в @supports: «якщо браузер його знає — застосуй». У старому браузері
+       на десктопі просто лишиться кнопка «Меню» — гірше, але не зламано
+       (прогресивне покращення). */
+    @supports selector(details::details-content) {
+        .menu summary {
+            display: none;
+        }
+
+        .menu::details-content {
+            content-visibility: visible;    /* показати вміст, навіть якщо <details> закритий */
+            display: block;
+        }
+
+        .menu-list {
+            position: static;               /* більше не випадає — стоїть у шапці */
+            display: flex;                  /* [ЗАВДАННЯ] Flexbox: пункти в рядок */
+            gap: .25rem;
+            padding: 0;
+            background: none;
+            border: 0;
+            box-shadow: none;
+        }
+    }
 
     /* [ДОДАТКОВО] lightbox: стрілки по боках від фото */
     .lightbox-prev,
@@ -1341,5 +1474,17 @@ blockquote {
             "profile about    about"
             "profile projects projects"
             "profile skills   contact";
+    }
+}
+
+/* ---------- [ЗАВДАННЯ] користувач просить менше руху (лекція 3, слайд 5) ----------
+   Вимикаємо анімації, плавну прокрутку й зум фото при наведенні */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
     }
 }

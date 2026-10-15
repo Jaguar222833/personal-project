@@ -927,6 +927,331 @@ html:has(.lightbox[open]) {
 
 
 /* ============================================================
+   6. БЛОГ (blog.html)
+   [ЗАВДАННЯ] каркас БЕЗ медіазапитів — прийом з практики 6
+   ============================================================ */
+
+/* [ЗАВДАННЯ] Flexbox з переносом: три колонки в рядок або кожна у своєму рядку */
+.blog-layout {
+    display: flex;
+    flex-wrap: wrap;            /* [1] можна переносити колонки в новий рядок */
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.blog-layout > * {
+    /* [2] ВИМИКАЧ. 100% — ширина контейнера .blog-layout, 60rem (960px) — межа.
+           Контейнер 1152px (десктоп): (960 − 1152) × 999 — від'ємне, браузер бере 0
+             → усі три колонки вміщаються в рядок, місце ділиться за flex-grow.
+           Контейнер 736px (планшет): (960 − 736) × 999 ≈ 224 000px
+             → кожна колонка хоче бути ширшою за рядок → кожна у своєму рядку.
+           ×999 потрібен, щоб не було проміжного стану «дві колонки»:
+           результат стрибає з нуля одразу в сотні тисяч, як вимикач. */
+    flex-basis: calc((60rem - 100%) * 999);
+    min-width: 0;               /* дозволити колонці бути вужчою за свій вміст */
+}
+
+/* [3] пропорції в один рядок: зміст 1 частина · стаття 3 · бічна панель 1.25 */
+.toc          { flex-grow: 1; }
+.blog-content { flex-grow: 3; }
+.blog-aside   { flex-grow: 1.25; }
+
+/* ---------- Зміст статті ---------- */
+.toc-title {
+    font-size: .875rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* Меню змісту: стовпчиком чи в рядок — теж без медіазапиту.
+   Межа 30rem рахується від ширини САМОГО СПИСКУ, а не вікна:
+     телефон  — список ~343px  → стовпчиком;
+     планшет  — список ~736px  → у рядок;
+     десктоп  — список ~210px (вузька колонка) → знову стовпчиком.
+   Медіазапит так не зміг би: на десктопі вікно широке, а колонка вузька. */
+.toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;              /* [4] пункти в рядок */
+    flex-wrap: wrap;            /* [5] з дозволом переносу */
+    gap: .375rem;
+
+    & li {
+        flex-grow: 1;           /* [6] у рядку ділять ширину порівну, у стовпчику — на всю ширину */
+        flex-basis: calc((30rem - 100%) * 999);   /* [7] вимикач, 100% = ширина списку */
+    }
+
+    & a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: .5rem .875rem;
+        border: 1px solid var(--border);
+        border-radius: .5rem;
+        background: var(--surface);
+        color: var(--text);
+        font-size: .9375rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+    }
+}
+
+/* ---------- Стаття ---------- */
+.post-full {
+    padding: clamp(1.25rem, .5rem + 3vw, 2.5rem);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    & h3 {
+        margin-top: 2rem;
+        font-size: 1.25rem;
+    }
+
+    /* [ЗАВДАННЯ] 65ch — комфортна довжина рядка (лекція 3, слайд 9) */
+    & > p,
+    & blockquote {
+        max-width: 65ch;
+    }
+}
+
+.post-header h2 {
+    font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.25rem);
+}
+
+.post-meta {
+    font-size: .875rem;
+    color: var(--muted);
+}
+
+.post-figure {
+    margin: 1.5rem 0;
+
+    & img {
+        width: 100%;
+        border-radius: .5rem;
+    }
+
+    & figcaption {
+        margin-top: .5rem;
+        font-size: .8125rem;
+        color: var(--muted);
+    }
+}
+
+/* блок коду: прокрутка всередині, а не ширша сторінка */
+.code {
+    margin: 0 0 1rem;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    border-radius: .5rem;
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-size: .875rem;
+    line-height: 1.5;
+
+    & code {
+        padding: 0;
+        background: none;
+        font-size: inherit;
+    }
+}
+
+blockquote {
+    margin: 1.5rem 0;
+    padding: .25rem 0 .25rem 1.25rem;
+    border-left: 4px solid var(--accent);
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+
+    & p {
+        margin: 0;
+    }
+}
+
+/* ---------- Список записів ---------- */
+.posts {
+    margin-top: 3rem;
+}
+
+.post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+}
+
+/* Картка запису. Тут — найвужчий вигляд: фото зверху.
+   Горизонтальний вигляд вмикає container query — розділ 7 */
+.post-card {
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    & h3 {
+        margin-bottom: .5rem;
+        /* [ЗАВДАННЯ] cqi — 1% ширини КОНТЕЙНЕРА (як vw, тільки для контейнера, практика 6):
+           у вузькій колонці заголовок менший, у широкій — більший */
+        font-size: clamp(1rem, .85rem + 1.5cqi, 1.25rem);
+    }
+
+    & p:last-child {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: .9375rem;
+    }
+}
+
+.post-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.post-body {
+    padding: 1rem 1.25rem 1.25rem;
+
+    & .post-meta {
+        margin-bottom: .375rem;
+        font-size: .8125rem;
+    }
+}
+
+/* ---------- Бічна панель ---------- */
+.aside-block {
+    margin-bottom: 2rem;
+
+    & h2 {
+        font-size: 1.125rem;
+    }
+}
+
+.author {
+    display: flex;              /* аватар і текст поруч */
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    & .avatar {
+        flex-shrink: 0;         /* аватар не стискається */
+    }
+
+    & p {
+        margin: 0;
+        font-size: .9375rem;
+        color: var(--muted);
+    }
+}
+
+/* [ДОДАТКОВО] демо-форма підписки */
+.subscribe-form {
+    display: grid;
+    gap: .625rem;
+
+    &[hidden] {
+        display: none;
+    }
+
+    & label {
+        font-weight: 600;
+        font-size: .9375rem;
+    }
+
+    & input {
+        width: 100%;
+        min-height: 44px;
+        padding: .5rem .875rem;
+        border: 1px solid var(--border);
+        border-radius: .5rem;
+        background: var(--surface);
+        color: var(--text);
+        font: inherit;
+    }
+}
+
+.form-note {
+    margin: 0;
+    font-size: .875rem;
+    color: var(--accent-2);
+}
+
+
+/* ============================================================
+   7. КОНТЕЙНЕРНІ ЗАПИТИ
+   [ЗАВДАННЯ] компонент дивиться на свій контейнер, а не на вікно (лекція 3, слайд 11):
+   браузер МІРЯЄ ширину обгортки → ПОРІВНЮЄ з умовою → ЗАСТОСОВУЄ правила до дітей.
+   Контейнер — завжди обгортка: сам елемент себе не запитує.
+   ============================================================ */
+
+/* [1] оголошуємо контейнери: ім'я + стежити за шириною (inline-size) */
+.project-wrap { container: project / inline-size; }
+.post-wrap    { container: post / inline-size; }
+
+/* ---------- Картка проєкту ---------- */
+
+/* [2] обгортка ≥ 30rem (480px): дві колонки — фото ліворуч, текст і кнопка праворуч */
+@container project (width >= 30rem) {
+    .project {
+        grid-template-columns: 12rem minmax(0, 1fr);
+        grid-template-rows: 1fr auto;
+        grid-template-areas:
+            "img body"
+            "img links";
+    }
+
+    .project-img {
+        height: 100%;
+        aspect-ratio: auto;     /* фото заповнює всю висоту картки */
+    }
+}
+
+/* [3] обгортка ≥ 46rem (736px): три колонки — фото · текст · кнопка.
+       Виконуються обидві умови, [3] перемагає, бо стоїть нижче */
+@container project (width >= 46rem) {
+    .project {
+        grid-template-columns: 18rem minmax(0, 1fr) auto;
+        grid-template-rows: auto;
+        grid-template-areas: "img body links";
+        align-items: center;
+    }
+
+    .project-links {
+        padding: 1.25rem;
+    }
+}
+
+/* ---------- Картка запису в блозі ---------- */
+
+/* [4] обгортка ≥ 30rem: фото ліворуч, текст праворуч.
+       У колонці статті (≈ 650px) — горизонтальна, у бічній панелі (≈ 270px) — вертикальна */
+@container post (width >= 30rem) {
+    .post-card {
+        grid-template-columns: 12rem minmax(0, 1fr);
+    }
+
+    .post-img {
+        height: 100%;
+        aspect-ratio: auto;
+    }
+}
+
+
+/* ============================================================
    9. МЕДІАЗАПИТИ
    [ЗАВДАННЯ] точки зламу в rem, запис діапазоном (width >= …), mobile-first:
    кожен блок лише ДОДАЄ те, що змінюється на ширшому екрані (лекція 3, слайди 5–7).

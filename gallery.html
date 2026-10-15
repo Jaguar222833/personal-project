@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <!-- [ЗАВДАННЯ] viewport (лекція 3, слайд 4) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Фотопортфоліо · Artem Arsentiev</title>
+    <meta name="description" content="Фотопортфоліо: пейзажі, місто, природа і люди.">
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+    <!-- [ДОДАТКОВО] шрифти Google Fonts з кирилицею -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- [ДОДАТКОВО] збережена тема — до малювання сторінки -->
+    <script>try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти до змісту</a>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="logo" href="index.html" aria-label="Artem Arsentiev — на головну">
+            <span class="logo-mark" aria-hidden="true">AA</span>
+            <span class="logo-text">Artem Arsentiev</span>
+        </a>
+
+        <!-- [ЗАВДАННЯ] меню на <details> без JavaScript -->
+        <nav class="site-nav" aria-label="Головне меню">
+            <details class="menu">
+                <summary>Меню</summary>
+                <ul class="menu-list">
+                    <li><a href="index.html">Головна</a></li>
+                    <li><a href="gallery.html" aria-current="page">Фото</a></li>
+                    <li><a href="blog.html">Блог</a></li>
+                </ul>
+            </details>
+        </nav>
+
+        <button class="theme-toggle" type="button" aria-label="Темна тема" aria-pressed="false" hidden>☾</button>
+    </div>
+</header>
+
+<main id="main" class="container">
+
+    <header class="page-head">
+        <h1>Фотопортфоліо</h1>
+        <p class="lead">
+            Знімаю для себе: міста, гори, дрібниці під ногами та людей у гарному світлі.
+            Натисніть на фото, щоб відкрити його великим.
+        </p>
+    </header>
+
+    <!-- [ДОДАТКОВО] фільтр за категоріями. Без JS кнопки не працювали б, тому вони сховані (hidden),
+         а js/gallery.js їх показує -->
+    <div class="filters" role="group" aria-label="Фільтр фото за категорією" hidden>
+        <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">Усі</button>
+        <button class="filter-btn" type="button" data-filter="landscape" aria-pressed="false">Пейзажі</button>
+        <button class="filter-btn" type="button" data-filter="city" aria-pressed="false">Місто</button>
+        <button class="filter-btn" type="button" data-filter="nature" aria-pressed="false">Природа</button>
+        <button class="filter-btn" type="button" data-filter="people" aria-pressed="false">Люди</button>
+    </div>
+    <p class="visually-hidden" role="status" aria-live="polite" data-gallery-status></p>
+
+    <!-- [ЗАВДАННЯ] сітка фото на CSS Grid.
+         Колонки: 1 → 2 (від 40rem) → 3 (від 64rem) — медіазапити в кінці styles.css.
+         [ЗАВДАННЯ] кожне фото: alt, width/height, srcset + sizes, loading="lazy" (лекція 3, слайд 10).
+         Без JS фото — звичайне посилання на великий файл; з JS відкривається у вікні перегляду. -->
+    <ul class="gallery">
+        <li class="photo photo--wide" data-category="landscape">
+            <figure>
+                <a href="img/mountains-1600.jpg">
+                    <!-- перше фото видно одразу, тому без loading="lazy" -->
+                    <img src="img/mountains-960.jpg"
+                         srcset="img/mountains-480.jpg 480w, img/mountains-960.jpg 960w, img/mountains-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 46rem, 100vw"
+                         width="960" height="640"
+                         alt="Скелясті гірські хребти під снігом у сірому світлі">
+                </a>
+                <figcaption><strong>Тиша вершин</strong> Go Wild · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="city">
+            <figure>
+                <a href="img/bridge-1600.jpg">
+                    <img src="img/bridge-960.jpg"
+                         srcset="img/bridge-480.jpg 480w, img/bridge-960.jpg 960w, img/bridge-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640"
+                         alt="Чорно-білий нічний міст з вогнями хмарочосів за ним">
+                </a>
+                <figcaption><strong>Нічний міст</strong> Oleg Chursin · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="nature">
+            <figure>
+                <a href="img/petunia-1600.jpg">
+                    <img src="img/petunia-960.jpg"
+                         srcset="img/petunia-480.jpg 480w, img/petunia-960.jpg 960w, img/petunia-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Фіолетові квіти петунії зблизька">
+                </a>
+                <figcaption><strong>Петунії</strong> Steven Spassov · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="people">
+            <figure>
+                <a href="img/sunset-portrait-1600.jpg">
+                    <img src="img/sunset-portrait-960.jpg"
+                         srcset="img/sunset-portrait-480.jpg 480w, img/sunset-portrait-960.jpg 960w, img/sunset-portrait-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Дівчина з довгим волоссям у полі в теплому світлі заходу">
+                </a>
+                <figcaption><strong>Золота година</strong> Alexander Shustov · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="landscape">
+            <figure>
+                <a href="img/lake-1600.jpg">
+                    <img src="img/lake-960.jpg"
+                         srcset="img/lake-480.jpg 480w, img/lake-960.jpg 960w, img/lake-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Гірське озеро з високою травою на передньому плані">
+                </a>
+                <figcaption><strong>Озеро в горах</strong> Matteo Minelli · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="city">
+            <figure>
+                <a href="img/street-1600.jpg">
+                    <img src="img/street-960.jpg"
+                         srcset="img/street-480.jpg 480w, img/street-960.jpg 960w, img/street-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Вузька міська вулиця з цегляними будинками, що йде в перспективу">
+                </a>
+                <figcaption><strong>Вулиця вранці</strong> Nicholas Swanson · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="nature">
+            <figure>
+                <a href="img/leaf-1600.jpg">
+                    <img src="img/leaf-960.jpg"
+                         srcset="img/leaf-480.jpg 480w, img/leaf-960.jpg 960w, img/leaf-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Крапля води на кінчику зеленого листка">
+                </a>
+                <figcaption><strong>Після дощу</strong> Shyamanta Baruah · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--wide" data-category="city">
+            <figure>
+                <a href="img/canal-1600.jpg">
+                    <img src="img/canal-960.jpg"
+                         srcset="img/canal-480.jpg 480w, img/canal-960.jpg 960w, img/canal-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 46rem, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Канал у старому місті з човнами й кольоровими будинками">
+                </a>
+                <figcaption><strong>Місто на воді</strong> Linh Nguyen · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="people">
+            <figure>
+                <a href="img/hiker-1600.jpg">
+                    <img src="img/hiker-960.jpg"
+                         srcset="img/hiker-480.jpg 480w, img/hiker-960.jpg 960w, img/hiker-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Мандрівник з рюкзаком у туманній гірській долині">
+                </a>
+                <figcaption><strong>Дорога вгору</strong> Danka &amp; Peter · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="landscape">
+            <figure>
+                <a href="img/peak-1600.jpg">
+                    <img src="img/peak-960.jpg"
+                         srcset="img/peak-480.jpg 480w, img/peak-960.jpg 960w, img/peak-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Засніжена гірська вершина над зеленим схилом">
+                </a>
+                <figcaption><strong>Снігова шапка</strong> Paul E. Harrer · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="nature">
+            <figure>
+                <a href="img/blossom-1600.jpg">
+                    <img src="img/blossom-960.jpg"
+                         srcset="img/blossom-480.jpg 480w, img/blossom-960.jpg 960w, img/blossom-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Рожеві квіти на гілці на тлі бірюзового неба">
+                </a>
+                <figcaption><strong>Цвітіння</strong> Rula Sibai · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="city">
+            <figure>
+                <a href="img/skyline-1600.jpg">
+                    <img src="img/skyline-960.jpg"
+                         srcset="img/skyline-480.jpg 480w, img/skyline-960.jpg 960w, img/skyline-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Людина на лавці біля води дивиться на хмарочоси">
+                </a>
+                <figcaption><strong>Погляд на місто</strong> Namphuong Van · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="people">
+            <figure>
+                <a href="img/bench-1600.jpg">
+                    <img src="img/bench-960.jpg"
+                         srcset="img/bench-480.jpg 480w, img/bench-960.jpg 960w, img/bench-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Двоє людей на дерев'яній лавці дивляться на море">
+                </a>
+                <figcaption><strong>Двоє біля моря</strong> Charlie Foster · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="landscape">
+            <figure>
+                <a href="img/hills-1600.jpg">
+                    <img src="img/hills-960.jpg"
+                         srcset="img/hills-480.jpg 480w, img/hills-960.jpg 960w, img/hills-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Зелені пагорби зі стежкою під хмарним небом">
+                </a>
+                <figcaption><strong>Зелені пагорби</strong> Aleksandra Boguslawska · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="nature">
+            <figure>
+                <a href="img/autumn-1600.jpg">
+                    <img src="img/autumn-960.jpg"
+                         srcset="img/autumn-480.jpg 480w, img/autumn-960.jpg 960w, img/autumn-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Опале жовте осіннє листя зблизька">
+                </a>
+                <figcaption><strong>Жовтень</strong> petradr · Unsplash</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="people">
+            <figure>
+                <a href="img/field-portrait-1600.jpg">
+                    <img src="img/field-portrait-960.jpg"
+                         srcset="img/field-portrait-480.jpg 480w, img/field-portrait-960.jpg 960w, img/field-portrait-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Дівчина в сонцезахисних окулярах з польовими квітами">
+                </a>
+                <figcaption><strong>Польові квіти</strong> Alexander Shustov · Unsplash</figcaption>
+            </figure>
+        </li>
+    </ul>
+
+    <!-- Блок «Чим знімаю»: картки на Grid auto-fit, без медіазапитів -->
+    <section class="gear" aria-labelledby="gear-title">
+        <h2 id="gear-title">Чим знімаю</h2>
+        <dl class="gear-list">
+            <div class="gear-item card">
+                <dt>Камера</dt>
+                <dd>Стара плівкова дальномірка і бюджетна бездзеркалка для щоденних прогулянок.</dd>
+            </div>
+            <div class="gear-item card">
+                <dt>Об'єктиви</dt>
+                <dd>Фікс 35 мм — для міста й людей, 50 мм — для портретів і дрібниць.</dd>
+            </div>
+            <div class="gear-item card">
+                <dt>Обробка</dt>
+                <dd>Lightroom: легка корекція світла й кольору, без важких фільтрів.</dd>
+            </div>
+        </dl>
+    </section>
+
+    <!-- [ЗАВДАННЯ] <details> — розкривний блок без JS (семантичний тег, лекція 1) -->
+    <details class="credits">
+        <summary>Звідки фото</summary>
+        <p>
+            Поки що в галереї — фото-заглушки з <a href="https://unsplash.com">Unsplash</a>
+            (безкоштовна ліцензія, без водяних знаків). Автор кожного фото підписаний під ним.
+            Згодом тут будуть мої власні кадри.
+        </p>
+    </details>
+</main>
+
+<!-- [ДОДАТКОВО] вікно перегляду фото (lightbox) на <dialog>; керується з js/gallery.js -->
+<dialog class="lightbox" aria-label="Перегляд фото">
+    <figure class="lightbox-figure">
+        <img class="lightbox-img" alt="">
+        <figcaption class="lightbox-caption"></figcaption>
+    </figure>
+    <button class="lightbox-btn lightbox-prev" type="button" aria-label="Попереднє фото">‹</button>
+    <button class="lightbox-btn lightbox-next" type="button" aria-label="Наступне фото">›</button>
+    <form method="dialog">
+        <button class="lightbox-btn lightbox-close" aria-label="Закрити">✕</button>
+    </form>
+</dialog>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <p class="footer-brand">Artem Arsentiev</p>
+            <p>Код, світло і нотатки студента КПІ.</p>
+        </div>
+        <nav aria-label="Меню в підвалі">
+            <ul class="footer-links">
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="gallery.html" aria-current="page">Фото</a></li>
+                <li><a href="blog.html">Блог</a></li>
+            </ul>
+        </nav>
+        <div>
+            <p><a href="https://github.com/Jaguar222833">GitHub</a></p>
+            <p>© 2026 · Фото-заглушки з <a href="https://unsplash.com">Unsplash</a></p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+<!-- [ДОДАТКОВО] фільтр і вікно перегляду — лише для цієї сторінки -->
+<script src="js/gallery.js" defer></script>
+</body>
+</html>

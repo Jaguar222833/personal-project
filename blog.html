@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <!-- [ЗАВДАННЯ] viewport (лекція 3, слайд 4) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Блог · Artem Arsentiev</title>
+    <meta name="description" content="Нотатки про веб-розробку, навчання і фотографію.">
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+    <!-- [ДОДАТКОВО] шрифти Google Fonts з кирилицею -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- [ДОДАТКОВО] збережена тема — до малювання сторінки -->
+    <script>try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти до змісту</a>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="logo" href="index.html" aria-label="Artem Arsentiev — на головну">
+            <span class="logo-mark" aria-hidden="true">AA</span>
+            <span class="logo-text">Artem Arsentiev</span>
+        </a>
+
+        <!-- [ЗАВДАННЯ] меню на <details> без JavaScript -->
+        <nav class="site-nav" aria-label="Головне меню">
+            <details class="menu">
+                <summary>Меню</summary>
+                <ul class="menu-list">
+                    <li><a href="index.html">Головна</a></li>
+                    <li><a href="gallery.html">Фото</a></li>
+                    <li><a href="blog.html" aria-current="page">Блог</a></li>
+                </ul>
+            </details>
+        </nav>
+
+        <button class="theme-toggle" type="button" aria-label="Темна тема" aria-pressed="false" hidden>☾</button>
+    </div>
+</header>
+
+<main id="main" class="container">
+
+    <header class="page-head">
+        <h1>Блог</h1>
+        <p class="lead">Нотатки про веб-розробку, навчання і фотографію. Пишу, коли щось нарешті запрацювало.</p>
+    </header>
+
+    <!-- [ЗАВДАННЯ] КАРКАС БЛОГУ БЕЗ МЕДІАЗАПИТІВ (практика 6):
+         Flexbox + flex-wrap + «вимикач» flex-basis: calc((60rem - 100%) * 999).
+         Широкий контейнер → 3 колонки (зміст · стаття · бічна панель), вузький → 1 колонка. -->
+    <div class="blog-layout">
+
+        <!-- Зміст статті. Пункти: стовпчиком на телефоні й десктопі, у рядок на планшеті —
+             теж без медіазапиту, від ширини самого списку -->
+        <nav class="toc" aria-labelledby="toc-title">
+            <h2 class="toc-title" id="toc-title">Зміст</h2>
+            <ul class="toc-list">
+                <li><a href="#mobile-first">Спершу телефон</a></li>
+                <li><a href="#grid">Каркас на Grid</a></li>
+                <li><a href="#switch">Вимикач ×999</a></li>
+                <li><a href="#next">Що далі</a></li>
+            </ul>
+        </nav>
+
+        <div class="blog-content">
+            <article class="post-full" aria-labelledby="post-title">
+                <header class="post-header">
+                    <ul class="tags" aria-label="Теми"><li>Веб-розробка</li><li>CSS</li></ul>
+                    <h2 id="post-title">Як я верстав цей сайт: Grid, Flex і вимикач ×999</h2>
+                    <p class="post-meta"><time datetime="2026-10-15">15 жовтня 2026</time> · 5 хв читання</p>
+                </header>
+
+                <figure class="post-figure">
+                    <img src="img/desk-960.jpg"
+                         srcset="img/desk-480.jpg 480w, img/desk-960.jpg 960w, img/desk-1600.jpg 1600w"
+                         sizes="(width >= 62rem) 40rem, 100vw"
+                         width="960" height="640"
+                         alt="Робоче місце: монітор, клавіатура, планшет і блокнот на темному столі">
+                    <figcaption>Робоче місце, де народився цей сайт (фото-заглушка, Vadim Sherbakov · Unsplash).</figcaption>
+                </figure>
+
+                <p>
+                    Завдання звучало просто: три сторінки, які однаково добре виглядають на телефоні
+                    й на комп'ютері. На практиці це означало щоразу ставити собі питання:
+                    «а що буде, якщо звузити вікно до 320 пікселів?»
+                </p>
+
+                <h3 id="mobile-first">Спершу телефон</h3>
+                <p>
+                    Я почав з найвужчого екрана. Базові стилі — для телефона: одна колонка, нічого зайвого.
+                    Ширші макети додаються медіазапитами з <code>min-width</code>. Так телефону дістається
+                    менше роботи, а складні правила вмикаються лише там, де є місце.
+                </p>
+
+                <h3 id="grid">Каркас на Grid</h3>
+                <p>
+                    Головна сторінка — це сітка з іменованими областями. На телефоні блоки стоять стовпчиком,
+                    від 900 пікселів з'являється бічна колонка з профілем, від 1100 — третя колонка.
+                    Змінюється лише <code>grid-template-areas</code>, HTML лишається тим самим.
+                </p>
+                <pre class="code"><code>.home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "about" "profile" "projects";
+}</code></pre>
+
+                <h3 id="switch">Вимикач ×999</h3>
+                <p>
+                    Ця сторінка блогу не має жодного медіазапиту для каркаса. Кожна колонка отримує
+                    <code>flex-basis: calc((60rem - 100%) * 999)</code>. Якщо контейнер ширший за 60rem,
+                    число від'ємне, і браузер бере нуль — колонки стають у рядок. Якщо вужчий —
+                    число величезне, і кожна колонка переноситься на свій рядок.
+                </p>
+                <blockquote>
+                    <p>Ламайте там, де ламається вміст, а не пристрій.</p>
+                </blockquote>
+
+                <h3 id="next">Що далі</h3>
+                <p>
+                    Наступний крок — замінити фото-заглушки своїми кадрами, дописати сторінки
+                    окремих записів і перенести сайт на власний домен.
+                </p>
+            </article>
+
+            <section class="posts" aria-labelledby="posts-title">
+                <h2 id="posts-title">Інші записи</h2>
+                <!-- [ЗАВДАННЯ] картка запису — компонент на container query:
+                     у широкій колонці горизонтальна, у вузькій — вертикальна -->
+                <ul class="post-list">
+                    <li class="post-wrap">
+                        <article class="post-card">
+                            <img class="post-img" src="img/camera-480.jpg"
+                                 srcset="img/camera-480.jpg 480w, img/camera-960.jpg 960w"
+                                 sizes="(width >= 62rem) 12rem, 100vw"
+                                 width="480" height="320" loading="lazy"
+                                 alt="Стара плівкова камера на клавішах піаніно">
+                            <div class="post-body">
+                                <p class="post-meta"><time datetime="2026-09-28">28 вересня 2026</time> · Фотографія</p>
+                                <h3>Плівка чи цифра: мій перший рік з камерою</h3>
+                                <p>Чому я знімаю на обидві і що кожна з них навчила мене бачити.</p>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="post-wrap">
+                        <article class="post-card">
+                            <img class="post-img" src="img/street-480.jpg"
+                                 srcset="img/street-480.jpg 480w, img/street-960.jpg 960w"
+                                 sizes="(width >= 62rem) 12rem, 100vw"
+                                 width="480" height="320" loading="lazy"
+                                 alt="Вузька міська вулиця з цегляними будинками">
+                            <div class="post-body">
+                                <p class="post-meta"><time datetime="2026-09-14">14 вересня 2026</time> · Фотографія</p>
+                                <h3>Вулична фотографія: як перестати соромитися</h3>
+                                <p>Три вправи, які допомогли мені знімати людей у місті без страху.</p>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="post-wrap">
+                        <article class="post-card">
+                            <img class="post-img" src="img/hiker-480.jpg"
+                                 srcset="img/hiker-480.jpg 480w, img/hiker-960.jpg 960w"
+                                 sizes="(width >= 62rem) 12rem, 100vw"
+                                 width="480" height="320" loading="lazy"
+                                 alt="Мандрівник з рюкзаком у туманній гірській долині">
+                            <div class="post-body">
+                                <p class="post-meta"><time datetime="2026-08-30">30 серпня 2026</time> · Подорожі</p>
+                                <h3>Карпати з одним об'єктивом</h3>
+                                <p>Тиждень у горах з фіксом 35 мм: що вийшло і чого не вистачало.</p>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <aside class="blog-aside" aria-label="Бічна панель">
+            <section class="aside-block author">
+                <img class="avatar avatar--small" src="img/avatar-320.jpg"
+                     srcset="img/avatar-320.jpg 320w, img/avatar-640.jpg 640w"
+                     sizes="4rem" width="320" height="320" loading="lazy"
+                     alt="Людина в светрі тримає плівкову камеру (фото-заглушка)">
+                <div>
+                    <h2>Про автора</h2>
+                    <p>Артем — студент КПІ, верстає сайти й фотографує місто. <a href="index.html">Більше про мене</a></p>
+                </div>
+            </section>
+
+            <section class="aside-block" aria-labelledby="popular-title">
+                <h2 id="popular-title">Популярне</h2>
+                <!-- Ті самі картки, що й у «Інших записах», але тут колонка вузька —
+                     container query робить їх вертикальними. Медіазапит так не зміг би:
+                     вікно одне, а картки різні -->
+                <ul class="post-list">
+                    <li class="post-wrap">
+                        <article class="post-card">
+                            <img class="post-img" src="img/gear-480.jpg"
+                                 srcset="img/gear-480.jpg 480w, img/gear-960.jpg 960w"
+                                 sizes="(width >= 62rem) 14rem, 100vw"
+                                 width="480" height="320" loading="lazy"
+                                 alt="Навушники, годинник, гаманець і телефон, розкладені на столі">
+                            <div class="post-body">
+                                <p class="post-meta"><time datetime="2026-08-14">14 серпня 2026</time> · Фотографія</p>
+                                <h3>Що в моєму рюкзаку фотографа</h3>
+                            </div>
+                        </article>
+                    </li>
+                    <li class="post-wrap">
+                        <article class="post-card">
+                            <img class="post-img" src="img/leaf-480.jpg"
+                                 srcset="img/leaf-480.jpg 480w, img/leaf-960.jpg 960w"
+                                 sizes="(width >= 62rem) 14rem, 100vw"
+                                 width="480" height="320" loading="lazy"
+                                 alt="Крапля води на кінчику зеленого листка">
+                            <div class="post-body">
+                                <p class="post-meta"><time datetime="2026-07-20">20 липня 2026</time> · Навчання</p>
+                                <h3>Макро на кухні: краплі, листя, світло</h3>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="aside-block" aria-labelledby="subscribe-title">
+                <h2 id="subscribe-title">Підписка</h2>
+                <p>Нові записи — приблизно раз на місяць.</p>
+                <!-- [ДОДАТКОВО] демо-форма: показується лише з JS (js/main.js), бекенду поки немає -->
+                <form class="subscribe-form" action="#" method="post" hidden>
+                    <label for="sub-email">Ваш email</label>
+                    <input id="sub-email" name="email" type="email" required autocomplete="email" placeholder="name@example.com">
+                    <button class="btn btn--block" type="submit">Підписатися</button>
+                    <p class="form-note" role="status" aria-live="polite"></p>
+                </form>
+            </section>
+        </aside>
+
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <p class="footer-brand">Artem Arsentiev</p>
+            <p>Код, світло і нотатки студента КПІ.</p>
+        </div>
+        <nav aria-label="Меню в підвалі">
+            <ul class="footer-links">
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="gallery.html">Фото</a></li>
+                <li><a href="blog.html" aria-current="page">Блог</a></li>
+            </ul>
+        </nav>
+        <div>
+            <p><a href="https://github.com/Jaguar222833">GitHub</a></p>
+            <p>© 2026 · Фото-заглушки з <a href="https://unsplash.com">Unsplash</a></p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>

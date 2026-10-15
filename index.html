@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <!-- [ЗАВДАННЯ] viewport: без нього телефон малює сторінку як 980px і зменшує (лекція 3, слайд 4) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artem Arsentiev · код і фотографія</title>
+    <meta name="description" content="Особистий сайт Artem Arsentiev: проєкти, фотопортфоліо та блог про веб-розробку і фотографію.">
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+    <!-- [ДОДАТКОВО] шрифти Google Fonts з кирилицею -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap">
+
+    <!-- [ЗАВДАННЯ] зовнішній CSS-файл (лекція 2, слайд 5) -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- [ДОДАТКОВО] застосувати збережену тему ще до малювання сторінки, щоб не було «спалаху» світлої -->
+    <script>try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+
+<!-- [ЗАВДАННЯ] доступність: посилання «до змісту» видно лише при фокусі з клавіатури (Tab) -->
+<a class="skip-link" href="#main">Перейти до змісту</a>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="logo" href="index.html" aria-label="Artem Arsentiev — на головну">
+            <span class="logo-mark" aria-hidden="true">AA</span>
+            <span class="logo-text">Artem Arsentiev</span>
+        </a>
+
+        <!-- [ЗАВДАННЯ] меню-«бургер» без JavaScript на <details> (практика 5, крок 7) -->
+        <nav class="site-nav" aria-label="Головне меню">
+            <details class="menu">
+                <summary>Меню</summary>
+                <ul class="menu-list">
+                    <li><a href="index.html" aria-current="page">Головна</a></li>
+                    <li><a href="gallery.html">Фото</a></li>
+                    <li><a href="blog.html">Блог</a></li>
+                </ul>
+            </details>
+        </nav>
+
+        <!-- [ДОДАТКОВО] перемикач теми; без JS схований атрибутом hidden -->
+        <button class="theme-toggle" type="button" aria-label="Темна тема" aria-pressed="false" hidden>☾</button>
+    </div>
+</header>
+
+<main id="main">
+
+    <!-- HERO: фото на весь перший екран -->
+    <section class="hero" aria-labelledby="hero-title">
+        <!-- [ЗАВДАННЯ] <picture>: на телефоні — вертикальний кадр, від 48rem — широкий (лекція 3, слайд 10) -->
+        <picture class="hero-media">
+            <source media="(width >= 48rem)"
+                    srcset="img/hero-wide-960.jpg 960w, img/hero-wide-1600.jpg 1600w"
+                    sizes="100vw" width="1600" height="900">
+            <img src="img/hero-tall-480.jpg"
+                 srcset="img/hero-tall-480.jpg 480w, img/hero-tall-960.jpg 960w"
+                 sizes="100vw" width="480" height="720"
+                 alt="Ноутбук, блокнот з ескізами інтерфейсу та плівкова камера на дерев'яному столі">
+        </picture>
+
+        <div class="container hero-content">
+            <p class="eyebrow">Розробник · фотограф-аматор</p>
+            <h1 id="hero-title">Пишу код і ловлю світло</h1>
+            <p class="hero-lead">
+                Привіт, я Артем — студент КПІ. Тут мої проєкти, фотографії
+                та нотатки про те, як я вчуся робити веб.
+            </p>
+            <div class="hero-actions">
+                <a class="btn" href="gallery.html">Дивитись фото</a>
+                <a class="btn btn--ghost" href="blog.html">Читати блог</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- [ЗАВДАННЯ] КАРКАС ГОЛОВНОЇ — CSS Grid + grid-template-areas + медіазапити.
+         Телефон: 1 колонка · від 56.25rem: 2 колонки · від 68.75rem: 3 колонки -->
+    <div class="container home-grid">
+
+        <section class="about" aria-labelledby="about-title">
+            <h2 id="about-title">Про мене</h2>
+            <p>
+                Я навчаюся на третьому курсі КПІ ім. Ігоря Сікорського. Вдень розбираюся,
+                як працюють сайти й автоматизовані системи, а у вихідні беру камеру й іду
+                шукати гарне світло — у місті, в горах чи просто на кухні.
+            </p>
+            <p>
+                Цей сайт — моя робоча майстерня: тут я збираю проєкти, викладаю улюблені кадри
+                і пишу короткі нотатки про те, чого навчився. Кожен рядок коду тут написаний
+                так, щоб я міг його пояснити.
+            </p>
+        </section>
+
+        <aside class="profile card" aria-labelledby="profile-title">
+            <img class="avatar" src="img/avatar-320.jpg"
+                 srcset="img/avatar-320.jpg 320w, img/avatar-640.jpg 640w"
+                 sizes="8rem" width="320" height="320" loading="lazy"
+                 alt="Людина в светрі тримає плівкову камеру (фото-заглушка)">
+            <h2 id="profile-title">Artem Arsentiev</h2>
+            <p class="muted">Студент 3 курсу · КПІ ім. Ігоря Сікорського</p>
+            <dl class="facts">
+                <div><dt>Місто</dt><dd>Київ</dd></div>
+                <div><dt>Фокус</dt><dd>Frontend, автоматизація</dd></div>
+                <div><dt>Знімаю</dt><dd>Плівка і цифра</dd></div>
+            </dl>
+            <a class="btn btn--block" href="#contact">Зв'язатися</a>
+        </aside>
+
+        <section class="projects" aria-labelledby="projects-title">
+            <h2 id="projects-title">Проєкти</h2>
+            <p class="muted">
+                Навчальні й власні проєкти. Карток стільки в рядку, скільки влізе, — Grid рахує сам.
+            </p>
+
+            <!-- [ЗАВДАННЯ] компонент на container query: обгортка .project-wrap — контейнер.
+                 Ця картка стоїть на всю ширину, тому стає горизонтальною -->
+            <div class="project-wrap project-wrap--featured">
+                <article class="project">
+                    <img class="project-img" src="img/laptop-960.jpg"
+                         srcset="img/laptop-480.jpg 480w, img/laptop-960.jpg 960w"
+                         sizes="(width >= 56.25rem) 20rem, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Ноутбук на дерев'яному столі поруч з кавою та блокнотом">
+                    <div class="project-body">
+                        <h3>Цей сайт</h3>
+                        <p>
+                            Особистий сайт на три сторінки: адаптивна верстка mobile-first,
+                            Grid, Flexbox, container queries і трохи JavaScript.
+                        </p>
+                        <ul class="tags" aria-label="Технології">
+                            <li>HTML</li><li>CSS Grid</li><li>Flexbox</li><li>JavaScript</li>
+                        </ul>
+                    </div>
+                    <div class="project-links">
+                        <a class="btn btn--small" href="https://github.com/Jaguar222833/personal-project">Код на GitHub</a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- [ЗАВДАННЯ] сітка карток без медіазапитів: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)) -->
+            <ul class="project-grid">
+                <li class="project-wrap">
+                    <article class="project">
+                        <img class="project-img" src="img/macbook-480.jpg"
+                             srcset="img/macbook-480.jpg 480w, img/macbook-960.jpg 960w"
+                             sizes="(width >= 56.25rem) 18rem, 100vw"
+                             width="480" height="320" loading="lazy"
+                             alt="Ноутбук на столі в світлій кімнаті">
+                        <div class="project-body">
+                            <h3>Енергомонітор</h3>
+                            <p>Дашборд споживання електроенергії: дані з лічильників, графіки по днях.</p>
+                            <ul class="tags" aria-label="Технології"><li>Python</li><li>MQTT</li><li>Chart.js</li></ul>
+                        </div>
+                        <div class="project-links">
+                            <a class="btn btn--small btn--ghost" href="https://github.com/Jaguar222833">GitHub</a>
+                        </div>
+                    </article>
+                </li>
+                <li class="project-wrap">
+                    <article class="project">
+                        <img class="project-img" src="img/flatlay-480.jpg"
+                             srcset="img/flatlay-480.jpg 480w, img/flatlay-960.jpg 960w"
+                             sizes="(width >= 56.25rem) 18rem, 100vw"
+                             width="480" height="320" loading="lazy"
+                             alt="Акуратно розкладені на білому столі гаджети й аксесуари">
+                        <div class="project-body">
+                            <h3>Фото-сортувальник</h3>
+                            <p>Скрипт, що розкладає фото по теках за датою й камерою з EXIF.</p>
+                            <ul class="tags" aria-label="Технології"><li>Python</li><li>EXIF</li></ul>
+                        </div>
+                        <div class="project-links">
+                            <a class="btn btn--small btn--ghost" href="https://github.com/Jaguar222833">GitHub</a>
+                        </div>
+                    </article>
+                </li>
+                <li class="project-wrap">
+                    <article class="project">
+                        <img class="project-img" src="img/coffee-laptop-480.jpg"
+                             srcset="img/coffee-laptop-480.jpg 480w, img/coffee-laptop-960.jpg 960w"
+                             sizes="(width >= 56.25rem) 18rem, 100vw"
+                             width="480" height="320" loading="lazy"
+                             alt="Відкритий ноутбук і чашка кави на дерев'яному столі">
+                        <div class="project-body">
+                            <h3>Бот розкладу</h3>
+                            <p>Telegram-бот, який надсилає розклад пар групи на завтра.</p>
+                            <ul class="tags" aria-label="Технології"><li>Node.js</li><li>Telegram API</li></ul>
+                        </div>
+                        <div class="project-links">
+                            <a class="btn btn--small btn--ghost" href="https://github.com/Jaguar222833">GitHub</a>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="skills" aria-labelledby="skills-title">
+            <h2 id="skills-title">Навички</h2>
+            <!-- [ЗАВДАННЯ] таблиця на вузькому екрані прокручується у своїй обгортці,
+                 а не розпирає сторінку (практика 5, крок 5) -->
+            <div class="table-wrap" role="region" aria-labelledby="skills-title" tabindex="0">
+                <table class="skills-table">
+                    <thead>
+                        <tr><th scope="col">Навичка</th><th scope="col">Рівень</th><th scope="col">Де застосовую</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th scope="row">HTML і CSS</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>Цей сайт, лабораторні</td></tr>
+                        <tr><th scope="row">JavaScript</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Інтерактив, бот розкладу</td></tr>
+                        <tr><th scope="row">Python</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>Скрипти, обробка даних</td></tr>
+                        <tr><th scope="row">Git і GitHub</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Усі проєкти</td></tr>
+                        <tr><th scope="row">Lightroom</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>Обробка фото</td></tr>
+                        <tr><th scope="row">Плівкова зйомка</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Прогулянки містом</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="contact card" id="contact" aria-labelledby="contact-title">
+            <h2 id="contact-title">Контакти</h2>
+            <p>Відкритий до навчальних проєктів, колаборацій і фотопрогулянок. Пишіть!</p>
+            <ul class="contact-list">
+                <li><a href="mailto:arartom@gmail.com">arartom@gmail.com</a></li>
+                <li><a href="https://github.com/Jaguar222833">GitHub · Jaguar222833</a></li>
+            </ul>
+        </section>
+
+    </div>
+</main>
+
+<!-- [ЗАВДАННЯ] підвал на Flexbox: блоки переносяться, коли не влазять -->
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <p class="footer-brand">Artem Arsentiev</p>
+            <p>Код, світло і нотатки студента КПІ.</p>
+        </div>
+        <nav aria-label="Меню в підвалі">
+            <ul class="footer-links">
+                <li><a href="index.html" aria-current="page">Головна</a></li>
+                <li><a href="gallery.html">Фото</a></li>
+                <li><a href="blog.html">Блог</a></li>
+            </ul>
+        </nav>
+        <div>
+            <p><a href="https://github.com/Jaguar222833">GitHub</a></p>
+            <p>© 2026 · Фото-заглушки з <a href="https://unsplash.com">Unsplash</a></p>
+        </div>
+    </div>
+</footer>
+
+<!-- [ДОДАТКОВО] скрипт в кінці body з defer: тема і покращення меню -->
+<script src="js/main.js" defer></script>
+</body>
+</html>

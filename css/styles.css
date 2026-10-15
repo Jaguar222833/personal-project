@@ -1,0 +1,427 @@
+/* ============================================================
+   ОСОБИСТИЙ САЙТ · Artem Arsentiev
+   Один зовнішній файл стилів на три сторінки (лекція 2, слайд 5).
+
+   Мітки в коментарях:
+     [ЗАВДАННЯ]  — вимога лабораторної / лекцій 2–3 / практик 5–6
+     [ДОДАТКОВО] — власна ініціатива, поза завданням
+     [1], [2]…   — рядки, що перемикають макет (пояснення поруч)
+
+   Зміст:
+     1. Змінні та теми
+     2. База: скидання, типографіка, зображення
+     3. Спільні компоненти: шапка, кнопки, теги, картки, підвал
+     4. Головна (index.html)
+     5. Фотогалерея (gallery.html)
+     6. Блог (blog.html)
+     7. Контейнерні запити (@container)
+     8. Меню без JS і доступність
+     9. Медіазапити — в кінці файлу (лекція 3, слайд 5)
+
+   Підхід — MOBILE-FIRST: усе до розділу 9 — це телефон,
+   а медіазапити з (width >= …) лише ДОДАЮТЬ правила для ширших екранів.
+   ============================================================ */
+
+
+/* ============================================================
+   1. ЗМІННІ ТА ТЕМИ
+   [ЗАВДАННЯ] CSS-змінні (custom properties) — лекція 2, слайд 12.
+   Усі кольори сайту — тут. Темна тема просто перевизначає змінні.
+   ============================================================ */
+
+:root {
+    /* кольори — світла тема */
+    --bg:        #F6F4EF;   /* фон сторінки, «папір» */
+    --surface:   #FFFFFF;   /* картки */
+    --surface-2: #ECE8E0;   /* підкладки, теги */
+    --text:      #1C1F26;
+    --muted:     #565C6B;   /* другорядний текст; контраст з --bg ≈ 6:1 */
+    --border:    #DAD4C8;
+    --accent:    #B03F17;   /* фірмовий «плівковий» помаранчевий */
+    --on-accent: #FFFFFF;   /* текст на кнопці кольору --accent; контраст ≈ 5.9:1 */
+    --accent-2:  #0D6A62;   /* посилання */
+    --focus:     #1D4ED8;   /* рамка фокусу: помітна на світлому фоні */
+    --code-bg:   #12161F;
+    --code-text: #E6EAF0;
+    --shadow:    0 1px 2px rgb(0 0 0 / .06), 0 6px 20px rgb(0 0 0 / .06);
+
+    /* розміри — у rem, щоб рости разом зі шрифтом користувача (лекція 3, слайд 9) */
+    --radius:    .75rem;
+    --header-h:  4rem;      /* висота шапки: потрібна hero і «липким» блокам */
+    --content:   72rem;     /* максимальна ширина вмісту, 1152px */
+
+    /* шрифти */
+    --font-body:    'Manrope', system-ui, sans-serif;
+    --font-heading: 'Unbounded', 'Manrope', system-ui, sans-serif;
+
+    color-scheme: light;    /* підказка браузеру: світлі поля форм і скролбари */
+}
+
+/* [ЗАВДАННЯ] темна тема за налаштуванням системи — медіафункція prefers-color-scheme
+   (лекція 3, слайд 5). Стоїть тут, а не в кінці, бо це теж оголошення змінних.
+   :not([data-theme="light"]) — якщо користувач сам обрав світлу кнопкою, не чіпаємо. */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg:        #111317;
+        --surface:   #1A1D23;
+        --surface-2: #262A32;
+        --text:      #ECE8E1;
+        --muted:     #A9AFBC;
+        --border:    #30343D;
+        --accent:    #F2895B;
+        --on-accent: #1A1D23;
+        --accent-2:  #5CC8BC;
+        --focus:     #F5B94F;
+        --code-bg:   #0B0D10;
+        --shadow:    0 1px 2px rgb(0 0 0 / .4), 0 6px 20px rgb(0 0 0 / .3);
+        color-scheme: dark;
+    }
+}
+
+/* [ДОДАТКОВО] темна тема, обрана вручну кнопкою (js/main.js ставить data-theme на <html>).
+   Значення ті самі, що вище: у чистому CSS їх доводиться повторити. */
+:root[data-theme="dark"] {
+    --bg:        #111317;
+    --surface:   #1A1D23;
+    --surface-2: #262A32;
+    --text:      #ECE8E1;
+    --muted:     #A9AFBC;
+    --border:    #30343D;
+    --accent:    #F2895B;
+    --on-accent: #1A1D23;
+    --accent-2:  #5CC8BC;
+    --focus:     #F5B94F;
+    --code-bg:   #0B0D10;
+    --shadow:    0 1px 2px rgb(0 0 0 / .4), 0 6px 20px rgb(0 0 0 / .3);
+    color-scheme: dark;
+}
+
+
+/* ============================================================
+   2. БАЗА
+   ============================================================ */
+
+/* [ЗАВДАННЯ] border-box: padding і border входять у ширину (лекція 2, слайд 8) */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    /* [ДОДАТКОВО] при переході за якорем (#contact) заголовок не ховається під липку шапку */
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 1rem;            /* [ЗАВДАННЯ] rem, а не px: шрифт росте з налаштуваннями браузера */
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+
+    /* [ДОДАТКОВО] підвал завжди внизу, навіть якщо вмісту мало:
+       body — флекс-колонка, а main забирає все вільне місце */
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+}
+
+h1, h2, h3 {
+    margin: 0 0 .75rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.2;
+    text-wrap: balance;         /* рівні рядки в багаторядкових заголовках */
+    overflow-wrap: break-word;  /* довге слово не вилізе за край на 320px */
+}
+
+/* [ЗАВДАННЯ] clamp(): заголовок плавно росте між мінімумом і максимумом без медіазапитів
+   (лекція 3, слайд 8). 1.2rem + 2.5vw: на 375px ≈ 28px, на 1280px — стеля 48px */
+h1 { font-size: clamp(1.75rem, 1.2rem + 2.5vw, 3rem); }
+h2 { font-size: clamp(1.35rem, 1.1rem + 1.2vw, 1.875rem); }
+h3 { font-size: 1.125rem; }
+
+p {
+    margin: 0 0 1rem;
+}
+
+a {
+    color: var(--accent-2);
+    text-underline-offset: .2em;
+
+    &:hover {
+        color: var(--accent);
+    }
+}
+
+/* [ЗАВДАННЯ] картинка ніколи не ширша за контейнер і не сплющується (лекція 3, слайд 10).
+   height: auto ще й перемагає атрибут height="…" — інакше aspect-ratio не спрацює */
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+code {
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: .9em;
+    padding: .1em .35em;
+    border-radius: .3em;
+    background: var(--surface-2);
+}
+
+/* Обгортка вмісту: ширина = менше з двох — екран мінус 2rem полів або 72rem.
+   min() замінює пару width: 100% + max-width */
+.container {
+    width: min(100% - 2rem, var(--content));
+    margin-inline: auto;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.lead {
+    max-width: 60ch;            /* [ЗАВДАННЯ] ch: зручна довжина рядка (лекція 3, слайд 9) */
+    font-size: 1.125rem;
+    color: var(--muted);
+}
+
+.page-head {
+    padding-block: clamp(2rem, 1rem + 4vw, 3.5rem) 1.5rem;
+}
+
+/* Текст лише для читалок екрана: візуально схований, але не display: none */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   3. СПІЛЬНІ КОМПОНЕНТИ
+   [ЗАВДАННЯ] нативна вкладеність через & (лекція 2, слайд 13)
+   ============================================================ */
+
+/* ---------- Шапка ---------- */
+.site-header {
+    position: sticky;           /* [ДОДАТКОВО] шапка прилипає до верху при прокрутці */
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+}
+
+/* [ЗАВДАННЯ] Flexbox — одновимірний ряд: логотип · меню · кнопка теми (лекція 2, слайд 14) */
+.header-inner {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    min-height: var(--header-h);
+    position: relative;         /* відносно нього випадає меню на телефоні */
+}
+
+.logo {
+    margin-right: auto;         /* штовхає меню й кнопку до правого краю */
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    min-height: 44px;           /* [ЗАВДАННЯ] зона натискання для пальця (лекція 3, слайд 12) */
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: .9375rem;
+
+    & .logo-mark {
+        display: grid;
+        place-items: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        background: var(--accent);
+        color: var(--on-accent);
+        font-size: .75rem;
+    }
+
+    &:hover {
+        color: var(--text);
+    }
+}
+
+/* [ДОДАТКОВО] кнопка теми */
+.theme-toggle {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 1.125rem;
+    cursor: pointer;
+
+    /* display: grid вище перемагає атрибут hidden — повертаємо приховування явно */
+    &[hidden] {
+        display: none;
+    }
+}
+
+/* ---------- Кнопки ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    min-height: 44px;           /* [ЗАВДАННЯ] зона натискання ≥ 44px */
+    padding: .5rem 1.25rem;
+    border: 2px solid var(--accent);
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: filter .2s, background-color .2s;
+
+    &:hover {
+        color: var(--on-accent);
+        filter: brightness(1.1);
+    }
+}
+
+/* прозора кнопка з рамкою кольору тексту навколо */
+.btn--ghost {
+    background: transparent;
+    border-color: currentColor;
+    color: inherit;
+
+    &:hover {
+        color: inherit;
+        background: color-mix(in srgb, currentColor 12%, transparent);
+    }
+}
+
+.btn--small {
+    padding-inline: 1rem;
+    font-size: .875rem;
+}
+
+.btn--block {
+    width: 100%;
+}
+
+/* ---------- Теги ---------- */
+.tags {
+    list-style: none;
+    margin: 0 0 .75rem;
+    padding: 0;
+    display: flex;              /* теги в рядок, з переносом */
+    flex-wrap: wrap;
+    gap: .375rem;
+
+    & li {
+        padding: .125rem .625rem;
+        border-radius: 999px;
+        background: var(--surface-2);
+        color: var(--muted);
+        font-size: .8125rem;
+        font-weight: 600;
+    }
+}
+
+/* ---------- Картка (загальна підкладка) ---------- */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* ---------- Аватар ---------- */
+.avatar {
+    width: 8rem;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avatar--small {
+    width: 4rem;
+}
+
+/* ---------- Підвал ---------- */
+.site-footer {
+    margin-top: 4rem;
+    padding-block: 2rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: .9375rem;
+
+    & p {
+        margin: 0 0 .5rem;
+    }
+}
+
+/* [ЗАВДАННЯ] Flexbox з переносом: три блоки стоять у рядок, поки кожен має ≥ 14rem,
+   інакше переносяться один під одний — без медіазапиту */
+.footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+
+    & > * {
+        flex: 1 1 14rem;        /* рости · стискатись · стартова ширина 14rem */
+    }
+}
+
+.footer-brand {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--text);
+}
+
+.footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1.25rem;
+
+    & a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+    }
+
+    & a[aria-current="page"] {
+        color: var(--text);
+        font-weight: 700;
+    }
+}
+
+
+/* ============================================================
+   9. МЕДІАЗАПИТИ
+   [ЗАВДАННЯ] точки зламу в rem, запис діапазоном (width >= …), mobile-first:
+   кожен блок лише ДОДАЄ те, що змінюється на ширшому екрані (лекція 3, слайди 5–7).
+   Стоять у кінці файлу: специфічність у них та сама, перемагають, бо нижче.
+   ============================================================ */

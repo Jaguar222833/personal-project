@@ -420,8 +420,326 @@ code {
 
 
 /* ============================================================
+   4. ГОЛОВНА (index.html)
+   ============================================================ */
+
+/* ---------- Hero: фото на весь перший екран ---------- */
+.hero {
+    position: relative;
+    isolation: isolate;         /* новий шар: z-index: -1 у дітей не «провалиться» під body */
+    display: grid;
+    align-items: end;           /* текст — внизу кадру */
+
+    /* [ЗАВДАННЯ] dvh — видима висота вікна на телефоні, з урахуванням панелей браузера
+       (лекція 3, слайд 9). Мінус висота шапки — щоб hero рівно заповнив перший екран.
+       min(…, 56rem) — на дуже високих моніторах не розтягувати безкінечно */
+    min-height: min(calc(100dvh - var(--header-h)), 56rem);
+
+    color: #FFFFFF;
+    --focus: #F5B94F;           /* на темному фото фокус має бути світлим: змінна перевизначена лише тут */
+
+    /* темний градієнт поверх фото, щоб білий текст читався (контраст) */
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(to top,
+            rgb(10 12 16 / .88) 0%,
+            rgb(10 12 16 / .45) 55%,
+            rgb(10 12 16 / .15) 100%);
+    }
+}
+
+/* фото лежить під текстом на всю площу hero */
+.hero-media,
+.hero-media img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* [ЗАВДАННЯ] заповнити, обрізавши краї, без спотворення */
+}
+
+.hero-content {
+    padding-block: 3rem clamp(2.5rem, 1rem + 6vw, 5rem);
+
+    & h1 {
+        max-width: 14ch;
+        margin-bottom: 1rem;
+        font-size: clamp(2.25rem, 1.3rem + 4.5vw, 4.5rem);   /* [ЗАВДАННЯ] clamp() */
+    }
+}
+
+.eyebrow {
+    margin-bottom: .75rem;
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #F5B94F;
+}
+
+.hero-lead {
+    max-width: 45ch;
+    font-size: clamp(1rem, .9rem + .5vw, 1.25rem);
+    color: rgb(255 255 255 / .88);
+}
+
+/* [ЗАВДАННЯ] Flexbox: кнопки в рядок, на вузькому екрані переносяться */
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: 1.5rem;
+}
+
+/* ---------- Каркас головної: CSS Grid з іменованими областями ----------
+   [ЗАВДАННЯ] Grid — двовимірний макет (лекція 2, слайд 15).
+   Тут — БАЗА для телефона. Ширші варіанти — у розділі 9 (мітки [3] і [4]). */
+.home-grid {
+    display: grid;
+
+    /* [1] одна колонка. minmax(0, 1fr), а не 1fr: звичайна 1fr не дає колонці стати
+           вужчою за вміст, і таблиця навичок розпирала б сторінку на телефоні
+           (так само, як у prac05/gotovo) */
+    grid-template-columns: minmax(0, 1fr);
+
+    /* [2] блоки стовпчиком; «Про мене» — першим, головне на телефоні — вгорі */
+    grid-template-areas:
+        "about"
+        "profile"
+        "projects"
+        "skills"
+        "contact";
+
+    gap: 2.5rem 2rem;
+    padding-block: 3rem 0;
+}
+
+.about    { grid-area: about; }
+.profile  { grid-area: profile; }
+.projects { grid-area: projects; }
+.skills   { grid-area: skills; }
+.contact  { grid-area: contact; }
+
+.about p {
+    max-width: 65ch;            /* [ЗАВДАННЯ] читабельна довжина рядка */
+}
+
+/* ---------- Профіль ---------- */
+.profile {
+    padding: 1.5rem;
+    text-align: center;
+
+    & .avatar {
+        margin: 0 auto 1rem;
+    }
+
+    & h2 {
+        margin-bottom: .25rem;
+        font-size: 1.25rem;
+    }
+}
+
+/* список фактів: dt і dd в один рядок, по краях */
+.facts {
+    margin: 1.25rem 0;
+    text-align: left;
+
+    & div {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-block: .5rem;
+        border-top: 1px solid var(--border);
+    }
+
+    & dt {
+        color: var(--muted);
+    }
+
+    & dd {
+        margin: 0;
+        font-weight: 600;
+        text-align: right;
+    }
+}
+
+/* ---------- Проєкти ---------- */
+.project-wrap--featured {
+    margin-bottom: 1.25rem;
+}
+
+/* [ЗАВДАННЯ] сітка, яка сама рахує колонки — без жодного медіазапиту (лекція 3, слайд 8):
+   кожна колонка не вужча за 16rem; скільки влізе — стільки й буде.
+   min(16rem, 100%) — щоб на екрані 320px картка не вилізла за край */
+.project-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    gap: 1.25rem;
+}
+
+/* Картка проєкту. Тут — найвужчий вигляд (фото зверху, текст під ним).
+   Ширші вигляди вмикає container query — розділ 7 */
+.project {
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;   /* фото · текст розтягується · кнопка внизу */
+    grid-template-areas:
+        "img"
+        "body"
+        "links";
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+
+    & h3 {
+        margin-bottom: .5rem;
+    }
+
+    & p {
+        color: var(--muted);
+        font-size: .9375rem;
+    }
+}
+
+.project-img {
+    grid-area: img;
+    width: 100%;
+    aspect-ratio: 16 / 9;       /* [ЗАВДАННЯ] однакові рамки для фото різних пропорцій */
+    object-fit: cover;
+}
+
+.project-body {
+    grid-area: body;
+    padding: 1.25rem 1.25rem 0;
+}
+
+.project-links {
+    grid-area: links;
+    padding: 0 1.25rem 1.25rem;
+}
+
+/* ---------- Навички: таблиця ---------- */
+/* [ЗАВДАННЯ] на вузькому екрані таблиця прокручується всередині обгортки,
+   а не ламає ширину всієї сторінки (практика 5, крок 5) */
+.table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.skills-table {
+    width: 100%;
+    min-width: 30rem;
+    border-collapse: collapse;
+
+    & th,
+    & td {
+        padding: .75rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+    }
+
+    & thead th {
+        background: var(--surface-2);
+        font-size: .8125rem;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    & tbody tr:last-child > * {
+        border-bottom: 0;
+    }
+}
+
+/* [ДОДАТКОВО] смужка рівня: ширина залежить від змінної --level з атрибута style.
+   Це і є «жива» CSS-змінна: одне правило — шість різних смужок */
+.level {
+    display: inline-grid;
+    gap: .25rem;
+    min-width: 6rem;
+    font-size: .8125rem;
+    color: var(--muted);
+
+    &::before {
+        content: "";
+        height: .375rem;
+        border-radius: 999px;
+        background: linear-gradient(to right,
+            var(--accent) calc(var(--level) / 5 * 100%),
+            var(--surface-2) 0);
+    }
+}
+
+/* ---------- Контакти ---------- */
+.contact {
+    padding: 1.5rem;
+}
+
+.contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    & a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-weight: 600;
+        overflow-wrap: anywhere;    /* довгий email не вилізе за картку */
+    }
+}
+
+
+/* ============================================================
    9. МЕДІАЗАПИТИ
    [ЗАВДАННЯ] точки зламу в rem, запис діапазоном (width >= …), mobile-first:
    кожен блок лише ДОДАЄ те, що змінюється на ширшому екрані (лекція 3, слайди 5–7).
    Стоять у кінці файлу: специфічність у них та сама, перемагають, бо нижче.
    ============================================================ */
+
+/* ---------- від 56.25rem (900px): з'являється бічна колонка ----------
+   Точка зламу підібрана під вміст: вужче профіль поруч з текстом був би затісним */
+@media (width >= 56.25rem) {
+
+    /* index.html — [3] дві колонки: профіль ліворуч на всю висоту, решта праворуч */
+    .home-grid {
+        grid-template-columns: 17rem minmax(0, 1fr);
+        grid-template-areas:
+            "profile about"
+            "profile projects"
+            "profile skills"
+            "profile contact";
+    }
+
+    /* [ДОДАТКОВО] профіль «прилипає» під шапкою, поки гортаємо праву колонку */
+    .profile {
+        position: sticky;
+        top: calc(var(--header-h) + 1.5rem);
+        align-self: start;
+    }
+}
+
+/* ---------- від 68.75rem (1100px): третя колонка ---------- */
+@media (width >= 68.75rem) {
+
+    /* index.html — [4] три колонки: «Навички» і «Контакти» стають поруч */
+    .home-grid {
+        grid-template-columns: 17rem minmax(0, 1fr) 19rem;
+        grid-template-areas:
+            "profile about    about"
+            "profile projects projects"
+            "profile skills   contact";
+    }
+}

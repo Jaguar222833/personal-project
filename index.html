@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <!-- [ЗАВДАННЯ] viewport: без нього телефон малює сторінку як 980px і зменшує (лекція 3, слайд 4) -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Artem Arsentiev · код і фотографія</title>
-    <meta name="description" content="Особистий сайт Artem Arsentiev: проєкти, фотопортфоліо та блог про веб-розробку і фотографію.">
+    <title>Artem Arsentiev · розробка, залізо, фотографія</title>
+    <meta name="description" content="Artem Arsentiev: системи керування для енергетики, автоматизація, ремонт техніки, дизайн і фотографія.">
     <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 
     <!-- [ДОДАТКОВО] шрифти Google Fonts з кирилицею -->
@@ -58,21 +58,21 @@
                     srcset="img/hero-wide-960.jpg 960w, img/hero-wide-1600.jpg 1600w"
                     sizes="100vw" width="1600" height="900">
             <img src="img/hero-tall-480.jpg"
-                 srcset="img/hero-tall-480.jpg 480w, img/hero-tall-960.jpg 960w"
+                 srcset="img/hero-tall-480.jpg 480w, img/hero-tall-960.jpg 960w, img/hero-tall-1600.jpg 1067w"
                  sizes="100vw" width="480" height="720"
-                 alt="Ноутбук, блокнот з ескізами інтерфейсу та плівкова камера на дерев'яному столі">
+                 alt="Дерев'яний стілець серед уламків плит у промені світла між будинками">
         </picture>
 
         <div class="container hero-content">
-            <p class="eyebrow">Розробник · фотограф-аматор</p>
-            <h1 id="hero-title">Пишу код і ловлю світло</h1>
+            <p class="eyebrow">Розробка · залізо · дизайн · фотографія</p>
+            <h1 id="hero-title">Роблю те, що цікаво саме зараз</h1>
             <p class="hero-lead">
-                Привіт, я Артем — студент КПІ. Тут мої проєкти, фотографії
-                та нотатки про те, як я вчуся робити веб.
+                Розробляю системи керування для енергетики й автоматизую рутину.
+                Ремонтую техніку, малюю інтерфейси та фотографую.
             </p>
             <div class="hero-actions">
-                <a class="btn" href="gallery.html">Дивитись фото</a>
-                <a class="btn btn--ghost" href="blog.html">Читати блог</a>
+                <a class="btn" href="#projects">Проєкти</a>
+                <a class="btn btn--ghost" href="gallery.html">Фотографії</a>
             </div>
         </div>
     </section>
@@ -84,115 +84,190 @@
         <section class="about" aria-labelledby="about-title">
             <h2 id="about-title">Про мене</h2>
             <p>
-                Я навчаюся на третьому курсі КПІ ім. Ігоря Сікорського. Вдень розбираюся,
-                як працюють сайти й автоматизовані системи, а у вихідні беру камеру й іду
-                шукати гарне світло — у місті, в горах чи просто на кухні.
+                Студент КПІ ім. Ігоря Сікорського. Розробляю програмне забезпечення
+                для керування енергосистемами та автоматизую навчальні процеси.
             </p>
             <p>
-                Цей сайт — моя робоча майстерня: тут я збираю проєкти, викладаю улюблені кадри
-                і пишу короткі нотатки про те, чого навчився. Кожен рядок коду тут написаний
-                так, щоб я міг його пояснити.
+                Працюю і з «залізом»: пусконалагодження промислових систем накопичення енергії,
+                ремонт зарядних станцій EcoFlow і Jackery, домашній сервер (home lab).
+                Поза технікою — дизайн і фотографія.
             </p>
         </section>
 
         <aside class="profile card" aria-labelledby="profile-title">
-            <img class="avatar" src="img/avatar-320.jpg"
-                 srcset="img/avatar-320.jpg 320w, img/avatar-640.jpg 640w"
-                 sizes="8rem" width="320" height="320" loading="lazy"
-                 alt="Людина в светрі тримає плівкову камеру (фото-заглушка)">
+            <img class="avatar" src="img/avatar-480.jpg"
+                 srcset="img/avatar-480.jpg 480w, img/avatar-960.jpg 960w"
+                 sizes="8rem" width="480" height="480" loading="lazy"
+                 alt="Горобець на гілці — один з моїх кадрів">
             <h2 id="profile-title">Artem Arsentiev</h2>
-            <p class="muted">Студент 3 курсу · КПІ ім. Ігоря Сікорського</p>
+            <p class="muted">КПІ ім. Ігоря Сікорського</p>
             <dl class="facts">
-                <div><dt>Місто</dt><dd>Київ</dd></div>
-                <div><dt>Фокус</dt><dd>Frontend, автоматизація</dd></div>
-                <div><dt>Знімаю</dt><dd>Плівка і цифра</dd></div>
+                <div><dt>Напрям</dt><dd>Енергетика, автоматизація</dd></div>
+                <div><dt>Залізо</dt><dd>BESS, ремонт, home lab</dd></div>
+                <div><dt>Також</dt><dd>Дизайн, фотографія</dd></div>
             </dl>
             <a class="btn btn--block" href="#contact">Зв'язатися</a>
         </aside>
 
-        <section class="projects" aria-labelledby="projects-title">
+        <section class="projects" id="projects" aria-labelledby="projects-title">
             <h2 id="projects-title">Проєкти</h2>
-            <p class="muted">
-                Навчальні й власні проєкти. Карток стільки в рядку, скільки влізе, — Grid рахує сам.
-            </p>
 
             <!-- [ЗАВДАННЯ] компонент на container query: обгортка .project-wrap — контейнер.
                  Ця картка стоїть на всю ширину, тому стає горизонтальною -->
             <div class="project-wrap project-wrap--featured">
                 <article class="project">
-                    <img class="project-img" src="img/laptop-960.jpg"
-                         srcset="img/laptop-480.jpg 480w, img/laptop-960.jpg 960w"
+                    <img class="project-img" src="img/ems-flows-960.jpg"
+                         srcset="img/ems-flows-480.jpg 480w, img/ems-flows-960.jpg 960w"
                          sizes="(width >= 56.25rem) 20rem, 100vw"
-                         width="960" height="640" loading="lazy"
-                         alt="Ноутбук на дерев'яному столі поруч з кавою та блокнотом">
+                         width="960" height="493" loading="lazy"
+                         alt="Інтерфейс EMS: потоки потужності між мережею, сонячною генерацією, накопичувачем і навантаженням">
                     <div class="project-body">
-                        <h3>Цей сайт</h3>
+                        <h3>EMS-платформа для систем накопичення енергії</h3>
+                        <p class="project-status">ALTEN Ltd · 2024–2026</p>
                         <p>
-                            Особистий сайт на три сторінки: адаптивна верстка mobile-first,
-                            Grid, Flexbox, container queries і трохи JavaScript.
+                            Система енергоменеджменту для моніторингу й керування парком комерційних
+                            і промислових об'єктів з накопичувачами енергії, сонячною генерацією
+                            та резервними джерелами.
                         </p>
-                        <ul class="tags" aria-label="Технології">
-                            <li>HTML</li><li>CSS Grid</li><li>Flexbox</li><li>JavaScript</li>
+                        <ul class="features">
+                            <li>Моніторинг у реальному часі: накопичувачі, інвертори, сонячна генерація, лічильники.</li>
+                            <li>Енергоарбітраж на ринку «на добу наперед» з автоматичним плануванням заряду й розряду.</li>
+                            <li>Режими ZeroExport та експорту за диспетчерським планом.</li>
+                            <li>Острівний режим: автоматичний перехід в автономну роботу й повернення на мережу.</li>
+                            <li>Централізоване керування розподіленим парком об'єктів з одного інтерфейсу.</li>
+                        </ul>
+                        <p>
+                            Цикл опитування обладнання скорочено більш ніж у 10 разів, час в аварійному
+                            режимі — з ~76 % до 0 %. Моя роль: єдиний розробник та інженер проєкту —
+                            від розробки до інтеграції обладнання й пусконалагодження на об'єктах.
+                        </p>
+                        <ul class="tags" aria-label="Теми">
+                            <li>EMS</li><li>BESS</li><li>SCADA</li><li>Енергоарбітраж</li><li>Острівний режим</li>
                         </ul>
                     </div>
-                    <div class="project-links">
-                        <a class="btn btn--small" href="https://github.com/Jaguar222833/personal-project">Код на GitHub</a>
-                    </div>
                 </article>
+
+                <!-- [ДОДАТКОВО] скріншоти: сітка auto-fit, без медіазапитів -->
+                <ul class="project-shots" aria-label="Скріншоти EMS-платформи">
+                    <li>
+                        <a href="img/ems-fleet-960.jpg">
+                            <img src="img/ems-fleet-480.jpg" srcset="img/ems-fleet-480.jpg 480w, img/ems-fleet-960.jpg 669w"
+                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="187" loading="lazy"
+                                 alt="Картки установок: заряд, ємність і стан кожного накопичувача">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="img/ems-plan-960.jpg">
+                            <img src="img/ems-plan-480.jpg" srcset="img/ems-plan-480.jpg 480w, img/ems-plan-960.jpg 812w"
+                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="175" loading="lazy"
+                                 alt="Погодинний план заряду й розряду накопичувача за цінами ринку на добу наперед">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="img/ems-analytics-960.jpg">
+                            <img src="img/ems-analytics-480.jpg" srcset="img/ems-analytics-480.jpg 480w, img/ems-analytics-960.jpg 812w"
+                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="262" loading="lazy"
+                                 alt="Аналітика: план і факт купівлі та продажу енергії по годинах">
+                        </a>
+                    </li>
+                </ul>
             </div>
 
             <!-- [ЗАВДАННЯ] сітка карток без медіазапитів: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)) -->
             <ul class="project-grid">
                 <li class="project-wrap">
                     <article class="project">
-                        <img class="project-img" src="img/macbook-480.jpg"
-                             srcset="img/macbook-480.jpg 480w, img/macbook-960.jpg 960w"
-                             sizes="(width >= 56.25rem) 18rem, 100vw"
+                        <img class="project-img" src="img/laptop-480.jpg"
+                             srcset="img/laptop-480.jpg 480w, img/laptop-960.jpg 960w"
+                             sizes="(width >= 56.25rem) 24rem, 100vw"
                              width="480" height="320" loading="lazy"
-                             alt="Ноутбук на столі в світлій кімнаті">
+                             alt="Ноутбук на темному столі">
                         <div class="project-body">
-                            <h3>Енергомонітор</h3>
-                            <p>Дашборд споживання електроенергії: дані з лічильників, графіки по днях.</p>
-                            <ul class="tags" aria-label="Технології"><li>Python</li><li>MQTT</li><li>Chart.js</li></ul>
-                        </div>
-                        <div class="project-links">
-                            <a class="btn btn--small btn--ghost" href="https://github.com/Jaguar222833">GitHub</a>
+                            <h3>ProtocolArsentiev</h3>
+                            <p class="project-status project-status--live">Працює на домашньому сервері · закритий доступ</p>
+                            <p>
+                                Помічник для навчання: сам заходить на онлайн-пари в Meet і Zoom, записує їх,
+                                робить транскрипції та короткі підсумки, щодня надсилає розклад у чат групи.
+                            </p>
+                            <ul class="tags" aria-label="Можливості">
+                                <li>Записи пар</li><li>Транскрипції</li><li>Підсумки</li><li>Розклад</li>
+                            </ul>
                         </div>
                     </article>
                 </li>
                 <li class="project-wrap">
                     <article class="project">
-                        <img class="project-img" src="img/flatlay-480.jpg"
-                             srcset="img/flatlay-480.jpg 480w, img/flatlay-960.jpg 960w"
-                             sizes="(width >= 56.25rem) 18rem, 100vw"
+                        <img class="project-img" src="img/stations-480.jpg"
+                             srcset="img/stations-480.jpg 480w, img/stations-960.jpg 960w"
+                             sizes="(width >= 56.25rem) 24rem, 100vw"
                              width="480" height="320" loading="lazy"
-                             alt="Акуратно розкладені на білому столі гаджети й аксесуари">
+                             alt="Дві саморобні зарядні станції в зелених металевих корпусах з розетками й дисплеями">
                         <div class="project-body">
-                            <h3>Фото-сортувальник</h3>
-                            <p>Скрипт, що розкладає фото по теках за датою й камерою з EXIF.</p>
-                            <ul class="tags" aria-label="Технології"><li>Python</li><li>EXIF</li></ul>
-                        </div>
-                        <div class="project-links">
-                            <a class="btn btn--small btn--ghost" href="https://github.com/Jaguar222833">GitHub</a>
+                            <h3>Зарядні станції</h3>
+                            <p class="project-status">2022</p>
+                            <p>
+                                Портативні станції, зібрані власноруч на початку повномасштабної війни:
+                                металевий корпус, розетки, USB-виходи та індикація заряду.
+                            </p>
+                            <ul class="tags" aria-label="Теми"><li>Електрика</li><li>Збирання</li></ul>
                         </div>
                     </article>
                 </li>
                 <li class="project-wrap">
                     <article class="project">
-                        <img class="project-img" src="img/coffee-laptop-480.jpg"
-                             srcset="img/coffee-laptop-480.jpg 480w, img/coffee-laptop-960.jpg 960w"
-                             sizes="(width >= 56.25rem) 18rem, 100vw"
+                        <img class="project-img" src="img/kpi-480.jpg"
+                             srcset="img/kpi-480.jpg 480w, img/kpi-960.jpg 960w"
+                             sizes="(width >= 56.25rem) 24rem, 100vw"
                              width="480" height="320" loading="lazy"
-                             alt="Відкритий ноутбук і чашка кави на дерев'яному столі">
+                             alt="Головний корпус КПІ під хмарним небом">
                         <div class="project-body">
-                            <h3>Бот розкладу</h3>
-                            <p>Telegram-бот, який надсилає розклад пар групи на завтра.</p>
-                            <ul class="tags" aria-label="Технології"><li>Node.js</li><li>Telegram API</li></ul>
+                            <h3>Особистий сайт</h3>
+                            <p>Портфоліо, фотографії та блог. Дизайн і верстка — власні.</p>
+                            <ul class="tags" aria-label="Теми"><li>Дизайн</li><li>Верстка</li></ul>
                         </div>
                         <div class="project-links">
-                            <a class="btn btn--small btn--ghost" href="https://github.com/Jaguar222833">GitHub</a>
+                            <a class="btn btn--small btn--ghost" href="https://github.com/Jaguar222833/personal-project">GitHub</a>
                         </div>
                     </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="design" aria-labelledby="design-title">
+            <h2 id="design-title">Дизайн</h2>
+            <p class="muted">Айдентика й матеріали, зроблені для ALTEN Ltd.</p>
+            <!-- [ЗАВДАННЯ] ще одна сітка auto-fit без медіазапитів -->
+            <ul class="design-grid">
+                <li>
+                    <figure class="design-item">
+                        <a href="img/design-logo-960.jpg">
+                            <img src="img/design-logo-480.jpg" srcset="img/design-logo-480.jpg 480w, img/design-logo-960.jpg 960w"
+                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="500" loading="lazy"
+                                 alt="Логотип: червона блискавка в зелено-білому колі">
+                        </a>
+                        <figcaption>Логотип</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure class="design-item">
+                        <a href="img/design-infographic-1600.jpg">
+                            <img src="img/design-infographic-480.jpg"
+                                 srcset="img/design-infographic-480.jpg 480w, img/design-infographic-960.jpg 960w, img/design-infographic-1600.jpg 1600w"
+                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="270" loading="lazy"
+                                 alt="Інфографіка з вимогами до встановлення контейнерів із накопичувачами енергії">
+                        </a>
+                        <figcaption>Інфографіка: вимоги до встановлення BESS</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure class="design-item">
+                        <a href="img/design-brochure-960.jpg">
+                            <img src="img/design-brochure-480.jpg" srcset="img/design-brochure-480.jpg 480w, img/design-brochure-960.jpg 960w"
+                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="679" loading="lazy"
+                                 alt="Обкладинка буклета промислової системи накопичення енергії">
+                        </a>
+                        <figcaption>Буклет системи накопичення</figcaption>
+                    </figure>
                 </li>
             </ul>
         </section>
@@ -204,26 +279,33 @@
             <div class="table-wrap" role="region" aria-labelledby="skills-title" tabindex="0">
                 <table class="skills-table">
                     <thead>
-                        <tr><th scope="col">Навичка</th><th scope="col">Рівень</th><th scope="col">Де застосовую</th></tr>
+                        <tr><th scope="col">Напрям</th><th scope="col">Рівень*</th><th scope="col">Де застосовую</th></tr>
                     </thead>
                     <tbody>
-                        <tr><th scope="row">HTML і CSS</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>Цей сайт, лабораторні</td></tr>
-                        <tr><th scope="row">JavaScript</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Інтерактив, бот розкладу</td></tr>
-                        <tr><th scope="row">Python</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>Скрипти, обробка даних</td></tr>
-                        <tr><th scope="row">Git і GitHub</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Усі проєкти</td></tr>
-                        <tr><th scope="row">Lightroom</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>Обробка фото</td></tr>
-                        <tr><th scope="row">Плівкова зйомка</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Прогулянки містом</td></tr>
+                        <tr><th scope="row">Системи керування енергетикою</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>EMS-платформа</td></tr>
+                        <tr><th scope="row">Пусконалагодження BESS</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>Промислові об'єкти</td></tr>
+                        <tr><th scope="row">Автоматизація процесів</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>ProtocolArsentiev</td></tr>
+                        <tr><th scope="row">Електрика та ремонт електроніки</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Зарядні станції EcoFlow і Jackery</td></tr>
+                        <tr><th scope="row">Home lab</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Домашній сервер</td></tr>
+                        <tr><th scope="row">Веб-розробка</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Цей сайт</td></tr>
+                        <tr><th scope="row">Дизайн</th><td><span class="level" style="--level: 2">2 з 5</span></td><td>Айдентика, цей сайт</td></tr>
+                        <tr><th scope="row">Фотографія</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Canon EOS RP, Lightroom</td></tr>
                     </tbody>
                 </table>
             </div>
+            <p class="table-note">
+                * Оцінки суб'єктивні й виставлені кількома моїми штучними друзями.
+                Сам я переконаний, що нічого не знаю.
+            </p>
         </section>
 
         <section class="contact card" id="contact" aria-labelledby="contact-title">
             <h2 id="contact-title">Контакти</h2>
-            <p>Відкритий до навчальних проєктів, колаборацій і фотопрогулянок. Пишіть!</p>
+            <p>Відкритий до співпраці над проєктами в енергетиці, автоматизації та дизайні.</p>
             <ul class="contact-list">
                 <li><a href="mailto:arartom@gmail.com">arartom@gmail.com</a></li>
                 <li><a href="https://github.com/Jaguar222833">GitHub · Jaguar222833</a></li>
+                <li><a href="https://www.instagram.com/arsentiev.artem/">Instagram · arsentiev.artem</a></li>
             </ul>
         </section>
 
@@ -235,7 +317,7 @@
     <div class="container footer-inner">
         <div>
             <p class="footer-brand">Artem Arsentiev</p>
-            <p>Код, світло і нотатки студента КПІ.</p>
+            <p>Розробка, дизайн, фотографія.</p>
         </div>
         <nav aria-label="Меню в підвалі">
             <ul class="footer-links">
@@ -245,8 +327,8 @@
             </ul>
         </nav>
         <div>
-            <p><a href="https://github.com/Jaguar222833">GitHub</a></p>
-            <p>© 2026 · Фото-заглушки з <a href="https://unsplash.com">Unsplash</a></p>
+            <p><a href="https://github.com/Jaguar222833">GitHub</a> · <a href="https://www.instagram.com/arsentiev.artem/">Instagram</a></p>
+            <p>© 2026 · Усі фото — автора</p>
         </div>
     </div>
 </footer>

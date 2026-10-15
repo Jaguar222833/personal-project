@@ -5,7 +5,7 @@
     <!-- [ЗАВДАННЯ] viewport (лекція 3, слайд 4) -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Блог · Artem Arsentiev</title>
-    <meta name="description" content="Нотатки про веб-розробку, навчання і фотографію.">
+    <meta name="description" content="Нотатки Artem Arsentiev про розробку, дизайн і фотографію.">
     <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 
     <!-- [ДОДАТКОВО] шрифти Google Fonts з кирилицею -->
@@ -49,7 +49,7 @@
 
     <header class="page-head">
         <h1>Блог</h1>
-        <p class="lead">Нотатки про веб-розробку, навчання і фотографію. Пишу, коли щось нарешті запрацювало.</p>
+        <p class="lead">Нотатки про розробку, дизайн і фотографію.</p>
     </header>
 
     <!-- [ЗАВДАННЯ] КАРКАС БЛОГУ БЕЗ МЕДІАЗАПИТІВ (практика 6):
@@ -65,45 +65,44 @@
                 <li><a href="#mobile-first">Спершу телефон</a></li>
                 <li><a href="#grid">Каркас на Grid</a></li>
                 <li><a href="#switch">Вимикач ×999</a></li>
-                <li><a href="#next">Що далі</a></li>
+                <li><a href="#summary">Підсумок</a></li>
             </ul>
         </nav>
 
         <div class="blog-content">
             <article class="post-full" aria-labelledby="post-title">
                 <header class="post-header">
-                    <ul class="tags" aria-label="Теми"><li>Веб-розробка</li><li>CSS</li></ul>
-                    <h2 id="post-title">Як я верстав цей сайт: Grid, Flex і вимикач ×999</h2>
-                    <p class="post-meta"><time datetime="2026-10-15">15 жовтня 2026</time> · 5 хв читання</p>
+                    <ul class="tags" aria-label="Теми"><li>Розробка</li><li>CSS</li></ul>
+                    <h2 id="post-title">Адаптивна верстка без зайвих медіазапитів</h2>
+                    <p class="post-meta"><time datetime="2026-10-15">15 жовтня 2026</time> · 4 хв читання</p>
                 </header>
 
                 <figure class="post-figure">
-                    <img src="img/desk-960.jpg"
-                         srcset="img/desk-480.jpg 480w, img/desk-960.jpg 960w, img/desk-1600.jpg 1600w"
+                    <img src="img/laptop-960.jpg"
+                         srcset="img/laptop-480.jpg 480w, img/laptop-960.jpg 960w, img/laptop-1600.jpg 1600w"
                          sizes="(width >= 62rem) 40rem, 100vw"
                          width="960" height="640"
-                         alt="Робоче місце: монітор, клавіатура, планшет і блокнот на темному столі">
-                    <figcaption>Робоче місце, де народився цей сайт (фото-заглушка, Vadim Sherbakov · Unsplash).</figcaption>
+                         alt="Ноутбук на темному столі">
+                    <figcaption>Робоче місце, де верстався цей сайт.</figcaption>
                 </figure>
 
                 <p>
-                    Завдання звучало просто: три сторінки, які однаково добре виглядають на телефоні
-                    й на комп'ютері. На практиці це означало щоразу ставити собі питання:
-                    «а що буде, якщо звузити вікно до 320 пікселів?»
+                    Сторінка має однаково добре працювати на екранах від 320 до 2560 пікселів.
+                    Нижче — три прийоми, на яких тримається верстка цього сайту.
                 </p>
 
                 <h3 id="mobile-first">Спершу телефон</h3>
                 <p>
-                    Я почав з найвужчого екрана. Базові стилі — для телефона: одна колонка, нічого зайвого.
-                    Ширші макети додаються медіазапитами з <code>min-width</code>. Так телефону дістається
-                    менше роботи, а складні правила вмикаються лише там, де є місце.
+                    Базові стилі пишуться для найвужчого екрана: одна колонка, нічого зайвого.
+                    Ширші макети додаються медіазапитами з <code>min-width</code>. Телефон отримує
+                    найпростіші правила, а складні вмикаються лише там, де для них є місце.
                 </p>
 
                 <h3 id="grid">Каркас на Grid</h3>
                 <p>
-                    Головна сторінка — це сітка з іменованими областями. На телефоні блоки стоять стовпчиком,
-                    від 900 пікселів з'являється бічна колонка з профілем, від 1100 — третя колонка.
-                    Змінюється лише <code>grid-template-areas</code>, HTML лишається тим самим.
+                    Сітку зручно описувати іменованими областями. Щоб перебудувати макет на ширшому
+                    екрані, достатньо перевизначити <code>grid-template-areas</code> — розмітка
+                    лишається незмінною.
                 </p>
                 <pre class="code"><code>.home-grid {
   display: grid;
@@ -113,19 +112,21 @@
 
                 <h3 id="switch">Вимикач ×999</h3>
                 <p>
-                    Ця сторінка блогу не має жодного медіазапиту для каркаса. Кожна колонка отримує
-                    <code>flex-basis: calc((60rem - 100%) * 999)</code>. Якщо контейнер ширший за 60rem,
-                    число від'ємне, і браузер бере нуль — колонки стають у рядок. Якщо вужчий —
-                    число величезне, і кожна колонка переноситься на свій рядок.
+                    Коли медіазапит зайвий, допомагає Flexbox: кожна колонка отримує
+                    <code>flex-basis: calc((60rem - 100%) * 999)</code>. Якщо контейнер ширший
+                    за 60rem, значення від'ємне, і браузер бере нуль — колонки стають у рядок.
+                    Якщо вужчий — значення величезне, і кожна колонка переходить на новий рядок.
+                    Проміжного стану немає.
                 </p>
                 <blockquote>
                     <p>Ламайте там, де ламається вміст, а не пристрій.</p>
                 </blockquote>
 
-                <h3 id="next">Що далі</h3>
+                <h3 id="summary">Підсумок</h3>
                 <p>
-                    Наступний крок — замінити фото-заглушки своїми кадрами, дописати сторінки
-                    окремих записів і перенести сайт на власний домен.
+                    Медіазапити лишаються для великих перебудов макета. Решта — сітки карток,
+                    розміри шрифтів, окремі компоненти — підлаштовується сама через
+                    <code>auto-fit</code>, <code>clamp()</code> і container queries.
                 </p>
             </article>
 
@@ -136,43 +137,43 @@
                 <ul class="post-list">
                     <li class="post-wrap">
                         <article class="post-card">
-                            <img class="post-img" src="img/camera-480.jpg"
-                                 srcset="img/camera-480.jpg 480w, img/camera-960.jpg 960w"
+                            <img class="post-img" src="img/laptop-480.jpg"
+                                 srcset="img/laptop-480.jpg 480w, img/laptop-960.jpg 960w"
                                  sizes="(width >= 62rem) 12rem, 100vw"
                                  width="480" height="320" loading="lazy"
-                                 alt="Стара плівкова камера на клавішах піаніно">
+                                 alt="Ноутбук на темному столі">
                             <div class="post-body">
-                                <p class="post-meta"><time datetime="2026-09-28">28 вересня 2026</time> · Фотографія</p>
-                                <h3>Плівка чи цифра: мій перший рік з камерою</h3>
-                                <p>Чому я знімаю на обидві і що кожна з них навчила мене бачити.</p>
+                                <p class="post-meta"><time datetime="2026-10-02">2 жовтня 2026</time> · Автоматизація</p>
+                                <h3>ProtocolArsentiev: бот, який конспектує пари</h3>
+                                <p>Що вміє бот-помічник: записує заняття, робить транскрипції й підсумки, надсилає розклад у чат групи.</p>
                             </div>
                         </article>
                     </li>
                     <li class="post-wrap">
                         <article class="post-card">
-                            <img class="post-img" src="img/street-480.jpg"
-                                 srcset="img/street-480.jpg 480w, img/street-960.jpg 960w"
+                            <img class="post-img" src="img/ems-flows-480.jpg"
+                                 srcset="img/ems-flows-480.jpg 480w, img/ems-flows-960.jpg 960w"
                                  sizes="(width >= 62rem) 12rem, 100vw"
-                                 width="480" height="320" loading="lazy"
-                                 alt="Вузька міська вулиця з цегляними будинками">
+                                 width="480" height="247" loading="lazy"
+                                 alt="Інтерфейс EMS: потоки потужності між мережею, сонцем, накопичувачем і навантаженням">
                             <div class="post-body">
-                                <p class="post-meta"><time datetime="2026-09-14">14 вересня 2026</time> · Фотографія</p>
-                                <h3>Вулична фотографія: як перестати соромитися</h3>
-                                <p>Три вправи, які допомогли мені знімати людей у місті без страху.</p>
+                                <p class="post-meta"><time datetime="2026-09-18">18 вересня 2026</time> · Енергетика</p>
+                                <h3>EMS для накопичувачів енергії: що вміє система</h3>
+                                <p>Моніторинг, енергоарбітраж, острівний режим і керування парком об'єктів з одного інтерфейсу.</p>
                             </div>
                         </article>
                     </li>
                     <li class="post-wrap">
                         <article class="post-card">
-                            <img class="post-img" src="img/hiker-480.jpg"
-                                 srcset="img/hiker-480.jpg 480w, img/hiker-960.jpg 960w"
+                            <img class="post-img" src="img/station-480.jpg"
+                                 srcset="img/station-480.jpg 480w, img/station-960.jpg 960w"
                                  sizes="(width >= 62rem) 12rem, 100vw"
                                  width="480" height="320" loading="lazy"
-                                 alt="Мандрівник з рюкзаком у туманній гірській долині">
+                                 alt="Саморобна зарядна станція в зеленому металевому корпусі">
                             <div class="post-body">
-                                <p class="post-meta"><time datetime="2026-08-30">30 серпня 2026</time> · Подорожі</p>
-                                <h3>Карпати з одним об'єктивом</h3>
-                                <p>Тиждень у горах з фіксом 35 мм: що вийшло і чого не вистачало.</p>
+                                <p class="post-meta"><time datetime="2026-09-05">5 вересня 2026</time> · Ремонт</p>
+                                <h3>Три зарядні станції, які повернулися до життя</h3>
+                                <p>Нотатки про ремонт станцій EcoFlow і Jackery.</p>
                             </div>
                         </article>
                     </li>
@@ -182,13 +183,12 @@
 
         <aside class="blog-aside" aria-label="Бічна панель">
             <section class="aside-block author">
-                <img class="avatar avatar--small" src="img/avatar-320.jpg"
-                     srcset="img/avatar-320.jpg 320w, img/avatar-640.jpg 640w"
-                     sizes="4rem" width="320" height="320" loading="lazy"
-                     alt="Людина в светрі тримає плівкову камеру (фото-заглушка)">
+                <img class="avatar avatar--small" src="img/avatar-480.jpg"
+                     sizes="4rem" width="480" height="480" loading="lazy"
+                     alt="Горобець на гілці — один з моїх кадрів">
                 <div>
                     <h2>Про автора</h2>
-                    <p>Артем — студент КПІ, верстає сайти й фотографує місто. <a href="index.html">Більше про мене</a></p>
+                    <p>Розробка для енергетики й автоматизації, «залізо», дизайн і фотографія. <a href="index.html">Більше</a></p>
                 </div>
             </section>
 
@@ -200,27 +200,27 @@
                 <ul class="post-list">
                     <li class="post-wrap">
                         <article class="post-card">
-                            <img class="post-img" src="img/gear-480.jpg"
-                                 srcset="img/gear-480.jpg 480w, img/gear-960.jpg 960w"
+                            <img class="post-img" src="img/tulip-480.jpg"
+                                 srcset="img/tulip-480.jpg 480w, img/tulip-960.jpg 960w"
                                  sizes="(width >= 62rem) 14rem, 100vw"
-                                 width="480" height="320" loading="lazy"
-                                 alt="Навушники, годинник, гаманець і телефон, розкладені на столі">
+                                 width="480" height="720" loading="lazy"
+                                 alt="Рожевий тюльпан на чорно-білому тлі">
                             <div class="post-body">
                                 <p class="post-meta"><time datetime="2026-08-14">14 серпня 2026</time> · Фотографія</p>
-                                <h3>Що в моєму рюкзаку фотографа</h3>
+                                <h3>Як я полагодив діафрагму Yongnuo 50mm</h3>
                             </div>
                         </article>
                     </li>
                     <li class="post-wrap">
                         <article class="post-card">
-                            <img class="post-img" src="img/leaf-480.jpg"
-                                 srcset="img/leaf-480.jpg 480w, img/leaf-960.jpg 960w"
+                            <img class="post-img" src="img/moto-480.jpg"
+                                 srcset="img/moto-480.jpg 480w, img/moto-960.jpg 960w"
                                  sizes="(width >= 62rem) 14rem, 100vw"
                                  width="480" height="320" loading="lazy"
-                                 alt="Крапля води на кінчику зеленого листка">
+                                 alt="Мотоцикл-круізер на бруківці у вечірньому сонці">
                             <div class="post-body">
-                                <p class="post-meta"><time datetime="2026-07-20">20 липня 2026</time> · Навчання</p>
-                                <h3>Макро на кухні: краплі, листя, світло</h3>
+                                <p class="post-meta"><time datetime="2026-07-20">20 липня 2026</time> · Фотографія</p>
+                                <h3>Від Canon 600D до EOS RP</h3>
                             </div>
                         </article>
                     </li>
@@ -247,7 +247,7 @@
     <div class="container footer-inner">
         <div>
             <p class="footer-brand">Artem Arsentiev</p>
-            <p>Код, світло і нотатки студента КПІ.</p>
+            <p>Розробка, дизайн, фотографія.</p>
         </div>
         <nav aria-label="Меню в підвалі">
             <ul class="footer-links">
@@ -257,8 +257,8 @@
             </ul>
         </nav>
         <div>
-            <p><a href="https://github.com/Jaguar222833">GitHub</a></p>
-            <p>© 2026 · Фото-заглушки з <a href="https://unsplash.com">Unsplash</a></p>
+            <p><a href="https://github.com/Jaguar222833">GitHub</a> · <a href="https://www.instagram.com/arsentiev.artem/">Instagram</a></p>
+            <p>© 2026 · Усі фото — автора</p>
         </div>
     </div>
 </footer>

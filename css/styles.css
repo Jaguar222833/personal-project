@@ -37,8 +37,8 @@
     --text:      #1C1F26;
     --muted:     #565C6B;   /* другорядний текст; контраст з --bg ≈ 6:1 */
     --border:    #DAD4C8;
-    --accent:    #B03F17;   /* фірмовий «плівковий» помаранчевий */
-    --on-accent: #FFFFFF;   /* текст на кнопці кольору --accent; контраст ≈ 5.9:1 */
+    --accent:    #6236D6;   /* фірмовий фіолетовий */
+    --on-accent: #FFFFFF;   /* текст на кнопці кольору --accent; контраст ≈ 7:1 */
     --accent-2:  #0D6A62;   /* посилання */
     --focus:     #1D4ED8;   /* рамка фокусу: помітна на світлому фоні */
     --code-bg:   #12161F;
@@ -68,7 +68,7 @@
         --text:      #ECE8E1;
         --muted:     #A9AFBC;
         --border:    #30343D;
-        --accent:    #F2895B;
+        --accent:    #A98BF5;
         --on-accent: #1A1D23;
         --accent-2:  #5CC8BC;
         --focus:     #F5B94F;
@@ -87,7 +87,7 @@
     --text:      #ECE8E1;
     --muted:     #A9AFBC;
     --border:    #30343D;
-    --accent:    #F2895B;
+    --accent:    #A98BF5;
     --on-accent: #1A1D23;
     --accent-2:  #5CC8BC;
     --focus:     #F5B94F;
@@ -471,7 +471,7 @@ code {
     padding-block: 3rem clamp(2.5rem, 1rem + 6vw, 5rem);
 
     & h1 {
-        max-width: 14ch;
+        max-width: 17ch;
         margin-bottom: 1rem;
         font-size: clamp(2.25rem, 1.3rem + 4.5vw, 4.5rem);   /* [ЗАВДАННЯ] clamp() */
     }
@@ -516,6 +516,7 @@ code {
         "about"
         "profile"
         "projects"
+        "design"
         "skills"
         "contact";
 
@@ -526,6 +527,7 @@ code {
 .about    { grid-area: about; }
 .profile  { grid-area: profile; }
 .projects { grid-area: projects; }
+.design   { grid-area: design; }
 .skills   { grid-area: skills; }
 .contact  { grid-area: contact; }
 
@@ -626,11 +628,115 @@ code {
 .project-body {
     grid-area: body;
     padding: 1.25rem 1.25rem 0;
+
+    /* картка без кнопки посилання: відступ знизу дає сам текстовий блок */
+    &:last-child {
+        padding-bottom: 1.25rem;
+    }
+}
+
+/* [ДОДАТКОВО] статус проєкту: крапка + підпис */
+.project .project-status {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .75rem;
+    font-size: .8125rem;
+    font-weight: 700;
+
+    &::before {
+        content: "";
+        flex-shrink: 0;
+        width: .5rem;
+        height: .5rem;
+        border-radius: 50%;
+        background: var(--muted);
+    }
+}
+
+/* проєкт працює — бірюзова крапка */
+.project-status--live::before {
+    background: var(--accent-2);
 }
 
 .project-links {
     grid-area: links;
     padding: 0 1.25rem 1.25rem;
+}
+
+/* список можливостей у картці проєкту */
+.features {
+    margin: 0 0 1rem;
+    padding-left: 1.125rem;
+    color: var(--muted);
+    font-size: .9375rem;
+
+    & li {
+        margin-bottom: .25rem;
+    }
+
+    & li::marker {
+        color: var(--accent);
+    }
+}
+
+/* [ДОДАТКОВО] скріншоти під карткою: сітка auto-fit, без медіазапитів */
+.project-shots {
+    list-style: none;
+    margin: .75rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+    gap: .75rem;
+
+    & a {
+        display: block;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: .5rem;
+    }
+
+    & img {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        object-position: left top;   /* показати верхній лівий кут інтерфейсу */
+    }
+}
+
+/* ---------- Дизайн ---------- */
+/* [ЗАВДАННЯ] ще одна сітка auto-fit: скільки карток влізе — стільки колонок */
+.design-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
+    gap: 1rem;
+}
+
+.design-item {
+    margin: 0;
+
+    & a {
+        display: block;
+        padding: 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: #FFFFFF;        /* роботи зроблені на білому — показуємо на білому в обох темах */
+    }
+
+    & img {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: contain;        /* показати роботу повністю, без обрізання */
+    }
+
+    & figcaption {
+        margin-top: .5rem;
+        font-size: .875rem;
+        color: var(--muted);
+    }
 }
 
 /* ---------- Навички: таблиця ---------- */
@@ -666,6 +772,12 @@ code {
     & tbody tr:last-child > * {
         border-bottom: 0;
     }
+}
+
+.table-note {
+    margin-top: .75rem;
+    font-size: .875rem;
+    color: var(--muted);
 }
 
 /* [ДОДАТКОВО] смужка рівня: ширина залежить від змінної --level з атрибута style.
@@ -760,6 +872,11 @@ code {
     grid-auto-flow: dense;      /* [ДОДАТКОВО] заповнювати «дірки», що лишаються після широких фото */
 }
 
+/* обгортка галереї — контейнер: від її ширини (100cqi) рахується висота рядків у розділі 9 */
+.gallery-wrap {
+    container-type: inline-size;
+}
+
 .photo {
     position: relative;
     overflow: hidden;
@@ -803,6 +920,11 @@ code {
             font-size: 1rem;
         }
     }
+}
+
+/* вертикальні кадри на телефоні: 4:5 замість 3:2, щоб не обрізати сильно */
+.photo--tall img {
+    aspect-ratio: 4 / 5;
 }
 
 /* «Чим знімаю»: картки на auto-fit — без медіазапитів */
@@ -1205,6 +1327,9 @@ blockquote {
 
 /* [1] оголошуємо контейнери: ім'я + стежити за шириною (inline-size) */
 .project-wrap { container: project / inline-size; }
+
+/* велика картка має власне ім'я контейнера: запити «project» до неї не застосовуються */
+.project-wrap--featured { container-name: featured; }
 .post-wrap    { container: post / inline-size; }
 
 /* ---------- Картка проєкту ---------- */
@@ -1237,6 +1362,28 @@ blockquote {
 
     .project-links {
         padding: 1.25rem;
+    }
+}
+
+/* велика картка ≥ 46rem: скріншот ліворуч цілком (без обрізання), текст праворуч */
+@container featured (width >= 46rem) {
+    .project {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+        grid-template-rows: auto;
+        grid-template-areas: "img body";
+        align-items: start;
+    }
+
+    .project-img {
+        width: calc(100% - 1.25rem);   /* мінус відступ зліва, інакше фото залізе на текст */
+        aspect-ratio: auto;
+        margin: 1.25rem 0 1.25rem 1.25rem;
+        border: 1px solid var(--border);
+        border-radius: .5rem;
+    }
+
+    .project-body {
+        padding-bottom: 1.25rem;
     }
 }
 
@@ -1373,13 +1520,28 @@ blockquote {
 /* ---------- від 40rem (640px): дві колонки фото ---------- */
 @media (width >= 40rem) {
 
-    /* gallery.html — [5] дві колонки; «широке» фото займає обидві */
+    /* gallery.html — [5] дві колонки.
+       Висота рядка = ширина колонки × 2/3, тобто кожна клітинка — рівно 3:2.
+       100cqi — ширина обгортки .gallery-wrap, .75rem — проміжок між колонками */
     .gallery {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: calc((100cqi - .75rem) / 2 * 2 / 3);
     }
 
+    /* фото заповнює свою клітинку повністю, які б пропорції не мала клітинка */
+    .photo img {
+        height: 100%;
+        aspect-ratio: auto;
+    }
+
+    /* широке фото — 2 × 2 клітинки (знову 3:2), вертикальне — 1 × 2 (≈ 3:4) */
     .photo--wide {
         grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .photo--tall {
+        grid-row: span 2;
     }
 }
 
@@ -1438,6 +1600,7 @@ blockquote {
         grid-template-areas:
             "profile about"
             "profile projects"
+            "profile design"
             "profile skills"
             "profile contact";
     }
@@ -1453,32 +1616,29 @@ blockquote {
 /* ---------- від 64rem (1024px): три колонки фото ---------- */
 @media (width >= 64rem) {
 
-    /* gallery.html — [6] три колонки; «широке» фото — 2 колонки × 2 рядки */
+    /* gallery.html — [6] три колонки; два проміжки по .75rem = 1.5rem */
     .gallery {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .photo--wide {
-        grid-row: span 2;
-
-        /* фото заповнює всю висоту двох рядків, а не тримає 3:2 */
-        & img {
-            height: 100%;
-            aspect-ratio: auto;
-        }
+        grid-auto-rows: calc((100cqi - 1.5rem) / 3 * 2 / 3);
     }
 }
 
 /* ---------- від 68.75rem (1100px): третя колонка ---------- */
 @media (width >= 68.75rem) {
 
-    /* index.html — [4] три колонки: «Навички» і «Контакти» стають поруч */
+    /* index.html — [4] три колонки: «Контакти» стають поруч з «Про мене»,
+       а таблиця навичок отримує всю ширину */
     .home-grid {
         grid-template-columns: 17rem minmax(0, 1fr) 19rem;
         grid-template-areas:
-            "profile about    about"
+            "profile about    contact"
             "profile projects projects"
-            "profile skills   contact";
+            "profile design   design"
+            "profile skills   skills";
+    }
+
+    .contact {
+        align-self: start;
     }
 }
 

@@ -70,8 +70,9 @@
                 Ремонтую техніку, малюю інтерфейси та фотографую.
             </p>
             <div class="hero-actions">
-                <a class="btn" href="#projects">Проєкти</a>
-                <a class="btn btn--ghost" href="gallery.html">Фотографії</a>
+                <!-- [ДОДАТКОВО] data-magnetic: кнопка тягнеться за курсором (js/main.js) -->
+                <a class="btn btn--shine" href="#projects" data-magnetic>Проєкти</a>
+                <a class="btn btn--ghost" href="gallery.html" data-magnetic>Фотографії</a>
             </div>
         </div>
     </section>
@@ -115,9 +116,12 @@
                  Без JS <details> розкривається просто в картці.
                  [ДОДАТКОВО] з JS клік по картці відкриває вікно проєкту (js/main.js) -->
 
-            <!-- [ЗАВДАННЯ] компонент на container query: обгортка .project-wrap — контейнер.
-                 Ця картка стоїть на всю ширину, тому стає горизонтальною -->
-            <div class="project-wrap project-wrap--featured">
+            <!-- [ЗАВДАННЯ] Bento-сітка: картки різного розміру, колонки залежать від ширини
+                 секції (container queries у розділі 7 styles.css).
+                 Кожна обгортка .project-wrap — теж контейнер: картка сама вирішує,
+                 бути вертикальною чи горизонтальною -->
+            <ul class="bento">
+                <li class="project-wrap project-wrap--featured bento-big">
                 <article class="project">
                     <img class="project-img" src="img/ems-flows-960.jpg"
                          srcset="img/ems-flows-480.jpg 480w, img/ems-flows-960.jpg 960w"
@@ -177,11 +181,8 @@
                         </details>
                     </div>
                 </article>
-            </div>
-
-            <!-- [ЗАВДАННЯ] сітка карток без медіазапитів: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)) -->
-            <ul class="project-grid">
-                <li class="project-wrap">
+                </li>
+                <li class="project-wrap project-wrap--featured bento-wide">
                     <article class="project">
                         <img class="project-img" src="img/protocol-dash-480.jpg"
                              srcset="img/protocol-dash-480.jpg 480w, img/protocol-dash-960.jpg 640w"
@@ -270,7 +271,7 @@
                         </div>
                     </article>
                 </li>
-                <li class="project-wrap">
+                <li class="project-wrap bento-site">
                     <article class="project">
                         <img class="project-img" src="img/kpi-480.jpg"
                              srcset="img/kpi-480.jpg 480w, img/kpi-960.jpg 960w"

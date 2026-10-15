@@ -26,24 +26,29 @@
 /* ============================================================
    1. ЗМІННІ ТА ТЕМИ
    [ЗАВДАННЯ] CSS-змінні (custom properties) — лекція 2, слайд 12.
-   Усі кольори сайту — тут. Темна тема просто перевизначає змінні.
+   Усі кольори сайту — тут. Тема — це лише інший набір значень змінних.
    ============================================================ */
 
+/* Базова тема — темна */
 :root {
-    /* кольори — світла тема */
-    --bg:        #F6F4EF;   /* фон сторінки, «папір» */
-    --surface:   #FFFFFF;   /* картки */
-    --surface-2: #ECE8E0;   /* підкладки, теги */
-    --text:      #1C1F26;
-    --muted:     #565C6B;   /* другорядний текст; контраст з --bg ≈ 6:1 */
-    --border:    #DAD4C8;
-    --accent:    #6236D6;   /* фірмовий фіолетовий */
-    --on-accent: #FFFFFF;   /* текст на кнопці кольору --accent; контраст ≈ 7:1 */
-    --accent-2:  #0D6A62;   /* посилання */
-    --focus:     #1D4ED8;   /* рамка фокусу: помітна на світлому фоні */
-    --code-bg:   #12161F;
+    --bg:        #0B0C10;   /* фон сторінки */
+    --surface:   #13151B;   /* картки */
+    --surface-2: #1C1F27;   /* підкладки, теги */
+    --text:      #F2F0EC;
+    --muted:     #A3A9B6;   /* другорядний текст; контраст з --surface ≈ 7.7:1 */
+    --border:    #262A33;
+    --accent:    #A98BF5;   /* фірмовий фіолетовий */
+    --accent-hi: #C4B5FD;   /* світліший відтінок для градієнтів і світіння */
+    --on-accent: #12101A;   /* текст на кнопці кольору --accent; контраст ≈ 6:1 */
+    --accent-2:  #5CC8BC;   /* посилання */
+    --focus:     #C4B5FD;   /* рамка фокусу */
+    --code-bg:   #07080B;
     --code-text: #E6EAF0;
-    --shadow:    0 1px 2px rgb(0 0 0 / .06), 0 6px 20px rgb(0 0 0 / .06);
+    --shadow:    0 1px 2px rgb(0 0 0 / .5), 0 8px 24px rgb(0 0 0 / .35);
+
+    /* [ДОДАТКОВО] світіння акцентного кольору: кнопки, рамки карток, підсвітка за курсором */
+    --glow:      rgb(169 139 245 / .35);
+    --glow-soft: rgb(169 139 245 / .12);
 
     /* розміри — у rem, щоб рости разом зі шрифтом користувача (лекція 3, слайд 9) */
     --radius:    .75rem;
@@ -54,46 +59,35 @@
     --font-body:    'Manrope', system-ui, sans-serif;
     --font-heading: 'Unbounded', 'Manrope', system-ui, sans-serif;
 
-    color-scheme: light;    /* підказка браузеру: світлі поля форм і скролбари */
+    /* [ДОДАТКОВО] «пружинна» крива для анімацій: рух трохи перелітає ціль і повертається.
+       linear() з багатьма точками — це графік пружини, записаний числами */
+    --ease-out: cubic-bezier(.2, .8, .2, 1);
+    --spring: linear(0, .009, .035 2.1%, .141, .281 6.7%, .723 12.9%, .938 16.7%, 1.017, 1.077,
+                     1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%,
+                     1.017 43.1%, .991, .977 51%, .974 53.8%, .975 57.1%, .997 69.8%, 1.003 76.9%,
+                     1.004 83.8%, 1);
+
+    color-scheme: dark;     /* підказка браузеру: темні поля форм і скролбари */
 }
 
-/* [ЗАВДАННЯ] темна тема за налаштуванням системи — медіафункція prefers-color-scheme
-   (лекція 3, слайд 5). Стоїть тут, а не в кінці, бо це теж оголошення змінних.
-   :not([data-theme="light"]) — якщо користувач сам обрав світлу кнопкою, не чіпаємо. */
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-        --bg:        #111317;
-        --surface:   #1A1D23;
-        --surface-2: #262A32;
-        --text:      #ECE8E1;
-        --muted:     #A9AFBC;
-        --border:    #30343D;
-        --accent:    #A98BF5;
-        --on-accent: #1A1D23;
-        --accent-2:  #5CC8BC;
-        --focus:     #C4B5FD;
-        --code-bg:   #0B0D10;
-        --shadow:    0 1px 2px rgb(0 0 0 / .4), 0 6px 20px rgb(0 0 0 / .3);
-        color-scheme: dark;
-    }
-}
-
-/* [ДОДАТКОВО] темна тема, обрана вручну кнопкою (js/main.js ставить data-theme на <html>).
-   Значення ті самі, що вище: у чистому CSS їх доводиться повторити. */
-:root[data-theme="dark"] {
-    --bg:        #111317;
-    --surface:   #1A1D23;
-    --surface-2: #262A32;
-    --text:      #ECE8E1;
-    --muted:     #A9AFBC;
-    --border:    #30343D;
-    --accent:    #A98BF5;
-    --on-accent: #1A1D23;
-    --accent-2:  #5CC8BC;
-    --focus:     #C4B5FD;
-    --code-bg:   #0B0D10;
-    --shadow:    0 1px 2px rgb(0 0 0 / .4), 0 6px 20px rgb(0 0 0 / .3);
-    color-scheme: dark;
+/* [ДОДАТКОВО] світла тема — за кнопкою в шапці (js/main.js ставить data-theme на <html>) */
+:root[data-theme="light"] {
+    --bg:        #F6F4EF;
+    --surface:   #FFFFFF;
+    --surface-2: #ECE8E0;
+    --text:      #1C1F26;
+    --muted:     #565C6B;   /* контраст з --bg ≈ 6:1 */
+    --border:    #DAD4C8;
+    --accent:    #6236D6;
+    --accent-hi: #8B5CF6;
+    --on-accent: #FFFFFF;   /* контраст ≈ 7:1 */
+    --accent-2:  #0D6A62;
+    --focus:     #1D4ED8;
+    --code-bg:   #12161F;
+    --shadow:    0 1px 2px rgb(0 0 0 / .06), 0 6px 20px rgb(0 0 0 / .06);
+    --glow:      rgb(98 54 214 / .25);
+    --glow-soft: rgb(98 54 214 / .08);
+    color-scheme: light;
 }
 
 
@@ -251,9 +245,10 @@ code {
         width: 2.25rem;
         height: 2.25rem;
         border-radius: 50%;
-        background: var(--accent);
+        background: linear-gradient(135deg, var(--accent-hi), var(--accent));
         color: var(--on-accent);
         font-size: .75rem;
+        box-shadow: 0 0 18px var(--glow);   /* [ДОДАТКОВО] світіння */
     }
 
     /* на вузькому екрані ім'я переноситься у два рядки — робимо їх щільнішими */
@@ -289,38 +284,84 @@ code {
 
 /* ---------- Кнопки ---------- */
 .btn {
+    position: relative;
+    isolation: isolate;         /* відблиск ::after малюється під текстом, але над фоном */
+    overflow: hidden;           /* відблиск не виходить за межі кнопки */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: .5rem;
     min-height: 44px;           /* [ЗАВДАННЯ] зона натискання ≥ 44px */
-    padding: .5rem 1.25rem;
-    border: 2px solid var(--accent);
+    padding: .5rem 1.375rem;
+    border: 1px solid transparent;
     border-radius: 999px;
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent-hi), var(--accent));
     color: var(--on-accent);
     font: inherit;
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
-    transition: filter .2s, background-color .2s;
+    box-shadow: 0 6px 20px -8px var(--glow);
+
+    /* [ДОДАТКОВО] «магніт»: js/main.js записує зсув у --tx / --ty, поки курсор над кнопкою */
+    translate: var(--tx, 0px) var(--ty, 0px);
+    transition: translate .7s var(--spring), box-shadow .3s var(--ease-out), scale .4s var(--spring);
+
+    /* [ДОДАТКОВО] shimmer: смуга світла, що пробігає по кнопці при наведенні */
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(110deg, transparent 35%, rgb(255 255 255 / .5) 50%, transparent 65%);
+        translate: -110% 0;
+        transition: translate .9s var(--ease-out);
+    }
 
     &:hover {
         color: var(--on-accent);
-        filter: brightness(1.1);
+        box-shadow: 0 0 0 1px var(--glow), 0 10px 30px -6px var(--glow), 0 0 28px var(--glow-soft);
+        transition: translate .15s var(--ease-out), box-shadow .3s var(--ease-out), scale .4s var(--spring);
+    }
+
+    &:hover::after {
+        translate: 110% 0;
+    }
+
+    &:active {
+        scale: .96;
     }
 }
 
-/* прозора кнопка з рамкою кольору тексту навколо */
+/* прозора кнопка зі «скляним» фоном і рамкою, що світиться при наведенні */
 .btn--ghost {
-    background: transparent;
-    border-color: currentColor;
+    background: rgb(255 255 255 / .04);
+    border-color: color-mix(in srgb, currentColor 35%, transparent);
     color: inherit;
+    box-shadow: none;
+    backdrop-filter: blur(6px);
+
+    &::after {
+        background: linear-gradient(110deg, transparent 35%, rgb(255 255 255 / .18) 50%, transparent 65%);
+    }
 
     &:hover {
         color: inherit;
-        background: color-mix(in srgb, currentColor 12%, transparent);
+        border-color: var(--accent-hi);
+        background: var(--glow-soft);
+        box-shadow: 0 0 0 1px var(--glow), 0 0 24px var(--glow-soft);
     }
+}
+
+/* головна кнопка в hero сама «проблискує» раз на кілька секунд */
+.btn--shine::after {
+    animation: shimmer 4s var(--ease-out) 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0%   { translate: -110% 0; }
+    35%  { translate: 110% 0; }
+    100% { translate: 110% 0; }
 }
 
 .btn--small {
@@ -353,10 +394,72 @@ code {
 
 /* ---------- Картка (загальна підкладка) ---------- */
 .card {
-    background: var(--surface);
+    background: linear-gradient(180deg, rgb(255 255 255 / .03), transparent 40%), var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+}
+
+/* [ДОДАТКОВО] Bento-картки з підсвіткою за курсором.
+   Клас .spotlight і координати курсора --mx / --my додає js/main.js.
+   ::before — м'яке світло всередині картки, ::after — світна рамка (1px),
+   вирізана маскою: залишається лише смужка між content-box і краєм */
+.spotlight {
+    position: relative;
+    isolation: isolate;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;       /* не заважати клікам */
+        opacity: 0;
+        transition: opacity .4s var(--ease-out);
+    }
+
+    &::before {
+        z-index: -1;
+        background: radial-gradient(28rem circle at var(--mx, 50%) var(--my, 50%), var(--glow-soft), transparent 45%);
+    }
+
+    &::after {
+        z-index: 2;
+        padding: 1px;
+        background: radial-gradient(16rem circle at var(--mx, 50%) var(--my, 50%), var(--accent-hi), transparent 45%);
+        mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        mask-composite: exclude;
+    }
+
+    &:hover::before,
+    &:hover::after,
+    &:focus-within::after {
+        opacity: 1;
+    }
+}
+
+/* [ДОДАТКОВО] поява під час прокрутки: js/main.js додає .reveal, а коли елемент
+   доїхав до екрана — .is-visible. Без JS класів немає, усе видно одразу.
+   --i — номер у рядку, щоб сусіди з'являлись по черзі */
+.reveal {
+    opacity: 0;
+    translate: 0 1.5rem;
+    transition: opacity .6s var(--ease-out), translate .9s var(--spring);
+    transition-delay: calc(var(--i, 0) * 80ms);
+
+    &.is-visible {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+/* [ДОДАТКОВО] вікна (<dialog>) з'являються з легким пружинним збільшенням */
+@keyframes pop-in {
+    from {
+        opacity: 0;
+        scale: .94;
+    }
 }
 
 /* ---------- Аватар ---------- */
@@ -468,13 +571,40 @@ code {
 }
 
 .hero-content {
+    position: relative;
+    z-index: 0;                 /* свій шар над темним градієнтом hero */
     padding-block: 3rem clamp(2.5rem, 1rem + 6vw, 5rem);
+
+    /* [ДОДАТКОВО] фіолетове світіння за текстом */
+    &::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        left: -10%;
+        bottom: -10%;
+        width: min(40rem, 100%);
+        aspect-ratio: 1;
+        background: radial-gradient(closest-side, var(--glow), transparent);
+        filter: blur(40px);
+        pointer-events: none;
+    }
 
     & h1 {
         max-width: 17ch;
         margin-bottom: 1rem;
         font-size: clamp(2.25rem, 1.3rem + 4.5vw, 4.5rem);   /* [ЗАВДАННЯ] clamp() */
+
+        /* [ДОДАТКОВО] градієнт у літерах, що повільно «перетікає» */
+        background: linear-gradient(100deg, #FFFFFF 20%, #C4B5FD 45%, #FFFFFF 70%);
+        background-size: 200% 100%;
+        background-clip: text;
+        color: transparent;
+        animation: text-shine 10s linear infinite;
     }
+}
+
+@keyframes text-shine {
+    to { background-position: -200% 0; }
 }
 
 .hero-lead {
@@ -565,20 +695,20 @@ code {
     }
 }
 
-/* ---------- Проєкти ---------- */
-.project-wrap--featured {
-    margin-bottom: 1.25rem;
+/* ---------- Проєкти: Bento-сітка ----------
+   [ЗАВДАННЯ] Grid + container queries: секція .projects — контейнер «bento»,
+   кількість колонок залежить від ширини секції, а не вікна (розділ 7).
+   Телефон — 1 колонка; далі 2 і 3 колонки з картками різного розміру. */
+.projects {
+    container: bento / inline-size;
 }
 
-/* [ЗАВДАННЯ] сітка, яка сама рахує колонки — без жодного медіазапиту (лекція 3, слайд 8):
-   кожна колонка не вужча за 16rem; скільки влізе — стільки й буде.
-   min(16rem, 100%) — щоб на екрані 320px картка не вилізла за край */
-.project-grid {
+.bento {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
 }
 
@@ -594,7 +724,7 @@ code {
         "body"
         "links";
     overflow: hidden;
-    background: var(--surface);
+    background: linear-gradient(180deg, rgb(255 255 255 / .03), transparent 40%), var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
@@ -704,11 +834,12 @@ code {
 /* [ДОДАТКОВО] з JS уся картка клікабельна і відкриває вікно проєкту (js/main.js) */
 .project--clickable {
     cursor: pointer;
-    transition: border-color .2s, translate .2s;
+    transition: border-color .3s var(--ease-out), translate .6s var(--spring), box-shadow .4s var(--ease-out);
 
     &:hover {
-        border-color: var(--accent);
-        translate: 0 -2px;
+        border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+        translate: 0 -4px;
+        box-shadow: 0 18px 40px -18px var(--glow);
 
         & .project-more summary::after {
             translate: .25rem 0;
@@ -731,6 +862,7 @@ code {
     &[open] {
         display: flex;              /* щоб вміст міг прокручуватись усередині */
         flex-direction: column;
+        animation: pop-in .6s var(--spring);
     }
 
     &::backdrop {
@@ -957,9 +1089,10 @@ html:has(.project-modal[open]) {
 
     /* активний фільтр */
     &[aria-pressed="true"] {
-        background: var(--text);
-        border-color: var(--text);
-        color: var(--bg);
+        background: linear-gradient(135deg, var(--accent-hi), var(--accent));
+        border-color: transparent;
+        color: var(--on-accent);
+        box-shadow: 0 0 20px var(--glow-soft);
     }
 }
 
@@ -987,6 +1120,12 @@ html:has(.project-modal[open]) {
     overflow: hidden;
     border-radius: var(--radius);
     background: var(--surface-2);   /* видно, поки фото вантажиться */
+    transition: box-shadow .4s var(--ease-out);
+
+    /* [ДОДАТКОВО] світіння навколо фото під курсором */
+    &:hover {
+        box-shadow: 0 0 0 1px var(--glow), 0 16px 40px -16px var(--glow);
+    }
 
     & figure {
         margin: 0;
@@ -1099,6 +1238,7 @@ html:has(.project-modal[open]) {
     &[open] {
         display: grid;
         place-items: center;
+        animation: pop-in .5s var(--spring);
     }
 
     &::backdrop {
@@ -1438,8 +1578,36 @@ blockquote {
 /* [1] оголошуємо контейнери: ім'я + стежити за шириною (inline-size) */
 .project-wrap { container: project / inline-size; }
 
-/* велика картка має власне ім'я контейнера: запити «project» до неї не застосовуються */
+/* велика й широка картки мають власне ім'я контейнера: запити «project» до них не застосовуються */
 .project-wrap--featured { container-name: featured; }
+
+/* Bento: 2 колонки — велика й широка картки на всю ширину, дві малі поруч */
+@container bento (width >= 34rem) {
+    .bento {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .bento-big,
+    .bento-wide {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Bento: 3 колонки — велика на всю ширину, широка (2) + мала (1), сайт на всю ширину.
+   Кожен рядок заповнений повністю — дірок у сітці немає */
+@container bento (width >= 46rem) {
+    .bento {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .bento-wide {
+        grid-column: span 2;
+    }
+
+    .bento-site {
+        grid-column: 1 / -1;
+    }
+}
 .post-wrap    { container: post / inline-size; }
 
 /* ---------- Картка проєкту ---------- */
@@ -1475,8 +1643,8 @@ blockquote {
     }
 }
 
-/* велика картка ≥ 46rem: скріншот ліворуч цілком (без обрізання), текст праворуч */
-@container featured (width >= 46rem) {
+/* велика й широка картки ≥ 32rem: скріншот ліворуч цілком (без обрізання), текст праворуч */
+@container featured (width >= 32rem) {
     .project {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
         grid-template-rows: auto;
@@ -1759,6 +1927,7 @@ blockquote {
     *::before,
     *::after {
         animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;   /* нескінченні анімації не «мерехтять» */
         transition-duration: .01ms !important;
         scroll-behavior: auto !important;
     }

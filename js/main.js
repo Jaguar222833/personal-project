@@ -5,7 +5,8 @@
      1. перемикач світлої / темної теми із запам'ятовуванням вибору;
      2. меню на <details>: закривається клавішею Esc і кліком поза ним;
      3. демо-форма підписки в блозі;
-     4. вікно проєкту на головній.
+     4. вікно проєкту на головній;
+     5. анімації: підсвітка карток за курсором, «магнітні» кнопки, поява при прокрутці.
    ============================================================ */
 
 /* ---------- 1. Перемикач теми ---------- */
@@ -24,12 +25,9 @@ function saveTheme(theme) {
     }
 }
 
-// поточна тема: обрана кнопкою (data-theme на <html>) або системна
+// поточна тема: обрана кнопкою (data-theme на <html>), інакше базова — темна
 function currentTheme() {
-    if (root.dataset.theme) {
-        return root.dataset.theme;
-    }
-    return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return root.dataset.theme || 'dark';
 }
 
 // кнопка показує стан: aria-pressed="true" — темна тема увімкнена
@@ -153,5 +151,66 @@ if (projectCards.length) {
 
     projectDialog.addEventListener('close', () => {
         openedFrom?.focus();
+    });
+}
+
+
+/* ---------- 5. Анімації ---------- */
+
+// Користувач попросив менше руху (налаштування системи) — «магніт» і появу вимикаємо
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Пристрій з мишею: на сенсорному екрані наведення й «магніту» немає
+const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+// 5.1 Підсвітка за курсором (Bento-картки): записуємо координати курсора
+//     всередині картки у змінні --mx / --my, а CSS малює там світлу пляму і рамку
+const glowCards = document.querySelectorAll('.project, .design-item a, .gear-item, .profile, .contact, .post-card, .author');
+
+for (const card of glowCards) {
+    card.classList.add('spotlight');
+    card.addEventListener('pointermove', (event) => {
+        const box = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${event.clientX - box.left}px`);
+        card.style.setProperty('--my', `${event.clientY - box.top}px`);
+    });
+}
+
+// 5.2 «Магнітні» кнопки: кнопка зсувається до курсора на частину відстані від центру.
+//     Коли курсор іде — зсув 0, і CSS повертає кнопку пружинною кривою --spring
+if (finePointer && !reduceMotion) {
+    for (const button of document.querySelectorAll('[data-magnetic]')) {
+        button.addEventListener('pointermove', (event) => {
+            const box = button.getBoundingClientRect();
+            const dx = event.clientX - (box.left + box.width / 2);
+            const dy = event.clientY - (box.top + box.height / 2);
+            button.style.setProperty('--tx', `${dx * 0.3}px`);
+            button.style.setProperty('--ty', `${dy * 0.4}px`);
+        });
+        button.addEventListener('pointerleave', () => {
+            button.style.setProperty('--tx', '0px');
+            button.style.setProperty('--ty', '0px');
+        });
+    }
+}
+
+// 5.3 Поява під час прокрутки: IntersectionObserver повідомляє, коли елемент доїхав до екрана
+if (!reduceMotion && 'IntersectionObserver' in window) {
+    const revealItems = document.querySelectorAll(
+        '.about, .profile, .contact, .skills, .project-wrap, .design-grid > li, .gear-item, .photo, .post-full, .post-wrap, .author'
+    );
+
+    const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);   // анімуємо лише один раз
+            }
+        }
+    }, { rootMargin: '0px 0px -8% 0px' });
+
+    revealItems.forEach((item, index) => {
+        item.classList.add('reveal');
+        item.style.setProperty('--i', index % 3);   // сусіди з'являються по черзі
+        observer.observe(item);
     });
 }

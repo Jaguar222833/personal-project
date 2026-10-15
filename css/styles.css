@@ -703,11 +703,267 @@ code {
 
 
 /* ============================================================
+   5. ФОТОГАЛЕРЕЯ (gallery.html)
+   ============================================================ */
+
+/* [ДОДАТКОВО] кнопки-фільтри (працюють лише з JS) */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: 1.5rem;
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+.filter-btn {
+    min-height: 44px;
+    padding: 0 1.125rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+        border-color: var(--text);
+    }
+
+    /* активний фільтр */
+    &[aria-pressed="true"] {
+        background: var(--text);
+        border-color: var(--text);
+        color: var(--bg);
+    }
+}
+
+/* [ЗАВДАННЯ] сітка фото на Grid. База (телефон) — одна колонка.
+   2 і 3 колонки додаються медіазапитами в розділі 9 (мітки [5], [6]).
+   Тут свідомо НЕ auto-fit: «широкі» фото займають 2 колонки (span 2),
+   а в auto-fit-сітці span 2 на телефоні створив би горизонтальний скрол (практика 6, типові помилки) */
+.gallery {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .75rem;
+    grid-auto-flow: dense;      /* [ДОДАТКОВО] заповнювати «дірки», що лишаються після широких фото */
+}
+
+.photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--surface-2);   /* видно, поки фото вантажиться */
+
+    & figure {
+        margin: 0;
+        height: 100%;
+    }
+
+    & a {
+        display: block;
+        height: 100%;
+    }
+
+    & img {
+        width: 100%;
+        aspect-ratio: 3 / 2;    /* [ЗАВДАННЯ] однакові рамки + object-fit: cover (лекція 3, слайд 10) */
+        object-fit: cover;
+        transition: transform .5s ease;
+    }
+
+    /* [ДОДАТКОВО] легкий зум при наведенні */
+    & a:hover img {
+        transform: scale(1.04);
+    }
+
+    /* підпис лежить поверх фото внизу, на темному градієнті */
+    & figcaption {
+        position: absolute;
+        inset: auto 0 0 0;
+        padding: 2.5rem 1rem .75rem;
+        background: linear-gradient(to top, rgb(0 0 0 / .78), transparent);
+        color: #FFFFFF;
+        font-size: .8125rem;
+        pointer-events: none;   /* клік проходить крізь підпис на посилання */
+
+        & strong {
+            display: block;
+            font-size: 1rem;
+        }
+    }
+}
+
+/* «Чим знімаю»: картки на auto-fit — без медіазапитів */
+.gear {
+    margin-top: 3.5rem;
+}
+
+.gear-list {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+    gap: 1rem;
+}
+
+.gear-item {
+    padding: 1.25rem;
+
+    & dt {
+        margin-bottom: .375rem;
+        font-family: var(--font-heading);
+        font-weight: 600;
+    }
+
+    & dd {
+        margin: 0;
+        color: var(--muted);
+    }
+}
+
+/* розкривний блок <details> про джерело фото */
+.credits {
+    margin-top: 2rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    & summary {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    & p {
+        margin: .5rem 0 0;
+        max-width: 65ch;
+        color: var(--muted);
+    }
+}
+
+/* ---------- [ДОДАТКОВО] Вікно перегляду фото на <dialog> ---------- */
+.lightbox {
+    /* <dialog> за замовчуванням маленький і по центру — робимо на весь екран */
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #FFFFFF;
+    --focus: #F5B94F;
+
+    &[open] {
+        display: grid;
+        place-items: center;
+    }
+
+    &::backdrop {
+        background: rgb(8 9 12 / .92);
+    }
+}
+
+/* поки вікно відкрите — сторінка під ним не прокручується */
+html:has(.lightbox[open]) {
+    overflow: hidden;
+}
+
+.lightbox-figure {
+    margin: 0;
+    padding: 4.5rem 1rem 5.5rem;
+    display: grid;
+    justify-items: center;
+    gap: .75rem;
+    text-align: center;
+}
+
+.lightbox-img {
+    width: auto;
+    max-height: calc(100dvh - 12rem);
+    border-radius: .5rem;
+}
+
+.lightbox-caption {
+    font-size: .9375rem;
+    color: rgb(255 255 255 / .85);
+}
+
+.lightbox-btn {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(255 255 255 / .14);
+    color: #FFFFFF;
+    font: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover {
+        background: rgb(255 255 255 / .28);
+    }
+}
+
+/* на телефоні стрілки внизу, щоб не закривали фото; на десктопі — по боках (розділ 9) */
+.lightbox-close { top: 1rem;    right: 1rem; }
+.lightbox-prev  { bottom: 1rem; left: calc(50% - 3.5rem); }
+.lightbox-next  { bottom: 1rem; right: calc(50% - 3.5rem); }
+
+
+/* ============================================================
    9. МЕДІАЗАПИТИ
    [ЗАВДАННЯ] точки зламу в rem, запис діапазоном (width >= …), mobile-first:
    кожен блок лише ДОДАЄ те, що змінюється на ширшому екрані (лекція 3, слайди 5–7).
    Стоять у кінці файлу: специфічність у них та сама, перемагають, бо нижче.
    ============================================================ */
+
+/* ---------- від 40rem (640px): дві колонки фото ---------- */
+@media (width >= 40rem) {
+
+    /* gallery.html — [5] дві колонки; «широке» фото займає обидві */
+    .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .photo--wide {
+        grid-column: span 2;
+    }
+}
+
+/* ---------- від 48rem (768px) ---------- */
+@media (width >= 48rem) {
+
+    /* [ДОДАТКОВО] lightbox: стрілки по боках від фото */
+    .lightbox-prev,
+    .lightbox-next {
+        top: 50%;
+        bottom: auto;
+        translate: 0 -50%;
+    }
+
+    .lightbox-prev { left: 1rem; }
+    .lightbox-next { right: 1rem; }
+
+    .lightbox-figure {
+        padding-inline: 5rem;
+    }
+}
 
 /* ---------- від 56.25rem (900px): з'являється бічна колонка ----------
    Точка зламу підібрана під вміст: вужче профіль поруч з текстом був би затісним */
@@ -728,6 +984,25 @@ code {
         position: sticky;
         top: calc(var(--header-h) + 1.5rem);
         align-self: start;
+    }
+}
+
+/* ---------- від 64rem (1024px): три колонки фото ---------- */
+@media (width >= 64rem) {
+
+    /* gallery.html — [6] три колонки; «широке» фото — 2 колонки × 2 рядки */
+    .gallery {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .photo--wide {
+        grid-row: span 2;
+
+        /* фото заповнює всю висоту двох рядків, а не тримає 3:2 */
+        & img {
+            height: 100%;
+            aspect-ratio: auto;
+        }
     }
 }
 

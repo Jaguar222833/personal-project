@@ -64,7 +64,6 @@
         </picture>
 
         <div class="container hero-content">
-            <p class="eyebrow">Розробка · залізо · дизайн · фотографія</p>
             <h1 id="hero-title">Роблю те, що цікаво саме зараз</h1>
             <p class="hero-lead">
                 Розробляю системи керування для енергетики й автоматизую рутину.
@@ -112,13 +111,17 @@
         <section class="projects" id="projects" aria-labelledby="projects-title">
             <h2 id="projects-title">Проєкти</h2>
 
+            <!-- Картка проєкту: коротко + <details> «Детальніше».
+                 Без JS <details> розкривається просто в картці.
+                 [ДОДАТКОВО] з JS клік по картці відкриває вікно проєкту (js/main.js) -->
+
             <!-- [ЗАВДАННЯ] компонент на container query: обгортка .project-wrap — контейнер.
                  Ця картка стоїть на всю ширину, тому стає горизонтальною -->
             <div class="project-wrap project-wrap--featured">
                 <article class="project">
                     <img class="project-img" src="img/ems-flows-960.jpg"
                          srcset="img/ems-flows-480.jpg 480w, img/ems-flows-960.jpg 960w"
-                         sizes="(width >= 56.25rem) 20rem, 100vw"
+                         sizes="(width >= 56.25rem) 24rem, 100vw"
                          width="960" height="493" loading="lazy"
                          alt="Інтерфейс EMS: потоки потужності між мережею, сонячною генерацією, накопичувачем і навантаженням">
                     <div class="project-body">
@@ -129,48 +132,55 @@
                             і промислових об'єктів з накопичувачами енергії, сонячною генерацією
                             та резервними джерелами.
                         </p>
-                        <ul class="features">
-                            <li>Моніторинг у реальному часі: накопичувачі, інвертори, сонячна генерація, лічильники.</li>
-                            <li>Енергоарбітраж на ринку «на добу наперед» з автоматичним плануванням заряду й розряду.</li>
-                            <li>Режими ZeroExport та експорту за диспетчерським планом.</li>
-                            <li>Острівний режим: автоматичний перехід в автономну роботу й повернення на мережу.</li>
-                            <li>Централізоване керування розподіленим парком об'єктів з одного інтерфейсу.</li>
-                        </ul>
-                        <p>
-                            Цикл опитування обладнання скорочено більш ніж у 10 разів, час в аварійному
-                            режимі — з ~76 % до 0 %. Моя роль: єдиний розробник та інженер проєкту —
-                            від розробки до інтеграції обладнання й пусконалагодження на об'єктах.
-                        </p>
                         <ul class="tags" aria-label="Теми">
                             <li>EMS</li><li>BESS</li><li>SCADA</li><li>Енергоарбітраж</li><li>Острівний режим</li>
                         </ul>
+                        <details class="project-more">
+                            <summary>Детальніше</summary>
+                            <ul class="features">
+                                <li>Моніторинг у реальному часі: накопичувачі, інвертори, сонячна генерація, лічильники.</li>
+                                <li>Енергоарбітраж на ринку «на добу наперед» з автоматичним плануванням заряду й розряду.</li>
+                                <li>Режими ZeroExport та експорту за диспетчерським планом.</li>
+                                <li>Острівний режим: автоматичний перехід в автономну роботу й повернення на мережу.</li>
+                                <li>Централізоване керування розподіленим парком об'єктів з одного інтерфейсу.</li>
+                            </ul>
+                            <p>
+                                Цикл опитування обладнання скорочено більш ніж у 10 разів, час в аварійному
+                                режимі — з ~76 % до 0 %.
+                            </p>
+                            <p>
+                                Моя роль: єдиний розробник та інженер проєкту — від розробки до інтеграції
+                                обладнання й пусконалагодження на об'єктах.
+                            </p>
+                            <ul class="project-shots" aria-label="Скріншоти">
+                                <li>
+                                    <a href="img/ems-flows-960.jpg" data-lightbox="ems">
+                                        <img src="img/ems-flows-480.jpg" width="480" height="247" loading="lazy"
+                                             alt="Потоки потужності між мережею, сонцем, накопичувачем і навантаженням">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="img/ems-fleet-960.jpg" data-lightbox="ems">
+                                        <img src="img/ems-fleet-480.jpg" width="480" height="187" loading="lazy"
+                                             alt="Картки установок: заряд, ємність і стан кожного накопичувача">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="img/ems-plan-960.jpg" data-lightbox="ems">
+                                        <img src="img/ems-plan-480.jpg" width="480" height="175" loading="lazy"
+                                             alt="Погодинний план заряду й розряду за цінами ринку на добу наперед">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="img/ems-analytics-960.jpg" data-lightbox="ems">
+                                        <img src="img/ems-analytics-480.jpg" width="480" height="262" loading="lazy"
+                                             alt="Аналітика: план і факт купівлі та продажу енергії по годинах">
+                                    </a>
+                                </li>
+                            </ul>
+                        </details>
                     </div>
                 </article>
-
-                <!-- [ДОДАТКОВО] скріншоти: сітка auto-fit, без медіазапитів -->
-                <ul class="project-shots" aria-label="Скріншоти EMS-платформи">
-                    <li>
-                        <a href="img/ems-fleet-960.jpg">
-                            <img src="img/ems-fleet-480.jpg" srcset="img/ems-fleet-480.jpg 480w, img/ems-fleet-960.jpg 669w"
-                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="187" loading="lazy"
-                                 alt="Картки установок: заряд, ємність і стан кожного накопичувача">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="img/ems-plan-960.jpg">
-                            <img src="img/ems-plan-480.jpg" srcset="img/ems-plan-480.jpg 480w, img/ems-plan-960.jpg 812w"
-                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="175" loading="lazy"
-                                 alt="Погодинний план заряду й розряду накопичувача за цінами ринку на добу наперед">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="img/ems-analytics-960.jpg">
-                            <img src="img/ems-analytics-480.jpg" srcset="img/ems-analytics-480.jpg 480w, img/ems-analytics-960.jpg 812w"
-                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="262" loading="lazy"
-                                 alt="Аналітика: план і факт купівлі та продажу енергії по годинах">
-                        </a>
-                    </li>
-                </ul>
             </div>
 
             <!-- [ЗАВДАННЯ] сітка карток без медіазапитів: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)) -->
@@ -185,13 +195,34 @@
                         <div class="project-body">
                             <h3>ProtocolArsentiev</h3>
                             <p class="project-status project-status--live">Працює на домашньому сервері · закритий доступ</p>
-                            <p>
-                                Помічник для навчання: сам заходить на онлайн-пари в Meet і Zoom, записує їх,
-                                робить транскрипції та короткі підсумки, щодня надсилає розклад у чат групи.
-                            </p>
+                            <p>Помічник для навчання, який сам відвідує онлайн-пари, записує й конспектує їх.</p>
                             <ul class="tags" aria-label="Можливості">
                                 <li>Записи пар</li><li>Транскрипції</li><li>Підсумки</li><li>Розклад</li>
                             </ul>
+                            <details class="project-more">
+                                <summary>Детальніше</summary>
+                                <ul class="features">
+                                    <li>Сам підключається до пар у Meet і Zoom за розкладом.</li>
+                                    <li>Записує заняття й робить транскрипції.</li>
+                                    <li>Готує короткий підсумок кожної пари.</li>
+                                    <li>Щодня надсилає розклад у чат групи.</li>
+                                    <li>Імпортує розклад з КПІ на два тижні.</li>
+                                </ul>
+                                <ul class="project-shots" aria-label="Скріншоти">
+                                    <li>
+                                        <a href="img/protocol-dash-960.jpg" data-lightbox="protocol">
+                                            <img src="img/protocol-dash-480.jpg" width="480" height="270" loading="lazy"
+                                                 alt="Панель: кількість пар і записів, статус ботів, розклад на тиждень">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="img/protocol-schedule-960.jpg" data-lightbox="protocol">
+                                            <img src="img/protocol-schedule-480.jpg" width="480" height="270" loading="lazy"
+                                                 alt="Розклад пар на тиждень з типом заняття">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </details>
                         </div>
                     </article>
                 </li>
@@ -205,12 +236,41 @@
                         <div class="project-body">
                             <h3>Зарядні станції</h3>
                             <p class="project-status">2022</p>
-                            <p>
-                                Портативні станції для військових, зібрані власноруч на початку
-                                повномасштабної війни: саморобна батарейна збірка та інвертор
-                                у металевому корпусі з розетками й USB-виходами.
-                            </p>
+                            <p>Портативні станції для військових, зібрані власноруч на початку повномасштабної війни.</p>
                             <ul class="tags" aria-label="Теми"><li>Електрика</li><li>Збирання</li></ul>
+                            <details class="project-more">
+                                <summary>Детальніше</summary>
+                                <p>
+                                    Саморобна батарейна збірка та інвертор у металевому корпусі з ручками:
+                                    розетки, USB-виходи, дисплей стану заряду й аварійна кнопка.
+                                </p>
+                                <ul class="project-shots" aria-label="Фото">
+                                    <li>
+                                        <a href="img/station-front-960.jpg" data-lightbox="stations">
+                                            <img src="img/station-front-480.jpg" width="480" height="320" loading="lazy"
+                                                 alt="Передня панель станції: розетки, USB, дисплеї й червона кнопка">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="img/station-960.jpg" data-lightbox="stations">
+                                            <img src="img/station-480.jpg" width="480" height="320" loading="lazy"
+                                                 alt="Зарядна станція в зеленому корпусі, вигляд збоку спереду">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="img/station-pair-960.jpg" data-lightbox="stations">
+                                            <img src="img/station-pair-480.jpg" width="480" height="320" loading="lazy"
+                                                 alt="Дві станції з інструкціями на кришках">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="img/station-side-960.jpg" data-lightbox="stations">
+                                            <img src="img/station-side-480.jpg" width="480" height="320" loading="lazy"
+                                                 alt="Дві станції, вигляд збоку">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </details>
                         </div>
                     </article>
                 </li>
@@ -225,6 +285,13 @@
                             <h3>Особистий сайт</h3>
                             <p>Портфоліо, фотографії та блог. Дизайн і верстка — власні.</p>
                             <ul class="tags" aria-label="Теми"><li>Дизайн</li><li>Верстка</li></ul>
+                            <details class="project-more">
+                                <summary>Детальніше</summary>
+                                <p>
+                                    Три сторінки з адаптивною версткою — від телефона на 320 px до великого
+                                    монітора, — світла й темна тема та галерея з переглядом фото.
+                                </p>
+                            </details>
                         </div>
                         <div class="project-links">
                             <a class="btn btn--small btn--ghost" href="https://github.com/Jaguar222833/personal-project">GitHub</a>
@@ -241,7 +308,7 @@
             <ul class="design-grid">
                 <li>
                     <figure class="design-item">
-                        <a href="img/design-logo-960.jpg">
+                        <a href="img/design-logo-960.jpg" data-lightbox="design">
                             <img src="img/design-logo-480.jpg" srcset="img/design-logo-480.jpg 480w, img/design-logo-960.jpg 960w"
                                  sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="500" loading="lazy"
                                  alt="Логотип: червона блискавка в зелено-білому колі">
@@ -251,7 +318,7 @@
                 </li>
                 <li>
                     <figure class="design-item">
-                        <a href="img/design-infographic-1600.jpg">
+                        <a href="img/design-infographic-1600.jpg" data-lightbox="design">
                             <img src="img/design-infographic-480.jpg"
                                  srcset="img/design-infographic-480.jpg 480w, img/design-infographic-960.jpg 960w, img/design-infographic-1600.jpg 1600w"
                                  sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="270" loading="lazy"
@@ -262,7 +329,7 @@
                 </li>
                 <li>
                     <figure class="design-item">
-                        <a href="img/design-brochure-960.jpg">
+                        <a href="img/design-brochure-960.jpg" data-lightbox="design">
                             <img src="img/design-brochure-480.jpg" srcset="img/design-brochure-480.jpg 480w, img/design-brochure-960.jpg 960w"
                                  sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="679" loading="lazy"
                                  alt="Обкладинка буклета промислової системи накопичення енергії">
@@ -334,7 +401,8 @@
     </div>
 </footer>
 
-<!-- [ДОДАТКОВО] скрипт в кінці body з defer: тема і покращення меню -->
+<!-- [ДОДАТКОВО] скрипти в кінці body з defer: тема, меню, вікно проєкту; перегляд фото -->
 <script src="js/main.js" defer></script>
+<script src="js/lightbox.js" defer></script>
 </body>
 </html>

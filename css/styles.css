@@ -71,7 +71,7 @@
         --accent:    #A98BF5;
         --on-accent: #1A1D23;
         --accent-2:  #5CC8BC;
-        --focus:     #F5B94F;
+        --focus:     #C4B5FD;
         --code-bg:   #0B0D10;
         --shadow:    0 1px 2px rgb(0 0 0 / .4), 0 6px 20px rgb(0 0 0 / .3);
         color-scheme: dark;
@@ -90,7 +90,7 @@
     --accent:    #A98BF5;
     --on-accent: #1A1D23;
     --accent-2:  #5CC8BC;
-    --focus:     #F5B94F;
+    --focus:     #C4B5FD;
     --code-bg:   #0B0D10;
     --shadow:    0 1px 2px rgb(0 0 0 / .4), 0 6px 20px rgb(0 0 0 / .3);
     color-scheme: dark;
@@ -441,7 +441,7 @@ code {
     min-height: min(calc(100dvh - var(--header-h)), 56rem);
 
     color: #FFFFFF;
-    --focus: #F5B94F;           /* на темному фото фокус має бути світлим: змінна перевизначена лише тут */
+    --focus: #C4B5FD;           /* на темному фото фокус має бути світлим: змінна перевизначена лише тут */
 
     /* темний градієнт поверх фото, щоб білий текст читався (контраст) */
     &::after {
@@ -475,15 +475,6 @@ code {
         margin-bottom: 1rem;
         font-size: clamp(2.25rem, 1.3rem + 4.5vw, 4.5rem);   /* [ЗАВДАННЯ] clamp() */
     }
-}
-
-.eyebrow {
-    margin-bottom: .75rem;
-    font-size: .8125rem;
-    font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: #F5B94F;
 }
 
 .hero-lead {
@@ -635,8 +626,8 @@ code {
     }
 }
 
-/* [ДОДАТКОВО] статус проєкту: крапка + підпис */
-.project .project-status {
+/* [ДОДАТКОВО] статус проєкту: крапка + підпис (і в картці, і у вікні проєкту) */
+:is(.project, .project-modal-content) .project-status {
     display: flex;
     align-items: center;
     gap: .5rem;
@@ -655,8 +646,8 @@ code {
 }
 
 /* проєкт працює — бірюзова крапка.
-   .project спереду — щоб специфічність була не меншою, ніж у правила вище */
-.project .project-status--live::before {
+   той самий префікс :is(…) — щоб специфічність була не меншою, ніж у правила вище */
+:is(.project, .project-modal-content) .project-status--live::before {
     background: var(--accent-2);
 }
 
@@ -679,6 +670,119 @@ code {
     & li::marker {
         color: var(--accent);
     }
+}
+
+/* «Детальніше»: без JS — розкривний блок у картці */
+.project-more {
+    margin-top: .25rem;
+
+    & summary {
+        display: inline-flex;
+        align-items: center;
+        gap: .375rem;
+        min-height: 44px;           /* зона натискання */
+        color: var(--accent);
+        font-weight: 700;
+        cursor: pointer;
+        list-style: none;
+    }
+
+    & summary::-webkit-details-marker {
+        display: none;
+    }
+
+    & summary::after {
+        content: "→";
+        transition: translate .2s;
+    }
+
+    &[open] summary::after {
+        content: "↓";
+    }
+}
+
+/* [ДОДАТКОВО] з JS уся картка клікабельна і відкриває вікно проєкту (js/main.js) */
+.project--clickable {
+    cursor: pointer;
+    transition: border-color .2s, translate .2s;
+
+    &:hover {
+        border-color: var(--accent);
+        translate: 0 -2px;
+
+        & .project-more summary::after {
+            translate: .25rem 0;
+        }
+    }
+}
+
+/* [ДОДАТКОВО] вікно проєкту на <dialog> */
+.project-modal {
+    width: min(100% - 2rem, 52rem);
+    max-width: none;
+    max-height: calc(100dvh - 2rem);
+    padding: 0;
+    overflow: hidden;               /* прокручується вміст, а не саме вікно */
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+
+    &[open] {
+        display: flex;              /* щоб вміст міг прокручуватись усередині */
+        flex-direction: column;
+    }
+
+    &::backdrop {
+        background: rgb(8 9 12 / .75);
+        backdrop-filter: blur(4px);
+    }
+}
+
+html:has(.project-modal[open]) {
+    overflow: hidden;               /* сторінка під вікном не прокручується */
+}
+
+.project-modal-content {
+    overflow-y: auto;
+
+    & .project-body {
+        padding: 1.5rem;
+    }
+
+    & h3 {
+        font-size: clamp(1.25rem, 1rem + 1vw, 1.625rem);
+    }
+
+    & .project-links {
+        padding: 0 1.5rem 1.5rem;
+    }
+}
+
+.project-modal-img {
+    width: 100%;
+    max-height: 60dvh;
+    object-fit: cover;
+    object-position: left top;
+}
+
+.project-modal-close {
+    position: absolute;
+    top: .75rem;
+    right: .75rem;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(0 0 0 / .6);
+    color: #FFFFFF;
+    font: inherit;
+    font-size: 1.25rem;
+    cursor: pointer;
 }
 
 /* [ДОДАТКОВО] скріншоти під карткою: сітка auto-fit, без медіазапитів */
@@ -990,7 +1094,7 @@ code {
     border: 0;
     background: transparent;
     color: #FFFFFF;
-    --focus: #F5B94F;
+    --focus: #C4B5FD;
 
     &[open] {
         display: grid;
@@ -1045,6 +1149,11 @@ html:has(.lightbox[open]) {
 
     &:hover {
         background: rgb(255 255 255 / .28);
+    }
+
+    /* display: grid вище перемагає атрибут hidden (одне фото в групі — без стрілок) */
+    &[hidden] {
+        display: none;
     }
 }
 
@@ -1372,7 +1481,7 @@ blockquote {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
         grid-template-rows: auto;
         grid-template-areas: "img body";
-        align-items: start;
+        align-items: center;          /* скріншот по центру висоти тексту */
     }
 
     .project-img {

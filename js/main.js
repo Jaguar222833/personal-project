@@ -4,7 +4,8 @@
    Сайт повністю працює і без нього — скрипт лише покращує:
      1. перемикач світлої / темної теми із запам'ятовуванням вибору;
      2. меню на <details>: закривається клавішею Esc і кліком поза ним;
-     3. демо-форма підписки в блозі.
+     3. демо-форма підписки в блозі;
+     4. вікно проєкту на головній.
    ============================================================ */
 
 /* ---------- 1. Перемикач теми ---------- */
@@ -85,5 +86,72 @@ if (subscribeForm) {
         event.preventDefault();     // сервера поки немає — нікуди не надсилаємо
         note.textContent = 'Дякую! Розсилка запрацює, щойно сайт переїде на сервер.';
         subscribeForm.reset();
+    });
+}
+
+
+/* ---------- 4. Вікно проєкту (index.html) ---------- */
+
+// У кожній картці є <details class="project-more"> з повним описом.
+// Без JS він розкривається просто в картці. З JS клік по картці (або по «Детальніше»)
+// відкриває окреме вікно <dialog>: велике фото + весь опис + скріншоти.
+
+const projectCards = [...document.querySelectorAll('.project')].filter((card) => card.querySelector('.project-more'));
+
+if (projectCards.length) {
+    const projectDialog = document.createElement('dialog');
+    projectDialog.className = 'project-modal';
+    projectDialog.innerHTML = `
+        <button class="project-modal-close" type="button" aria-label="Закрити" autofocus>✕</button>
+        <div class="project-modal-content"></div>`;
+    document.body.append(projectDialog);
+
+    const content = projectDialog.querySelector('.project-modal-content');
+    let openedFrom = null;
+
+    function openProject(card) {
+        // збираємо вміст вікна з копій елементів картки
+        const image = card.querySelector('.project-img').cloneNode();
+        image.className = 'project-modal-img';
+        image.removeAttribute('loading');
+        image.sizes = '(width >= 52rem) 50rem, 100vw';   // у вікні фото велике — браузер візьме більший файл
+
+        const body = card.querySelector('.project-body').cloneNode(true);
+        const more = body.querySelector('.project-more');
+        more.replaceWith(...more.children);             // <details> не потрібен: показуємо все одразу
+        body.querySelector('summary')?.remove();
+
+        const links = card.querySelector('.project-links')?.cloneNode(true);
+
+        content.replaceChildren(image, body, ...(links ? [links] : []));
+        projectDialog.setAttribute('aria-label', card.querySelector('h3').textContent);
+        projectDialog.showModal();
+        content.scrollTop = 0;
+    }
+
+    for (const card of projectCards) {
+        card.classList.add('project--clickable');
+
+        card.addEventListener('click', (event) => {
+            if (event.target.closest('a')) {
+                return;                 // посилання (GitHub) працюють як звичайно
+            }
+            event.preventDefault();     // не розкривати <details> у самій картці
+            openedFrom = card.querySelector('summary');
+            openProject(card);
+        });
+    }
+
+    projectDialog.querySelector('.project-modal-close').addEventListener('click', () => projectDialog.close());
+
+    // клік по темному фону навколо вікна — закрити
+    projectDialog.addEventListener('click', (event) => {
+        if (event.target === projectDialog) {
+            projectDialog.close();
+        }
+    });
+
+    projectDialog.addEventListener('close', () => {
+        openedFrom?.focus();
     });
 }

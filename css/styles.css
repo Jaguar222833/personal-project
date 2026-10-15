@@ -474,8 +474,51 @@ code {
     width: 4rem;
 }
 
+/* ---------- [ДОДАТКОВО] ASCII-аватар (js/ascii.js) ---------- */
+.avatar-ascii {
+    position: relative;
+    display: block;
+    width: 8rem;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--border), 0 0 24px var(--glow-soft);
+
+    & .avatar {
+        width: 100%;
+    }
+}
+
+.avatar-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity .5s var(--ease-out);
+}
+
+/* наведення або фокус усередині картки — показати справжнє фото */
+.avatar-ascii:hover .avatar-canvas,
+.profile:focus-within .avatar-canvas {
+    opacity: 0;
+}
+
+/* на сенсорному екрані наведення немає — ASCII і фото чергуються самі */
+@media (hover: none) {
+    .avatar-canvas {
+        animation: ascii-swap 8s ease-in-out infinite;
+    }
+}
+
+@keyframes ascii-swap {
+    0%, 45%   { opacity: 1; }
+    55%, 90%  { opacity: 0; }
+    100%      { opacity: 1; }
+}
+
 /* ---------- Підвал ---------- */
 .site-footer {
+    container-type: inline-size;   /* ширина підвалу — основа для розміру ASCII-напису */
     margin-top: 4rem;
     padding-block: 2rem;
     border-top: 1px solid var(--border);
@@ -497,6 +540,30 @@ code {
 
     & > * {
         flex: 1 1 14rem;        /* рости · стискатись · стартова ширина 14rem */
+    }
+}
+
+/* [ДОДАТКОВО] ASCII-напис ARSENTIEV (js/ascii.js записує --cols — кількість символів у рядку).
+   Розмір шрифту = ширина підвалу / кількість символів / 0.6 (ширина моноширинного символу ≈ 0.6em) */
+.ascii-banner {
+    width: min(100% - 2rem, var(--content));
+    margin: 0 auto 1.5rem;
+    overflow: hidden;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: min(.875rem, calc(min(100cqi - 2rem, var(--content)) / var(--cols, 80) / .6));
+    line-height: 1.05;
+    white-space: pre;
+    user-select: none;
+
+    /* градієнт, що повільно пробігає по символах */
+    background: linear-gradient(90deg, var(--border) 10%, var(--accent-hi) 50%, var(--border) 90%);
+    background-size: 200% 100%;
+    background-clip: text;
+    color: transparent;
+    animation: text-shine 12s linear infinite;
+
+    &:empty {
+        display: none;
     }
 }
 
@@ -557,6 +624,16 @@ code {
             rgb(10 12 16 / .45) 55%,
             rgb(10 12 16 / .15) 100%);
     }
+}
+
+/* [ДОДАТКОВО] полотно LED-матриці (js/dotmatrix.js): над фото, під темним градієнтом */
+.hero-dots {
+    position: absolute;
+    inset: 0;
+    z-index: -2;                /* той самий шар, що й фото, але стоїть пізніше в HTML — тому вище */
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 
 /* фото лежить під текстом на всю площу hero */
@@ -661,7 +738,7 @@ code {
     padding: 1.5rem;
     text-align: center;
 
-    & .avatar {
+    & .avatar-ascii {
         margin: 0 auto 1rem;
     }
 

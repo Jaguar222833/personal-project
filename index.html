@@ -95,10 +95,13 @@
         </section>
 
         <aside class="profile card" aria-labelledby="profile-title">
-            <img class="avatar" src="img/avatar-480.jpg"
-                 srcset="img/avatar-480.jpg 480w, img/avatar-960.jpg 960w"
-                 sizes="8rem" width="480" height="480" loading="lazy"
-                 alt="Горобець на гілці — один з моїх кадрів">
+            <!-- [ДОДАТКОВО] js/ascii.js малює поверх фото його ASCII-версію; при наведенні видно фото -->
+            <span class="avatar-ascii">
+                <img class="avatar" src="img/avatar-480.jpg"
+                     srcset="img/avatar-480.jpg 480w, img/avatar-960.jpg 960w"
+                     sizes="8rem" width="480" height="480"
+                     alt="Горобець на гілці — один з моїх кадрів">
+            </span>
             <h2 id="profile-title">Artem Arsentiev</h2>
             <p class="muted">КПІ ім. Ігоря Сікорського</p>
             <dl class="facts">
@@ -379,6 +382,8 @@
 
 <!-- [ЗАВДАННЯ] підвал на Flexbox: блоки переносяться, коли не влазять -->
 <footer class="site-footer">
+    <!-- [ДОДАТКОВО] ASCII-напис: заповнює js/ascii.js; без JS порожній і схований -->
+    <pre class="ascii-banner" aria-hidden="true"></pre>
     <div class="container footer-inner">
         <div>
             <p class="footer-brand">Artem Arsentiev</p>
@@ -401,5 +406,7 @@
 <!-- [ДОДАТКОВО] скрипти в кінці body з defer: тема, меню, вікно проєкту; перегляд фото -->
 <script src="js/main.js" defer></script>
 <script src="js/lightbox.js" defer></script>
+<script src="js/dotmatrix.js" defer></script>
+<script src="js/ascii.js" defer></script>
 </body>
 </html>

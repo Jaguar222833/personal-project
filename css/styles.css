@@ -654,8 +654,9 @@ code {
     }
 }
 
-/* проєкт працює — бірюзова крапка */
-.project-status--live::before {
+/* проєкт працює — бірюзова крапка.
+   .project спереду — щоб специфічність була не меншою, ніж у правила вище */
+.project .project-status--live::before {
     background: var(--accent-2);
 }
 

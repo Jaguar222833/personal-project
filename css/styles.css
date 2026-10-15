@@ -256,6 +256,11 @@ code {
         font-size: .75rem;
     }
 
+    /* на вузькому екрані ім'я переноситься у два рядки — робимо їх щільнішими */
+    & .logo-text {
+        line-height: 1.2;
+    }
+
     &:hover {
         color: var(--text);
     }

@@ -6,9 +6,6 @@
 - **Репозиторій:** https://github.com/Jaguar222833/personal-project
 - **Сайт:** https://artem.kestrel-nrg.com (класична версія — https://classic.kestrel-nrg.com)
 
-Сервер не потрібен: достатньо відкрити `index.html` у браузері.
-Перевірка адаптивності: DevTools → Toggle device toolbar (`Ctrl+Shift+M`) → Responsive, звужувати від 1440 до 320 px.
-
 ## Сторінки
 
 Кожна сторінка показує інший прийом макета:
@@ -110,8 +107,3 @@ img/             — фото у розмірах 480 / 960 / 1600 px, без EX
 | Липка шапка, липкий профіль, підвал завжди внизу | `.site-header`, `.profile`, `body` |
 | Смужки рівня навичок на «живій» CSS-змінній `--level` | `.level` |
 | Шрифти Manrope і Unbounded (Google Fonts) | `<head>` |
-
-## Фото
-
-Усі фото на сайті — автора: Canon EOS 600D, 40D та EOS RP, обробка в Lightroom.
-Перед публікацією фото зменшено до 480 / 960 / 1600 px і очищено від EXIF-метаданих (зокрема геолокації).

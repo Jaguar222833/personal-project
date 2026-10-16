@@ -5,7 +5,6 @@
 
 - **Репозиторій:** https://github.com/Jaguar222833/personal-project
 - **Сайт:** https://artem.kestrel-nrg.com (класична версія — https://classic.kestrel-nrg.com)
-- **GitHub Pages:** https://jaguar222833.github.io/personal-project/
 
 Сервер не потрібен: достатньо відкрити `index.html` у браузері.
 Перевірка адаптивності: DevTools → Toggle device toolbar (`Ctrl+Shift+M`) → Responsive, звужувати від 1440 до 320 px.

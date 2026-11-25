@@ -1,0 +1,47 @@
+# Збірка сайту для сервера.
+# main — вихідний код: статичні сторінки КП № 1 і Vue-проєкт moodboard/ (КП № 2).
+# На кожен push GitHub збирає мудборд (npm run build), складає разом зі статичними
+# сторінками готовий сайт і кладе його в гілку deploy. Сервер раз на хвилину
+# підтягує deploy і віддає її на artem.kestrel-nrg.com (мудборд — /moodboard/).
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: moodboard/package-lock.json
+
+      - name: Збірка мудборду
+        working-directory: moodboard
+        run: |
+          npm ci
+          npm run build
+
+      - name: Готовий сайт = сторінки КП № 1 + зібраний мудборд
+        run: |
+          mkdir site
+          cp -r index.html gallery.html blog.html 404.html css js img site/
+          cp -r moodboard/dist site/moodboard
+
+      - name: Публікація в гілку deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: deploy
+          force_orphan: true
+          commit_message: "build: ${{ github.sha }}"

@@ -6,6 +6,13 @@
 - **Репозиторій:** https://github.com/Jaguar222833/personal-project
 - **Сайт:** https://artem.kestrel-nrg.com (класична версія — https://classic.kestrel-nrg.com)
 
+## КП № 2 — мудборд на Vue.js 3
+
+Реактивний застосунок у теці [`moodboard/`](moodboard/): каталог моїх фото, мудборд замість кошика,
+палітра з кольорів кадрів, підбір схожих фото й пресети Lightroom.
+Як запустити, скриншот і відповідність вимогам — у [`moodboard/README.md`](moodboard/README.md).
+На сайті: https://artem.kestrel-nrg.com/moodboard/
+
 ## Сторінки
 
 Кожна сторінка показує інший прийом макета:

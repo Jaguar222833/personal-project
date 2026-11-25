@@ -17,6 +17,7 @@
 Потрібен Node.js 20.19+ (або 22+).
 
 ```sh
+cd moodboard
 npm install
 npm run dev       # http://localhost:5173/moodboard/
 ```
@@ -99,8 +100,9 @@ src/components/           — PhotoCard, BoardItem, FilterBar, PaletteBar, Palet
 
 ## Розгортання
 
-GitHub Actions (`.github/workflows/deploy.yml`) на кожен push у `main` збирає проєкт і кладе
-`dist/` у гілку `deploy`. Сервер (Caddy) раз на хвилину підтягує цю гілку й віддає її
-за адресою `/moodboard/` головного сайту.
+Мудборд — тека `moodboard/` у репозиторії особистого сайту. GitHub Actions
+(`.github/workflows/deploy.yml` у корені репозиторію) на кожен push у `main` збирає його
+й разом зі сторінками КП № 1 кладе готовий сайт у гілку `deploy`. Сервер (Caddy) раз на хвилину
+підтягує цю гілку; мудборд відкривається за адресою `/moodboard/`.
 
 Фото — власні, з галереї головного сайту.

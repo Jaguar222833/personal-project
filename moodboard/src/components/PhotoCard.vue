@@ -41,6 +41,7 @@ const srcset = computed(
         :alt="photo.alt"
         loading="lazy"
         decoding="async"
+        :style="{ viewTransitionName: inBoard ? `photo-${photo.id}` : 'none' }"
       >
       <span v-if="categoryLabel" class="card__tag">{{ categoryLabel }}</span>
       <!-- кадр збігся з обраним кольором — кольорова мітка в куті -->

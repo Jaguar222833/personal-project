@@ -1,7 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import { Toaster } from 'vue-sonner'
-import { useColorMode } from '@vueuse/core'
+import { useColorMode, usePreferredReducedMotion } from '@vueuse/core'
 import { usePhotos } from './composables/usePhotos'
 import { useBoard } from './composables/useBoard'
 import { usePalettes } from './composables/usePalettes'
@@ -13,9 +13,19 @@ import GalleryView from './components/GalleryView.vue'
 
 // який розділ відкрито; без роутера — для двох екранів вистачає однієї змінної
 const view = ref('gallery')
+const motion = usePreferredReducedMotion()
+
+// [ДОДАТКОВО] перемикання з View Transitions API: браузер «фотографує» сторінку до і після,
+// а кадри з однаковою view-transition-name (картка в галереї ↔ плитка на дошці) перетікають одне в одне
 function changeView(next) {
-  view.value = next
-  window.scrollTo({ top: 0 })
+  if (next === view.value) return
+  const swap = async () => {
+    view.value = next
+    await nextTick()                 // дочекатися, поки Vue оновить DOM — це і є стан «після»
+    window.scrollTo({ top: 0 })
+  }
+  if (!document.startViewTransition || motion.value === 'reduce') swap()   // старий браузер — просто перемкнути
+  else document.startViewTransition(swap)
 }
 
 const { photos } = usePhotos()

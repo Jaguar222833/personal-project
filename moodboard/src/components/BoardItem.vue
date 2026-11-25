@@ -23,6 +23,7 @@ const sizeClass = computed(() => `tile--w${props.weight}`)
     <img
       :src="imageUrl(weight > 1 ? photo.image.large : photo.image.small)"
       :alt="photo.alt"
+      :style="{ viewTransitionName: `photo-${photo.id}` }"
       :width="photo.width"
       :height="photo.height"
       draggable="false"

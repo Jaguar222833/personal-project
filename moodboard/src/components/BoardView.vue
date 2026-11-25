@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, ref, useTemplateRef } from 'vue'
 import { toPng } from 'html-to-image'
+import confetti from 'canvas-confetti'
 import { VueDraggable } from 'vue-draggable-plus'
 import { LayoutGrid, Sparkles, Trash2 } from '@lucide/vue'
 import { toast } from 'vue-sonner'
@@ -56,6 +57,17 @@ const items = computed(() =>
 const purchase = ref({ open: false, total: 0, count: 0 })
 function openPurchase({ total, count }) {
   purchase.value = { open: true, total, count }
+}
+
+// [ДОДАТКОВО] після «оплати» — конфеті в кольорах твоєї палітри (бібліотека canvas-confetti).
+// disableForReducedMotion: якщо користувач просить менше руху, конфеті не буде
+function celebrate() {
+  purchase.value.open = false
+  const colors = boardPalette.value.map((c) => c.hex)
+  const burst = (x, angle) =>
+    confetti({ particleCount: 90, spread: 70, angle, origin: { x, y: 0.7 }, colors, disableForReducedMotion: true })
+  burst(0.2, 60)
+  burst(0.8, 120)
 }
 
 // [ДОДАТКОВО] PNG мудборду: бібліотека html-to-image «фотографує» компонент MoodPoster
@@ -186,7 +198,7 @@ function doClear() {
       :total="purchase.total"
       :count="purchase.count"
       @close="purchase.open = false"
-      @done="purchase.open = false"
+      @done="celebrate"
     />
 
     <!-- постер для PNG рендериться лише на час знімка -->

@@ -26,7 +26,7 @@ const emit = defineEmits(['pick'])
       :aria-label="`${color.hex}, ${formatShare(color.share)}`"
       @click="emit('pick', color.hex)"
     >
-      <span v-if="labels && color.share >= 0.08" class="bar__label">{{ formatShare(color.share) }}</span>
+      <span v-if="labels && color.share >= 0.12" class="bar__label">{{ formatShare(color.share) }}</span>
     </button>
   </div>
 </template>
@@ -60,5 +60,6 @@ const emit = defineEmits(['pick'])
   color: #fff;
   font-size: .7rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 </style>

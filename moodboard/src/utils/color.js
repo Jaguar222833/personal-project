@@ -105,6 +105,20 @@ export function describeColor(hex) {
   }
 }
 
+// [ДОДАТКОВО] n найнасиченіших кольорів палітри (для кольорового світіння фону).
+// Насиченість у OKLab — відстань від сірої осі: √(a² + b²). Майже чорні й білі відкидаємо.
+export function vividColors(palette, n = 3) {
+  return palette
+    .map((c) => {
+      const { l, a, b } = toOklab(c.hex)
+      return { hex: c.hex, chroma: Math.hypot(a, b), l }
+    })
+    .filter((c) => c.l > 0.2 && c.l < 0.95)
+    .sort((x, y) => y.chroma - x.chroma)
+    .slice(0, n)
+    .map((c) => c.hex)
+}
+
 // рівень WCAG для звичайного тексту: AAA ≥ 7, AA ≥ 4.5
 export function wcagLevel(ratio) {
   if (ratio >= 7) return 'AAA'

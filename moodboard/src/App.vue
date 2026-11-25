@@ -5,6 +5,8 @@ import { useColorMode } from '@vueuse/core'
 import { usePhotos } from './composables/usePhotos'
 import { useBoard } from './composables/useBoard'
 import { usePalettes } from './composables/usePalettes'
+import { useBoardPalette } from './composables/useBoardPalette'
+import { vividColors } from './utils/color'
 import AppHeader from './components/AppHeader.vue'
 import BoardView from './components/BoardView.vue'
 import GalleryView from './components/GalleryView.vue'
@@ -19,6 +21,22 @@ function changeView(next) {
 const { photos } = usePhotos()
 const { count, keepOnly } = useBoard()
 const { ensure } = usePalettes()
+
+// [ДОДАТКОВО] фон сторінки м'яко світиться кольорами мудборду.
+// watch кладе три найнасиченіші кольори в CSS-змінні на <html>, а CSS плавно їх перетікає
+const { boardPalette } = useBoardPalette()
+watch(
+  boardPalette,
+  (palette) => {
+    const colors = vividColors(palette)
+    const root = document.documentElement.style
+    ;['--ambient-1', '--ambient-2', '--ambient-3'].forEach((name, i) => {
+      if (colors[i]) root.setProperty(name, colors[i])
+      else root.removeProperty(name)          // немає кольору — повертається фіолетовий за замовчуванням
+    })
+  },
+  { immediate: true },
+)
 
 // тема для сповіщень — та сама, що в шапці (VueUse синхронізує обидва виклики через localStorage)
 const mode = useColorMode({ attribute: 'data-theme', storageKey: 'theme', initialValue: 'dark' })

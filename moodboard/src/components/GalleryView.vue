@@ -3,13 +3,17 @@ import { computed } from 'vue'
 import { SearchX } from '@lucide/vue'
 import { usePhotos } from '@/composables/usePhotos'
 import { useFilters } from '@/composables/useFilters'
+import { useBoard } from '@/composables/useBoard'
 import { plural } from '@/utils/format'
 import EmptyState from './EmptyState.vue'
 import FilterBar from './FilterBar.vue'
 import PhotoCard from './PhotoCard.vue'
 
+defineEmits(['change-view'])
+
 const { photos, categories, loading, error, reload } = usePhotos()
 const { category, search, sort, reset } = useFilters()
+const board = useBoard()
 
 // id категорії → підпис українською
 const categoryLabels = computed(() =>
@@ -100,7 +104,13 @@ const visiblePhotos = computed(() => {
       <!-- [ДОДАТКОВО] TransitionGroup анімує появу, зникнення й переставляння карток -->
       <TransitionGroup v-else tag="ul" name="list" class="grid">
         <li v-for="photo in visiblePhotos" :key="photo.id">
-          <PhotoCard :photo="photo" :category-label="categoryLabels[photo.category]" />
+          <PhotoCard
+            :photo="photo"
+            :category-label="categoryLabels[photo.category]"
+            :in-board="board.has(photo.id)"
+            @add="board.add"
+            @remove="board.remove"
+          />
         </li>
       </TransitionGroup>
     </template>

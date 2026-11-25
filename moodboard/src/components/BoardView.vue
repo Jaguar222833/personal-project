@@ -1,5 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, useTemplateRef } from 'vue'
+import { toPng } from 'html-to-image'
 import { VueDraggable } from 'vue-draggable-plus'
 import { LayoutGrid, Sparkles, Trash2 } from '@lucide/vue'
 import { toast } from 'vue-sonner'
@@ -12,6 +13,9 @@ import { plural } from '@/utils/format'
 import BoardItem from './BoardItem.vue'
 import EmptyState from './EmptyState.vue'
 import PaletteBar from './PaletteBar.vue'
+import PaletteDetails from './PaletteDetails.vue'
+import ExportPanel from './ExportPanel.vue'
+import MoodPoster from './MoodPoster.vue'
 
 const emit = defineEmits(['change-view'])
 
@@ -38,6 +42,38 @@ function findByColor(hex) {
 }
 
 const photosById = computed(() => Object.fromEntries(photos.value.map((p) => [p.id, p])))
+
+// кадри мудборду разом з вагою — для постера
+const items = computed(() =>
+  board.value
+    .map((item) => ({ photo: photosById.value[item.id], weight: item.weight }))
+    .filter((item) => item.photo),
+)
+
+// [ДОДАТКОВО] PNG мудборду: бібліотека html-to-image «фотографує» компонент MoodPoster
+const exporting = ref(false)
+const poster = useTemplateRef('poster')
+
+async function downloadPng() {
+  exporting.value = true
+  await nextTick()                                   // постер з'явився в DOM
+  const node = poster.value.$el
+  try {
+    // дочекатися, поки всі фото постера завантажаться
+    await Promise.all([...node.querySelectorAll('img')].map((img) => img.decode().catch(() => {})))
+    // постер схований за межами екрана, тому для знімка повертаємо його на місце
+    const dataUrl = await toPng(node, { pixelRatio: 1, style: { position: 'static', left: '0' } })
+    const link = document.createElement('a')
+    link.href = dataUrl
+    link.download = 'moodboard.png'
+    link.click()
+    toast.success('PNG збережено')
+  } catch {
+    toast.error('Не вдалося зробити PNG')
+  } finally {
+    exporting.value = false
+  }
+}
 
 // [ДОДАТКОВО] «Очистити» з підтвердженням усередині сторінки (без confirm())
 const confirmClear = ref(false)
@@ -126,8 +162,17 @@ function doClear() {
           @pick="findByColor"
         />
         <p v-else class="muted">Рахую кольори…</p>
+
+        <template v-if="boardPalette.length">
+          <PaletteDetails :colors="boardPalette" @find="findByColor" />
+          <h2 class="side__title">Експорт</h2>
+          <ExportPanel :colors="boardPalette" :busy="exporting" @download-png="downloadPng" />
+        </template>
       </aside>
     </div>
+
+    <!-- постер для PNG рендериться лише на час знімка -->
+    <MoodPoster v-if="exporting" ref="poster" class="offscreen" :items="items" :colors="boardPalette" />
   </section>
 </template>
 
@@ -189,6 +234,12 @@ function doClear() {
     position: sticky;
     top: calc(var(--header-h) + 1rem);
   }
+}
+
+.offscreen {
+  position: fixed;
+  top: 0;
+  left: -99999px;
 }
 
 /* плитка, яку зараз тягнуть, — напівпрозора */

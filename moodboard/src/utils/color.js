@@ -7,12 +7,12 @@ import {
   converter,
   differenceEuclidean,
   formatHex,
-  formatHsl,
   formatRgb,
   wcagContrast,
 } from 'culori'
 
 const toOklab = converter('oklab')
+const toHsl = converter('hsl')
 const distance = differenceEuclidean('oklab')   // 0 — той самий колір, ~1 — чорний проти білого
 
 // Палітра у застосунку — масив { hex, share }, де share — частка кольору (сума = 1).
@@ -96,7 +96,8 @@ export function describeColor(hex) {
   return {
     hex,
     rgb: formatRgb(hex),
-    hsl: formatHsl(hex),
+    // formatHsl з culori дає дроби (257.14, 5.6%) — для людини округлюємо до цілих
+    hsl: (({ h = 0, s, l }) => `hsl(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`)(toHsl(hex)),
     onWhite,
     onBlack,
     // яким текстом писати поверх цього кольору, щоб читалось

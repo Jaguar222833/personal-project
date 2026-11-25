@@ -59,6 +59,16 @@ function byPalette(list, score) {
   return list.sort((a, b) => value(a) - value(b))
 }
 
+// id кадрів, у яких є обраний колір
+const matches = computed(() => {
+  if (!color.value) return new Set()
+  return new Set(
+    photos.value
+      .filter((p) => palettes.value[p.id] && hasColor(palettes.value[p.id], color.value))
+      .map((p) => p.id),
+  )
+})
+
 // [ЗАВДАННЯ] вимога 2: фільтр і пошук — computed.
 // Vue сам стежить, від чого залежить ця функція (photos, category, search, sort, color…),
 // і перераховує список лише коли щось із цього змінилось. Жодного ручного DOM.
@@ -73,9 +83,10 @@ const visiblePhotos = computed(() => {
     return inCategory && matches
   })
 
-  // [ДОДАТКОВО] пошук за кольором: лише кадри, де є близький колір
+  // [ДОДАТКОВО] пошук за кольором: кадри з цим кольором — нагору, решту не ховаємо,
+  // а показуємо сірими (див. matches і клас card--dim у PhotoCard)
   if (color.value) {
-    list = list.filter((p) => palettes.value[p.id] && hasColor(palettes.value[p.id], color.value))
+    list = [...list.filter((p) => matches.value.has(p.id)), ...list.filter((p) => !matches.value.has(p.id))]
   }
 
   // [ДОДАТКОВО] «Схожі»: найсхожіші на обраний кадр — нагорі (сам кадр перший, відстань 0)
@@ -112,7 +123,6 @@ const visiblePhotos = computed(() => {
 // текст для «нічого не знайдено» залежить від того, що саме відфільтрувало все
 const emptyText = computed(() => {
   if (search.value) return `За запитом «${search.value}» кадрів немає. Спробуйте інше слово або всі категорії.`
-  if (color.value) return `Кадрів з кольором ${color.value} тут немає. Оберіть інший колір або всі категорії.`
   return 'У цій категорії кадрів немає.'
 })
 
@@ -193,6 +203,7 @@ const boardPhotos = computed(() =>
 
       <p class="summary muted" aria-live="polite">
         Знайдено {{ plural(visiblePhotos.length, { one: 'кадр', few: 'кадри', many: 'кадрів' }) }}
+        <span v-if="color"> · з кольором {{ color }} — {{ visiblePhotos.filter((p) => matches.has(p.id)).length || 'жодного' }}</span>
         <span v-if="analysing"> · рахую кольори, залишилось {{ pending }}</span>
       </p>
 
@@ -211,6 +222,7 @@ const boardPhotos = computed(() =>
             :palette="palettes[photo.id] ?? null"
             :in-board="board.has(photo.id)"
             :active-color="color"
+            :match="color ? matches.has(photo.id) : null"
             @add="board.add"
             @remove="board.remove"
             @pick-color="pickColor"

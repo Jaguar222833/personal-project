@@ -14,6 +14,7 @@ const props = defineProps({
   palette: { type: Array, default: null },        // кольори кадру; null — ще рахуються
   inBoard: { type: Boolean, default: false },     // чи кадр уже на мудборді
   activeColor: { type: String, default: '' },     // колір, за яким зараз фільтр
+  match: { type: Boolean, default: null },        // [ДОДАТКОВО] чи є в кадрі обраний колір; null — колір не обрано
 })
 
 const emit = defineEmits(['add', 'remove', 'similar', 'collect', 'pick-color'])
@@ -25,7 +26,10 @@ const srcset = computed(
 </script>
 
 <template>
-  <article class="card" :class="{ 'card--in-board': inBoard }">
+  <article
+    class="card"
+    :class="{ 'card--in-board': inBoard, 'card--match': match === true, 'card--dim': match === false }"
+  >
     <div class="card__media">
       <!-- [ЗАВДАННЯ] адаптивне зображення з КП № 1: srcset + sizes, lazy, розміри від JSON -->
       <img
@@ -39,6 +43,24 @@ const srcset = computed(
         decoding="async"
       >
       <span v-if="categoryLabel" class="card__tag">{{ categoryLabel }}</span>
+      <!-- кадр збігся з обраним кольором — кольорова мітка в куті -->
+      <span v-if="match" class="card__match" :style="{ '--dot': activeColor }" aria-hidden="true" />
+
+      <!-- [ДОДАТКОВО] «фарбні пластинки»: при наведенні кольори кадру розкриваються віялом з HEX.
+           Лише для миші (hover) — на сенсорних екранах лишається смужка кольорів під фото -->
+      <div v-if="palette?.length" class="chips" aria-hidden="true">
+        <button
+          v-for="(color, i) in palette"
+          :key="color.hex"
+          type="button"
+          tabindex="-1"
+          class="chip"
+          :style="{ '--chip': color.hex, '--i': i, '--n': palette.length }"
+          @click="emit('pick-color', color.hex)"
+        >
+          <span class="chip__hex">{{ color.hex.toUpperCase() }}</span>
+        </button>
+      </div>
     </div>
 
     <div class="card__body">
@@ -121,6 +143,95 @@ const srcset = computed(
   &:hover {
     border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
     transform: translateY(-2px);
+  }
+}
+
+/* [ДОДАТКОВО] обрано колір: кадри з ним піднімаються, решта «тоне» в сірому */
+.card--match {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 30px var(--glow-soft);
+}
+
+.card--dim {
+  opacity: .45;
+  transform: scale(.97);
+  filter: grayscale(1);
+
+  &:hover { opacity: .8; filter: grayscale(.4); }
+}
+
+.card__match {
+  position: absolute;
+  top: .6rem;
+  right: .6rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: var(--dot);
+  box-shadow: 0 2px 8px rgb(0 0 0 / .4);
+  animation: pop .5s var(--spring);
+}
+
+@keyframes pop {
+  from { transform: scale(0); }
+}
+
+/* «фарбні пластинки»: складені стопкою в лівому нижньому куті фото, при наведенні — віяло */
+.chips {
+  position: absolute;
+  left: .75rem;
+  bottom: .6rem;
+  width: 2.6rem;
+  height: 5rem;
+  pointer-events: none;
+}
+
+.chip {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 .3rem;
+  border: 2px solid #fff;
+  border-radius: .35rem;
+  background: var(--chip);
+  box-shadow: 0 4px 12px rgb(0 0 0 / .35);
+  cursor: pointer;
+  opacity: 0;
+  transform-origin: 50% 110%;
+  transform: translateY(1rem) rotate(0);
+  transition: transform .55s var(--spring), opacity .25s;
+  transition-delay: calc(var(--i) * 25ms);
+}
+
+.chip__hex {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  padding: .2rem 0;
+  border-radius: .2rem;
+  background: rgb(0 0 0 / .45);
+  color: #fff;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+@media (hover: hover) {
+  .card:hover .chips { pointer-events: auto; }
+
+  .card:hover .chip {
+    opacity: 1;
+    /* кожна наступна пластинка зсувається вправо й повертається — виходить віяло */
+    transform: translateX(calc(var(--i) * 1.9rem)) rotate(calc((var(--i) - (var(--n) - 1) / 2) * 7deg));
+  }
+
+  .chip:hover {
+    z-index: 2;
+    translate: 0 -.5rem;
   }
 }
 

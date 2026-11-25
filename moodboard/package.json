@@ -11,13 +11,16 @@
   },
   "dependencies": {
     "@lucide/vue": "^1.71.0",
+    "@vee-validate/zod": "^4.15.1",
     "@vueuse/core": "^14.4.0",
     "culori": "^4.0.2",
     "extract-colors": "^4.2.1",
     "html-to-image": "^1.11.13",
+    "vee-validate": "^4.15.1",
     "vue": "^3.5.42",
     "vue-draggable-plus": "^0.6.1",
-    "vue-sonner": "^2.0.9"
+    "vue-sonner": "^2.0.9",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

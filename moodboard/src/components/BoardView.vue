@@ -16,6 +16,8 @@ import PaletteBar from './PaletteBar.vue'
 import PaletteDetails from './PaletteDetails.vue'
 import ExportPanel from './ExportPanel.vue'
 import MoodPoster from './MoodPoster.vue'
+import PresetSummary from './PresetSummary.vue'
+import PurchaseDialog from './PurchaseDialog.vue'
 
 const emit = defineEmits(['change-view'])
 
@@ -49,6 +51,12 @@ const items = computed(() =>
     .map((item) => ({ photo: photosById.value[item.id], weight: item.weight }))
     .filter((item) => item.photo),
 )
+
+// [ДОДАТКОВО] покупка пресетів: вікно з формою і сума, з якою його відкрили
+const purchase = ref({ open: false, total: 0, count: 0 })
+function openPurchase({ total, count }) {
+  purchase.value = { open: true, total, count }
+}
 
 // [ДОДАТКОВО] PNG мудборду: бібліотека html-to-image «фотографує» компонент MoodPoster
 const exporting = ref(false)
@@ -165,11 +173,21 @@ function doClear() {
 
         <template v-if="boardPalette.length">
           <PaletteDetails :colors="boardPalette" @find="findByColor" />
+          <h2 class="side__title">Пресети Lightroom</h2>
+          <PresetSummary :photos="items.map((i) => i.photo)" @buy="openPurchase" />
           <h2 class="side__title">Експорт</h2>
           <ExportPanel :colors="boardPalette" :busy="exporting" @download-png="downloadPng" />
         </template>
       </aside>
     </div>
+
+    <PurchaseDialog
+      :open="purchase.open"
+      :total="purchase.total"
+      :count="purchase.count"
+      @close="purchase.open = false"
+      @done="purchase.open = false"
+    />
 
     <!-- постер для PNG рендериться лише на час знімка -->
     <MoodPoster v-if="exporting" ref="poster" class="offscreen" :items="items" :colors="boardPalette" />

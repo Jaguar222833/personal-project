@@ -4,14 +4,18 @@ import { VueDraggable } from 'vue-draggable-plus'
 import { LayoutGrid, Trash2 } from '@lucide/vue'
 import { usePhotos } from '@/composables/usePhotos'
 import { useBoard } from '@/composables/useBoard'
+import { useBoardPalette } from '@/composables/useBoardPalette'
 import { plural } from '@/utils/format'
 import BoardItem from './BoardItem.vue'
 import EmptyState from './EmptyState.vue'
+import PaletteBar from './PaletteBar.vue'
 
 const emit = defineEmits(['change-view'])
 
 const { photos } = usePhotos()
 const { board, count, increment, decrement, remove, clear } = useBoard()
+
+const { boardPalette } = useBoardPalette()
 
 const photosById = computed(() => Object.fromEntries(photos.value.map((p) => [p.id, p])))
 
@@ -60,27 +64,36 @@ function doClear() {
       </button>
     </EmptyState>
 
-    <!-- [ДОДАТКОВО] перетягування плиток — бібліотека vue-draggable-plus (SortableJS).
-         v-model="board": після перетягування бібліотека сама переставляє масив, а watch зберігає -->
     <p v-else-if="!photos.length" class="muted">Завантажую кадри…</p>
-    <VueDraggable
-      v-else
-      v-model="board"
-      class="board"
-      :animation="250"
-      handle=".tile__handle"
-      ghost-class="tile--ghost"
-    >
-      <BoardItem
-        v-for="item in board"
-        :key="item.id"
-        :photo="photosById[item.id]"
-        :weight="item.weight"
-        @increment="increment"
-        @decrement="decrement"
-        @remove="remove"
-      />
-    </VueDraggable>
+
+    <div v-else class="layout">
+      <!-- [ДОДАТКОВО] перетягування плиток — бібліотека vue-draggable-plus (SortableJS).
+           v-model="board": після перетягування бібліотека сама переставляє масив, а watch зберігає -->
+      <VueDraggable
+        v-model="board"
+        class="board"
+        :animation="250"
+        handle=".tile__handle"
+        ghost-class="tile--ghost"
+      >
+        <BoardItem
+          v-for="item in board"
+          :key="item.id"
+          :photo="photosById[item.id]"
+          :weight="item.weight"
+          @increment="increment"
+          @decrement="decrement"
+          @remove="remove"
+        />
+      </VueDraggable>
+
+      <!-- палітра — «загальна сума» мудборду: перераховується при кожній зміні -->
+      <aside class="side" aria-labelledby="palette-title">
+        <h2 id="palette-title" class="side__title">Палітра</h2>
+        <PaletteBar v-if="boardPalette.length" :colors="boardPalette" height="4.5rem" labels />
+        <p v-else class="muted">Рахую кольори…</p>
+      </aside>
+    </div>
   </section>
 </template>
 
@@ -119,6 +132,29 @@ function doClear() {
   grid-auto-rows: 8rem;                                           /* [2] */
   grid-auto-flow: dense;                                          /* [3] */
   gap: .5rem;
+}
+
+/* [1] телефон: дошка, під нею палітра.
+   [2] від 64rem — дві колонки: дошка і бічна панель, що «липне» під час прокрутки */
+.layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.side {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.side__title { margin: 0; }
+
+@media (width >= 64rem) {
+  .layout { grid-template-columns: minmax(0, 1fr) 22rem; }       /* [2] */
+  .side {
+    position: sticky;
+    top: calc(var(--header-h) + 1rem);
+  }
 }
 
 /* плитка, яку зараз тягнуть, — напівпрозора */

@@ -27,9 +27,11 @@ export function normalizePalette(colors, max = 6) {
 // [ДОДАТКОВО] спільна палітра мудборду.
 // entries — [{ palette, weight }]: палітри кадрів і їхня вага (+/− у мудборді).
 // Схожі кольори різних кадрів зливаються в один (середнє в OKLab), вага кольору = частка × вага кадру.
-export function mergePalettes(entries, { max = 8, threshold = 0.09 } = {}) {
+// Частку беремо в степені 0.6: великий темний фон не «з'їдає» дрібні яскраві акценти,
+// як це роблять дизайнери, коли складають палітру з фото.
+export function mergePalettes(entries, { max = 8, threshold = 0.09, minShare = 0.015 } = {}) {
   const flat = entries.flatMap(({ palette, weight }) =>
-    palette.map((c) => ({ lab: toOklab(c.hex), w: c.share * weight })),
+    palette.map((c) => ({ lab: toOklab(c.hex), w: c.share ** 0.6 * weight })),
   )
   flat.sort((a, b) => b.w - a.w)              // спершу найвагоміші — вони стають «центрами» груп
 
@@ -53,7 +55,9 @@ export function mergePalettes(entries, { max = 8, threshold = 0.09 } = {}) {
 
   const top = groups.sort((a, b) => b.w - a.w).slice(0, max)
   const total = top.reduce((sum, g) => sum + g.w, 0) || 1
-  return top.map((g) => ({ hex: formatHex(g.lab), share: g.w / total }))
+  return top
+    .map((g) => ({ hex: formatHex(g.lab), share: g.w / total }))
+    .filter((c) => c.share >= minShare)   // крихти менше 1.5 % — шум, а не колір палітри
 }
 
 // [ДОДАТКОВО] наскільки дві палітри схожі: для кожного кольору A шукаємо найближчий у B,

@@ -4,16 +4,26 @@ import { SearchX } from '@lucide/vue'
 import { usePhotos } from '@/composables/usePhotos'
 import { useFilters } from '@/composables/useFilters'
 import { useBoard } from '@/composables/useBoard'
+import { usePalettes } from '@/composables/usePalettes'
+import { useBoardPalette } from '@/composables/useBoardPalette'
 import { plural } from '@/utils/format'
 import EmptyState from './EmptyState.vue'
 import FilterBar from './FilterBar.vue'
 import PhotoCard from './PhotoCard.vue'
+import BoardTray from './BoardTray.vue'
 
-defineEmits(['change-view'])
+const emit = defineEmits(['change-view'])
 
 const { photos, categories, loading, error, reload } = usePhotos()
 const { category, search, sort, reset } = useFilters()
 const board = useBoard()
+const { palettes, pending, analysing } = usePalettes()
+const { boardPalette } = useBoardPalette()
+
+// кадри мудборду — для мініатюр у нижній панелі
+const boardPhotos = computed(() =>
+  board.board.value.map((item) => photos.value.find((p) => p.id === item.id)).filter(Boolean),
+)
 
 // id категорії → підпис українською
 const categoryLabels = computed(() =>
@@ -89,6 +99,7 @@ const visiblePhotos = computed(() => {
 
       <p class="summary muted" aria-live="polite">
         Знайдено {{ plural(visiblePhotos.length, { one: 'кадр', few: 'кадри', many: 'кадрів' }) }}
+        <span v-if="analysing"> · рахую кольори, залишилось {{ pending }}</span>
       </p>
 
       <!-- [ЗАВДАННЯ] вимога 6: окреме повідомлення «нічого не знайдено» -->
@@ -107,6 +118,7 @@ const visiblePhotos = computed(() => {
           <PhotoCard
             :photo="photo"
             :category-label="categoryLabels[photo.category]"
+            :palette="palettes[photo.id] ?? null"
             :in-board="board.has(photo.id)"
             @add="board.add"
             @remove="board.remove"
@@ -114,10 +126,21 @@ const visiblePhotos = computed(() => {
         </li>
       </TransitionGroup>
     </template>
+
+    <BoardTray
+      v-if="board.count.value"
+      :photos="boardPhotos"
+      :count="board.count.value"
+      :palette="boardPalette"
+      @open="emit('change-view', 'board')"
+    />
   </section>
 </template>
 
 <style scoped>
+/* місце під нижню панель, щоб вона не закривала останній ряд карток */
+section:has(.tray) { padding-bottom: 4.5rem; }
+
 .intro {
   max-width: 65ch;
   margin-bottom: 1.5rem;

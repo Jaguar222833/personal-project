@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { usePhotos } from './composables/usePhotos'
 import { useBoard } from './composables/useBoard'
+import { usePalettes } from './composables/usePalettes'
 import AppHeader from './components/AppHeader.vue'
 import BoardView from './components/BoardView.vue'
 import GalleryView from './components/GalleryView.vue'
@@ -15,10 +16,14 @@ function changeView(next) {
 
 const { photos } = usePhotos()
 const { count, keepOnly } = useBoard()
+const { ensure } = usePalettes()
 
-// коли каталог завантажився — прибрати з мудборду кадри, яких у ньому вже немає
+// коли каталог завантажився: прибрати з мудборду кадри, яких у ньому вже немає,
+// і почати рахувати кольори кадрів (у фоні, сторінка тим часом працює)
 watch(photos, (list) => {
-  if (list.length) keepOnly(list.map((p) => p.id))
+  if (!list.length) return
+  keepOnly(list.map((p) => p.id))
+  ensure(list)
 })
 </script>
 

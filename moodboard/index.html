@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8">
+    <!-- [ЗАВДАННЯ] viewport з КП № 1: сторінка масштабується під ширину телефона -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Мудборд і палітра з моїх фото: оберіть кадри — кольори зберуться самі.">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <!-- ті самі шрифти, що й на головному сайті -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap">
+    <title>Мудборд · Artem Arsentiev</title>
+    <!-- [ДОДАТКОВО] тема ставиться до завантаження Vue, щоб сторінка не «блимала» світлим -->
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light'
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <noscript>Мудборд працює на JavaScript (Vue.js). Увімкніть його, щоб зібрати палітру.</noscript>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

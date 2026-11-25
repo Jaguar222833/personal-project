@@ -2,6 +2,7 @@
 // Шапка: назва, перемикач «Галерея / Мудборд» з лічильником і кнопка теми.
 import { ArrowLeft, Images, LayoutGrid, Moon, Sun } from '@lucide/vue'
 import { useColorMode } from '@vueuse/core'
+import AnimatedNumber from './AnimatedNumber.vue'
 
 defineProps({
   view: { type: String, required: true },     // 'gallery' | 'board'
@@ -51,7 +52,7 @@ function toggleTheme() {
           <span class="tab__text">Мудборд</span>
           <!-- [ЗАВДАННЯ] вимога 3: лічильник у шапці оновлюється одразу -->
           <span class="badge" :class="{ 'badge--empty': !count }" aria-label="кадрів на мудборді">
-            {{ count }}
+            <AnimatedNumber :value="count" />
           </span>
         </button>
       </nav>

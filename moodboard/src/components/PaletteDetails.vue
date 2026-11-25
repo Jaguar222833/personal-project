@@ -6,7 +6,7 @@ import { useClipboard } from '@vueuse/core'
 import { Search } from '@lucide/vue'
 import { toast } from 'vue-sonner'
 import { describeColor, wcagLevel } from '@/utils/color'
-import { formatShare } from '@/utils/format'
+import AnimatedNumber from './AnimatedNumber.vue'
 
 const props = defineProps({
   colors: { type: Array, required: true },   // [{ hex, share }]
@@ -27,9 +27,10 @@ async function copyValue(value) {
 
 <template>
   <ul class="colors">
-    <li v-for="row in rows" :key="row.hex" class="color">
+    <!-- ключ — позиція: колір рядка змінюється плавно, а відсоток «перекочується» -->
+    <li v-for="(row, i) in rows" :key="i" class="color">
       <div class="color__chip" :style="{ background: row.hex, color: row.text }">
-        <span class="color__share">{{ formatShare(row.share) }}</span>
+        <span class="color__share"><AnimatedNumber :value="row.share" kind="percent" /></span>
         <span class="color__sample">Aa</span>
       </div>
 

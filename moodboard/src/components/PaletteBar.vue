@@ -3,6 +3,7 @@
 // Коли змінюється вага кадру, частки перераховуються (computed у батька),
 // а flex-grow плавно «перетікає» завдяки transition.
 import { formatShare } from '@/utils/format'
+import AnimatedNumber from './AnimatedNumber.vue'
 
 defineProps({
   colors: { type: Array, required: true },     // [{ hex, share }]
@@ -26,7 +27,7 @@ const emit = defineEmits(['pick'])
       :aria-label="`${color.hex}, ${formatShare(color.share)}`"
       @click="emit('pick', color.hex)"
     >
-      <span v-if="labels && color.share >= 0.12" class="bar__label">{{ formatShare(color.share) }}</span>
+      <span v-if="labels && color.share >= 0.12" class="bar__label"><AnimatedNumber :value="color.share" kind="percent" /></span>
     </button>
   </div>
 </template>

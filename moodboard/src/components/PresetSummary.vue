@@ -4,6 +4,7 @@
 import { computed } from 'vue'
 import { ShoppingBag } from '@lucide/vue'
 import { formatPrice, plural } from '@/utils/format'
+import AnimatedNumber from './AnimatedNumber.vue'
 
 const props = defineProps({
   photos: { type: Array, required: true },   // кадри мудборду
@@ -34,10 +35,10 @@ const left = computed(() => BUNDLE_FROM - props.photos.length)
     <dl class="presets__sum">
       <template v-if="discount">
         <dt>Знижка за набір −{{ BUNDLE_DISCOUNT * 100 }} %</dt>
-        <dd>−{{ formatPrice(discount) }}</dd>
+        <dd>−<AnimatedNumber :value="discount" kind="price" /></dd>
       </template>
       <dt class="presets__total">Разом</dt>
-      <dd class="presets__total">{{ formatPrice(total) }}</dd>
+      <dd class="presets__total"><AnimatedNumber :value="total" kind="price" /></dd>
     </dl>
 
     <p v-if="left > 0" class="muted presets__hint">

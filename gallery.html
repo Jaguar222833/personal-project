@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <!-- [ЗАВДАННЯ] viewport (лекція 3, слайд 4) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Фотопортфоліо · Artem Arsentiev</title>
+    <meta name="description" content="Фотопортфоліо Artem Arsentiev: місто, подорожі, тварини, природа й техніка.">
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+    <!-- [ДОДАТКОВО] шрифти Google Fonts з кирилицею -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- [ДОДАТКОВО] збережена тема — до малювання сторінки -->
+    <script>try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти до змісту</a>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="logo" href="index.html" aria-label="Artem Arsentiev — на головну">
+            <span class="logo-mark" aria-hidden="true">AA</span>
+            <span class="logo-text">Artem Arsentiev</span>
+        </a>
+
+        <!-- [ЗАВДАННЯ] меню на <details> без JavaScript -->
+        <nav class="site-nav" aria-label="Головне меню">
+            <details class="menu">
+                <summary>Меню</summary>
+                <ul class="menu-list">
+                    <li><a href="index.html">Головна</a></li>
+                    <li><a href="gallery.html" aria-current="page">Фото</a></li>
+                    <li><a href="blog.html">Блог</a></li>
+                    <li><a href="moodboard/">Мудборд</a></li>
+                </ul>
+            </details>
+        </nav>
+
+        <button class="theme-toggle" type="button" aria-label="Темна тема" aria-pressed="false" hidden>☾</button>
+    </div>
+</header>
+
+<main id="main" class="container">
+
+    <header class="page-head">
+        <h1>Фотопортфоліо</h1>
+        <p class="lead">
+            Вибрані кадри: місто, подорожі, тварини, природа й техніка.
+            Більше — в <a href="https://www.instagram.com/arsentiev.artem/">Instagram</a>.
+        </p>
+    </header>
+
+    <!-- [ДОДАТКОВО] фільтр за категоріями. Без JS кнопки не працювали б, тому вони сховані (hidden),
+         а js/gallery.js їх показує -->
+    <div class="filters" role="group" aria-label="Фільтр фото за категорією" hidden>
+        <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">Усі</button>
+        <button class="filter-btn" type="button" data-filter="city" aria-pressed="false">Місто</button>
+        <button class="filter-btn" type="button" data-filter="travel" aria-pressed="false">Подорожі</button>
+        <button class="filter-btn" type="button" data-filter="animals" aria-pressed="false">Тварини</button>
+        <button class="filter-btn" type="button" data-filter="nature" aria-pressed="false">Природа</button>
+        <button class="filter-btn" type="button" data-filter="auto" aria-pressed="false">Авто</button>
+        <button class="filter-btn" type="button" data-filter="concept" aria-pressed="false">Концепт</button>
+    </div>
+    <p class="visually-hidden" role="status" aria-live="polite" data-gallery-status></p>
+
+    <!-- [ЗАВДАННЯ] сітка фото на CSS Grid.
+         Колонки: 1 → 2 (від 40rem) → 3 (від 64rem) — медіазапити в кінці styles.css.
+         [ЗАВДАННЯ] кожне фото: alt, width/height, srcset + sizes, loading="lazy" (лекція 3, слайд 10).
+         Без JS фото — звичайне посилання на великий файл; з JS відкривається у вікні перегляду. -->
+    <!-- обгортка — контейнер: висота рядків сітки рахується від її ширини (cqi) -->
+    <div class="gallery-wrap">
+    <ul class="gallery">
+        <li class="photo photo--wide" data-category="concept">
+            <figure>
+                <a href="img/chair-1600.jpg" data-lightbox="gallery">
+                    <img src="img/chair-960.jpg"
+                         srcset="img/chair-480.jpg 480w, img/chair-960.jpg 960w, img/chair-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 46rem, 100vw"
+                         width="960" height="640"
+                         alt="Дерев'яний стілець серед уламків плит у промені світла між будинками">
+                </a>
+                <figcaption><strong>Стілець у промені</strong> Постановочний кадр</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="city">
+            <figure>
+                <a href="img/kpi-1600.jpg" data-lightbox="gallery">
+                    <img src="img/kpi-960.jpg"
+                         srcset="img/kpi-480.jpg 480w, img/kpi-960.jpg 960w, img/kpi-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640"
+                         alt="Головний корпус КПІ під хмарним небом, праворуч ялина">
+                </a>
+                <figcaption><strong>Головний корпус КПІ</strong> Київ</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="animals">
+            <figure>
+                <a href="img/sparrow-1600.jpg" data-lightbox="gallery">
+                    <img src="img/sparrow-960.jpg"
+                         srcset="img/sparrow-480.jpg 480w, img/sparrow-960.jpg 960w, img/sparrow-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="726" loading="lazy"
+                         alt="Горобець сидить на гілці в теплому світлі">
+                </a>
+                <figcaption><strong>Горобець</strong> Тварини</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="city">
+            <figure>
+                <a href="img/bridge-1600.jpg" data-lightbox="gallery">
+                    <img src="img/bridge-960.jpg"
+                         srcset="img/bridge-480.jpg 480w, img/bridge-960.jpg 960w, img/bridge-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Вантовий міст над річкою на заході сонця">
+                </a>
+                <figcaption><strong>Міст на заході</strong> Місто</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="animals">
+            <figure>
+                <a href="img/parrot-1600.jpg" data-lightbox="gallery">
+                    <img src="img/parrot-960.jpg"
+                         srcset="img/parrot-480.jpg 480w, img/parrot-960.jpg 960w, img/parrot-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Червоний папуга ара на гілці">
+                </a>
+                <figcaption><strong>Ара</strong> Тварини</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="city">
+            <figure>
+                <a href="img/fountain-1600.jpg" data-lightbox="gallery">
+                    <img src="img/fountain-960.jpg"
+                         srcset="img/fountain-480.jpg 480w, img/fountain-960.jpg 960w, img/fountain-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Старий фонтан серед осінніх дерев">
+                </a>
+                <figcaption><strong>Фонтан</strong> Місто</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="concept">
+            <figure>
+                <a href="img/knife-2-1600.jpg" data-lightbox="gallery">
+                    <img src="img/knife-2-960.jpg"
+                         srcset="img/knife-2-480.jpg 480w, img/knife-2-960.jpg 960w, img/knife-2-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Ніж на карбоновій поверхні, вигляд збоку">
+                </a>
+                <figcaption><strong>Лезо</strong> Предметна зйомка</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="city">
+            <figure>
+                <a href="img/autumn-1600.jpg" data-lightbox="gallery">
+                    <img src="img/autumn-960.jpg"
+                         srcset="img/autumn-480.jpg 480w, img/autumn-960.jpg 960w, img/autumn-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Осінні дерева перед старими будинками з гострим шпилем">
+                </a>
+                <figcaption><strong>Осінь у місті</strong> Київ</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="animals">
+            <figure>
+                <a href="img/lizard-1600.jpg" data-lightbox="gallery">
+                    <img src="img/lizard-960.jpg"
+                         srcset="img/lizard-480.jpg 480w, img/lizard-960.jpg 960w, img/lizard-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Сіра ящірка крупним планом на зеленому тлі">
+                </a>
+                <figcaption><strong>Ящірка</strong> Тварини</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="nature">
+            <figure>
+                <a href="img/tree-1600.jpg" data-lightbox="gallery">
+                    <img src="img/tree-960.jpg"
+                         srcset="img/tree-480.jpg 480w, img/tree-960.jpg 960w, img/tree-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Самотнє дерево на березі проти сонця">
+                </a>
+                <figcaption><strong>Дерево проти сонця</strong> Природа</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="city">
+            <figure>
+                <a href="img/sunny-street-1600.jpg" data-lightbox="gallery">
+                    <img src="img/sunny-street-960.jpg"
+                         srcset="img/sunny-street-480.jpg 480w, img/sunny-street-960.jpg 960w, img/sunny-street-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Міська вулиця зі старими будинками в сонячний день">
+                </a>
+                <figcaption><strong>Вулиця в сонці</strong> Місто</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="travel">
+            <figure>
+                <a href="img/pagoda-1600.jpg" data-lightbox="gallery">
+                    <img src="img/pagoda-960.jpg"
+                         srcset="img/pagoda-480.jpg 480w, img/pagoda-960.jpg 960w, img/pagoda-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Вигнуті дахи традиційної китайської будівлі на тлі неба">
+                </a>
+                <figcaption><strong>Дахи над містом</strong> Шанхай</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="travel">
+            <figure>
+                <a href="img/dancer-1600.jpg" data-lightbox="gallery">
+                    <img src="img/dancer-960.jpg"
+                         srcset="img/dancer-480.jpg 480w, img/dancer-960.jpg 960w, img/dancer-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Жінка в традиційному вбранні з віялом на мосту">
+                </a>
+                <figcaption><strong>Вулична сцена</strong> Шанхай</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="city">
+            <figure>
+                <a href="img/street-1600.jpg" data-lightbox="gallery">
+                    <img src="img/street-960.jpg"
+                         srcset="img/street-480.jpg 480w, img/street-960.jpg 960w, img/street-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Вузька вулиця між старими будинками з кольоровими вивісками внизу">
+                </a>
+                <figcaption><strong>Вузька вулиця</strong> Місто</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="travel">
+            <figure>
+                <a href="img/museum-1600.jpg" data-lightbox="gallery">
+                    <img src="img/museum-960.jpg"
+                         srcset="img/museum-480.jpg 480w, img/museum-960.jpg 960w, img/museum-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Гострий кут будівлі музею Porsche на тлі хмар">
+                </a>
+                <figcaption><strong>Музей Porsche</strong> Штутгарт</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/coupe-1600.jpg" data-lightbox="gallery">
+                    <img src="img/coupe-960.jpg"
+                         srcset="img/coupe-480.jpg 480w, img/coupe-960.jpg 960w, img/coupe-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Червоне спортивне купе BMW ззаду на вулиці">
+                </a>
+                <figcaption><strong>Червоне купе</strong> Авто</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/moto-side-1600.jpg" data-lightbox="gallery">
+                    <img src="img/moto-side-960.jpg"
+                         srcset="img/moto-side-480.jpg 480w, img/moto-side-960.jpg 960w, img/moto-side-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Мотоцикл-круізер збоку на бруківці біля будинку">
+                </a>
+                <figcaption><strong>Профіль</strong> Авто</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="concept">
+            <figure>
+                <a href="img/knife-1600.jpg" data-lightbox="gallery">
+                    <img src="img/knife-960.jpg"
+                         srcset="img/knife-480.jpg 480w, img/knife-960.jpg 960w, img/knife-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Складаний ніж на карбоновій поверхні">
+                </a>
+                <figcaption><strong>Сталь</strong> Предметна зйомка</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="animals">
+            <figure>
+                <a href="img/gorilla-1600.jpg" data-lightbox="gallery">
+                    <img src="img/gorilla-960.jpg"
+                         srcset="img/gorilla-480.jpg 480w, img/gorilla-960.jpg 960w, img/gorilla-1600.jpg 1265w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1215" loading="lazy"
+                         alt="Горила біля стіни у вольєрі">
+                </a>
+                <figcaption><strong>Горила</strong> Тварини</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="animals">
+            <figure>
+                <a href="img/crocodile-1600.jpg" data-lightbox="gallery">
+                    <img src="img/crocodile-960.jpg"
+                         srcset="img/crocodile-480.jpg 480w, img/crocodile-960.jpg 960w, img/crocodile-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="489" loading="lazy"
+                         alt="Крокодил лежить на камені біля води">
+                </a>
+                <figcaption><strong>Крокодил</strong> Тварини</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="city">
+            <figure>
+                <a href="img/wires-1600.jpg" data-lightbox="gallery">
+                    <img src="img/wires-960.jpg"
+                         srcset="img/wires-480.jpg 480w, img/wires-960.jpg 960w, img/wires-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Ліхтар і дроти на тлі вечірнього неба">
+                </a>
+                <figcaption><strong>Дроти й небо</strong> Місто</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/porsche-917-22-1600.jpg" data-lightbox="gallery">
+                    <img src="img/porsche-917-22-960.jpg"
+                         srcset="img/porsche-917-22-480.jpg 480w, img/porsche-917-22-960.jpg 960w, img/porsche-917-22-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Гоночний Porsche 917 з номером 22 у лівреї Martini">
+                </a>
+                <figcaption><strong>Porsche 917 №22</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/porsche-911-1600.jpg" data-lightbox="gallery">
+                    <img src="img/porsche-911-960.jpg"
+                         srcset="img/porsche-911-480.jpg 480w, img/porsche-911-960.jpg 960w, img/porsche-911-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Два червоні Porsche 911 різних поколінь у залі музею">
+                </a>
+                <figcaption><strong>Два покоління 911</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="auto">
+            <figure>
+                <a href="img/targa-1600.jpg" data-lightbox="gallery">
+                    <img src="img/targa-960.jpg"
+                         srcset="img/targa-480.jpg 480w, img/targa-960.jpg 960w, img/targa-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Напис Targa на червоному кузові крупним планом">
+                </a>
+                <figcaption><strong>Targa</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="travel">
+            <figure>
+                <a href="img/cathedral-1600.jpg" data-lightbox="gallery">
+                    <img src="img/cathedral-960.jpg"
+                         srcset="img/cathedral-480.jpg 480w, img/cathedral-960.jpg 960w, img/cathedral-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="768" loading="lazy"
+                         alt="Готичний собор крізь розмиті гілки на передньому плані">
+                </a>
+                <figcaption><strong>Собор крізь гілки</strong> Кельн</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="nature">
+            <figure>
+                <a href="img/tulip-1600.jpg" data-lightbox="gallery">
+                    <img src="img/tulip-960.jpg"
+                         srcset="img/tulip-480.jpg 480w, img/tulip-960.jpg 960w, img/tulip-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Рожевий тюльпан на чорно-білому тлі">
+                </a>
+                <figcaption><strong>Тюльпан</strong> Природа</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/silver-racer-1600.jpg" data-lightbox="gallery">
+                    <img src="img/silver-racer-960.jpg"
+                         srcset="img/silver-racer-480.jpg 480w, img/silver-racer-960.jpg 960w, img/silver-racer-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Срібний гоночний автомобіль у чорно-білій гамі">
+                </a>
+                <figcaption><strong>Срібний болід</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--wide" data-category="travel">
+            <figure>
+                <a href="img/shanghai-1600.jpg" data-lightbox="gallery">
+                    <img src="img/shanghai-960.jpg"
+                         srcset="img/shanghai-480.jpg 480w, img/shanghai-960.jpg 960w, img/shanghai-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 46rem, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Багатоярусна будівля з позолоченими вигнутими дахами">
+                </a>
+                <figcaption><strong>Старе місто</strong> Шанхай</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="city">
+            <figure>
+                <a href="img/facade-1600.jpg" data-lightbox="gallery">
+                    <img src="img/facade-960.jpg"
+                         srcset="img/facade-480.jpg 480w, img/facade-960.jpg 960w, img/facade-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Кольоровий будинок з башточкою на вузькій вулиці">
+                </a>
+                <figcaption><strong>Кольоровий фасад</strong> Місто</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="nature">
+            <figure>
+                <a href="img/forget-me-not-1600.jpg" data-lightbox="gallery">
+                    <img src="img/forget-me-not-960.jpg"
+                         srcset="img/forget-me-not-480.jpg 480w, img/forget-me-not-960.jpg 960w, img/forget-me-not-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Сині квіти незабудок на розмитому зеленому тлі">
+                </a>
+                <figcaption><strong>Незабудки</strong> Природа</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="nature">
+            <figure>
+                <a href="img/blossom-1600.jpg" data-lightbox="gallery">
+                    <img src="img/blossom-960.jpg"
+                         srcset="img/blossom-480.jpg 480w, img/blossom-960.jpg 960w, img/blossom-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Гілка з білими квітами на тлі синього неба">
+                </a>
+                <figcaption><strong>Цвітіння</strong> Природа</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/porsche-green-1600.jpg" data-lightbox="gallery">
+                    <img src="img/porsche-green-960.jpg"
+                         srcset="img/porsche-green-480.jpg 480w, img/porsche-green-960.jpg 960w, img/porsche-green-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Зелений Porsche 911 Targa в залі музею">
+                </a>
+                <figcaption><strong>Зелений 911</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="nature">
+            <figure>
+                <a href="img/tulips-1600.jpg" data-lightbox="gallery">
+                    <img src="img/tulips-960.jpg"
+                         srcset="img/tulips-480.jpg 480w, img/tulips-960.jpg 960w, img/tulips-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Помаранчеві тюльпани й жовті квіти на клумбі">
+                </a>
+                <figcaption><strong>Весняні квіти</strong> Природа</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="travel">
+            <figure>
+                <a href="img/galleries-1600.jpg" data-lightbox="gallery">
+                    <img src="img/galleries-960.jpg"
+                         srcset="img/galleries-480.jpg 480w, img/galleries-960.jpg 960w, img/galleries-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Дерев'яні галереї традиційних будинків проти світла">
+                </a>
+                <figcaption><strong>Галереї</strong> Шанхай</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="animals">
+            <figure>
+                <a href="img/lion-1600.jpg" data-lightbox="gallery">
+                    <img src="img/lion-960.jpg"
+                         srcset="img/lion-480.jpg 480w, img/lion-960.jpg 960w, img/lion-1600.jpg 1040w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1477" loading="lazy"
+                         alt="Лев лежить у тіні скелі">
+                </a>
+                <figcaption><strong>Лев</strong> Тварини</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="concept">
+            <figure>
+                <a href="img/desk-1600.jpg" data-lightbox="gallery">
+                    <img src="img/desk-960.jpg"
+                         srcset="img/desk-480.jpg 480w, img/desk-960.jpg 960w, img/desk-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Ноутбук на темному столі">
+                </a>
+                <figcaption><strong>Робочий стіл</strong> Предметна зйомка</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/wheel-1600.jpg" data-lightbox="gallery">
+                    <img src="img/wheel-960.jpg"
+                         srcset="img/wheel-480.jpg 480w, img/wheel-960.jpg 960w, img/wheel-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Кермо й панель приладів класичного Porsche">
+                </a>
+                <figcaption><strong>Кермо</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="animals">
+            <figure>
+                <a href="img/lemur-1600.jpg" data-lightbox="gallery">
+                    <img src="img/lemur-960.jpg"
+                         srcset="img/lemur-480.jpg 480w, img/lemur-960.jpg 960w, img/lemur-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Кільцехвостий лемур сидить на дереві">
+                </a>
+                <figcaption><strong>Лемур</strong> Тварини</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="animals">
+            <figure>
+                <a href="img/toad-1600.jpg" data-lightbox="gallery">
+                    <img src="img/toad-960.jpg"
+                         srcset="img/toad-480.jpg 480w, img/toad-960.jpg 960w, img/toad-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Ропуха в тіні під корчем">
+                </a>
+                <figcaption><strong>Жаба</strong> Тварини</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="city">
+            <figure>
+                <a href="img/balcony-1600.jpg" data-lightbox="gallery">
+                    <img src="img/balcony-960.jpg"
+                         srcset="img/balcony-480.jpg 480w, img/balcony-960.jpg 960w, img/balcony-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Вид на місто з балкона крізь темні гілки дерев">
+                </a>
+                <figcaption><strong>Місто крізь дерева</strong> Місто</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="nature">
+            <figure>
+                <a href="img/blossom-2-1600.jpg" data-lightbox="gallery">
+                    <img src="img/blossom-2-960.jpg"
+                         srcset="img/blossom-2-480.jpg 480w, img/blossom-2-960.jpg 960w, img/blossom-2-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Гілка абрикоси в цвіту на тлі синього неба">
+                </a>
+                <figcaption><strong>Абрикоса</strong> Природа</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="nature">
+            <figure>
+                <a href="img/tree-2-1600.jpg" data-lightbox="gallery">
+                    <img src="img/tree-2-960.jpg"
+                         srcset="img/tree-2-480.jpg 480w, img/tree-2-960.jpg 960w, img/tree-2-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Осіннє дерево на піщаному березі під синім небом">
+                </a>
+                <figcaption><strong>Дерево на березі</strong> Природа</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/porsche-904-1600.jpg" data-lightbox="gallery">
+                    <img src="img/porsche-904-960.jpg"
+                         srcset="img/porsche-904-480.jpg 480w, img/porsche-904-960.jpg 960w, img/porsche-904-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Срібний Porsche 904 крупним планом">
+                </a>
+                <figcaption><strong>Porsche 904</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="travel">
+            <figure>
+                <a href="img/water-houses-1600.jpg" data-lightbox="gallery">
+                    <img src="img/water-houses-960.jpg"
+                         srcset="img/water-houses-480.jpg 480w, img/water-houses-960.jpg 960w, img/water-houses-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Традиційні будинки над водою">
+                </a>
+                <figcaption><strong>Будинки над водою</strong> Шанхай</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="city">
+            <figure>
+                <a href="img/monument-1600.jpg" data-lightbox="gallery">
+                    <img src="img/monument-960.jpg"
+                         srcset="img/monument-480.jpg 480w, img/monument-960.jpg 960w, img/monument-1600.jpg 1067w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1440" loading="lazy"
+                         alt="Кінний пам'ятник серед зелені на тлі неба">
+                </a>
+                <figcaption><strong>Пам'ятник</strong> Місто</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--tall" data-category="travel">
+            <figure>
+                <a href="img/cologne-1600.jpg" data-lightbox="gallery">
+                    <img src="img/cologne-960.jpg"
+                         srcset="img/cologne-480.jpg 480w, img/cologne-960.jpg 960w, img/cologne-1600.jpg 1280w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="1200" loading="lazy"
+                         alt="Фасад Кельнського собору, знято знизу вгору">
+                </a>
+                <figcaption><strong>Кельнський собор</strong> Кельн</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="travel">
+            <figure>
+                <a href="img/lanterns-1600.jpg" data-lightbox="gallery">
+                    <img src="img/lanterns-960.jpg"
+                         srcset="img/lanterns-480.jpg 480w, img/lanterns-960.jpg 960w, img/lanterns-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Червоні китайські ліхтарі біля входу до ресторану">
+                </a>
+                <figcaption><strong>Червоні ліхтарі</strong> Шанхай</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/porsche-917-1600.jpg" data-lightbox="gallery">
+                    <img src="img/porsche-917-960.jpg"
+                         srcset="img/porsche-917-480.jpg 480w, img/porsche-917-960.jpg 960w, img/porsche-917-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="768" loading="lazy"
+                         alt="Гоночний Porsche 917 у лівреї Martini в залі музею">
+                </a>
+                <figcaption><strong>Porsche 917</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/targa-modern-1600.jpg" data-lightbox="gallery">
+                    <img src="img/targa-modern-960.jpg"
+                         srcset="img/targa-modern-480.jpg 480w, img/targa-modern-960.jpg 960w, img/targa-modern-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Червоний сучасний Porsche 911 Targa в залі музею">
+                </a>
+                <figcaption><strong>Сучасний 911 Targa</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/porsche-face-1600.jpg" data-lightbox="gallery">
+                    <img src="img/porsche-face-960.jpg"
+                         srcset="img/porsche-face-480.jpg 480w, img/porsche-face-960.jpg 960w, img/porsche-face-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Передня частина червоного класичного Porsche 911">
+                </a>
+                <figcaption><strong>Обличчя 911</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/porsche-904-side-1600.jpg" data-lightbox="gallery">
+                    <img src="img/porsche-904-side-960.jpg"
+                         srcset="img/porsche-904-side-480.jpg 480w, img/porsche-904-side-960.jpg 960w, img/porsche-904-side-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="559" loading="lazy"
+                         alt="Срібний Porsche 904 збоку на темному тлі">
+                </a>
+                <figcaption><strong>Профіль 904</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+        <li class="photo photo--wide" data-category="auto">
+            <figure>
+                <a href="img/moto-1600.jpg" data-lightbox="gallery">
+                    <img src="img/moto-960.jpg"
+                         srcset="img/moto-480.jpg 480w, img/moto-960.jpg 960w, img/moto-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 46rem, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Мотоцикл-круізер на бруківці у вечірньому сонці">
+                </a>
+                <figcaption><strong>Вечірнє світло</strong> Авто</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="travel">
+            <figure>
+                <a href="img/crowd-1600.jpg" data-lightbox="gallery">
+                    <img src="img/crowd-960.jpg"
+                         srcset="img/crowd-480.jpg 480w, img/crowd-960.jpg 960w, img/crowd-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Натовп людей на площі серед традиційних будівель">
+                </a>
+                <figcaption><strong>Натовп</strong> Шанхай</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="city">
+            <figure>
+                <a href="img/lamps-1600.jpg" data-lightbox="gallery">
+                    <img src="img/lamps-960.jpg"
+                         srcset="img/lamps-480.jpg 480w, img/lamps-960.jpg 960w, img/lamps-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Вуличні ліхтарі й будинки проти вечірнього сонця">
+                </a>
+                <figcaption><strong>Ліхтарі на заході</strong> Місто</figcaption>
+            </figure>
+        </li>
+        <li class="photo" data-category="auto">
+            <figure>
+                <a href="img/porsche-classic-1600.jpg" data-lightbox="gallery">
+                    <img src="img/porsche-classic-960.jpg"
+                         srcset="img/porsche-classic-480.jpg 480w, img/porsche-classic-960.jpg 960w, img/porsche-classic-1600.jpg 1600w"
+                         sizes="(width >= 64rem) 23rem, (width >= 40rem) 50vw, 100vw"
+                         width="960" height="640" loading="lazy"
+                         alt="Червоний класичний Porsche 911 Targa у залі музею">
+                </a>
+                <figcaption><strong>Класичний 911</strong> Музей Porsche</figcaption>
+            </figure>
+        </li>
+    </ul>
+    </div>
+
+    <!-- Блок «Чим знімаю»: картки на Grid auto-fit, без медіазапитів -->
+    <section class="gear" aria-labelledby="gear-title">
+        <h2 id="gear-title">Чим знімаю</h2>
+        <dl class="gear-list">
+            <div class="gear-item card">
+                <dt>Камера</dt>
+                <dd>Canon EOS RP — повнокадрова бездзеркалка, з якою знімаю зараз.</dd>
+            </div>
+            <div class="gear-item card">
+                <dt>Об'єктиви</dt>
+                <dd>RF 50mm f/1.8 STM — для портретів і деталей, RF 16mm f/2.8 STM — для міста й пейзажів.</dd>
+            </div>
+            <div class="gear-item card">
+                <dt>Обробка</dt>
+                <dd>Adobe Lightroom.</dd>
+            </div>
+            <div class="gear-item card">
+                <dt>Шлях</dt>
+                <dd>
+                    Почав з Canon EOS 600D з EF 50mm f/1.8, китовим EF-S 18-55 та EF-S 55-250.
+                    Потім був Canon EOS 40D з Yongnuo 50mm, якому я сам полагодив діафрагму.
+                </dd>
+            </div>
+        </dl>
+    </section>
+
+    <!-- [ЗАВДАННЯ] <details> — розкривний блок без JS (семантичний тег, лекція 1) -->
+    <details class="credits">
+        <summary>Про ці фото</summary>
+        <p>
+            Усі фото на сайті — мої. Знято на Canon EOS 600D, 40D та EOS RP, оброблено в Lightroom.
+            Свіжі кадри з'являються спершу в <a href="https://www.instagram.com/arsentiev.artem/">Instagram</a>.
+        </p>
+    </details>
+</main>
+
+<footer class="site-footer">
+    <!-- [ДОДАТКОВО] ASCII-напис: заповнює js/ascii.js; без JS порожній і схований -->
+    <pre class="ascii-banner" aria-hidden="true"></pre>
+    <div class="container footer-inner">
+        <div>
+            <p class="footer-brand">Artem Arsentiev</p>
+            <p>Розробка, дизайн, фотографія.</p>
+        </div>
+        <nav aria-label="Меню в підвалі">
+            <ul class="footer-links">
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="gallery.html" aria-current="page">Фото</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="moodboard/">Мудборд</a></li>
+            </ul>
+        </nav>
+        <div>
+            <p><a href="https://github.com/Jaguar222833">GitHub</a> · <a href="https://www.instagram.com/arsentiev.artem/">Instagram</a></p>
+            <p>© 2026 · Усі фото — автора</p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+<!-- [ДОДАТКОВО] перегляд фото у великому вікні (спільний) і фільтр — лише для цієї сторінки -->
+<script src="js/lightbox.js" defer></script>
+<script src="js/gallery.js" defer></script>
+<script src="js/ascii.js" defer></script>
+</body>
+</html>

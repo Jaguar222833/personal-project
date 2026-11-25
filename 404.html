@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>404 · Сторінку не знайдено · Artem Arsentiev</title>
+    <meta name="description" content="Такої сторінки немає.">
+    <meta name="robots" content="noindex">
+    <!-- іконка вбудована (data:), бо 404 відкривається з будь-якої адреси і відносний шлях до img/ може не спрацювати -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%236236D6'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial' font-size='24' font-weight='700' fill='%23fff'%3EAA%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@400;600&display=swap">
+
+    <!-- [ДОДАТКОВО] Сторінка 404. Стилі й скрипт вбудовані у файл: сервер віддає 404.html
+         для будь-якої неіснуючої адреси (/a/b/c), і відносні шляхи до css/ та js/ звідти не працюють -->
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+            --bg: #050508;
+            --text: #F2F0EC;
+            --muted: #A3A9B6;
+            --accent: #A98BF5;
+            --accent-hi: #C4B5FD;
+            --glow: rgb(169 139 245 / .35);
+            color-scheme: dark;
+        }
+
+        html, body { height: 100%; }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Manrope', system-ui, sans-serif;
+        }
+
+        /* полотно з чорною дірою — на весь екран, під текстом */
+        canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            touch-action: none;     /* затискання пальцем не прокручує сторінку */
+        }
+
+        main {
+            position: relative;
+            min-height: 100dvh;
+            display: grid;
+            align-content: end;
+            gap: 1.25rem;
+            padding: 2rem clamp(1.25rem, 5vw, 4rem) clamp(2rem, 6vh, 4rem);
+            pointer-events: none;   /* курсор «проходить» до полотна */
+        }
+
+        .code {
+            margin: 0;
+            font: 600 .8125rem/1 Consolas, 'Courier New', monospace;
+            letter-spacing: .3em;
+            color: var(--accent-hi);
+        }
+
+        h1 {
+            max-width: 14ch;
+            margin: 0;
+            font-family: 'Unbounded', sans-serif;
+            font-weight: 400;
+            font-size: clamp(2.25rem, 1.2rem + 5vw, 5rem);
+            line-height: 1.05;
+            text-wrap: balance;
+
+            & em {
+                font-style: normal;
+                color: var(--accent);
+                text-shadow: 0 0 24px var(--glow);
+            }
+        }
+
+        .hint {
+            margin: 0;
+            font: .75rem/1.6 Consolas, 'Courier New', monospace;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .home {
+            justify-self: start;
+            pointer-events: auto;
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            padding: .5rem 1.375rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--accent-hi), var(--accent));
+            color: #12101A;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 8px 28px -8px var(--glow);
+            transition: box-shadow .3s, scale .3s;
+
+            &:hover { box-shadow: 0 0 0 1px var(--glow), 0 10px 32px -6px var(--glow); }
+            &:active { scale: .96; }
+            &:focus-visible { outline: 3px solid var(--accent-hi); outline-offset: 3px; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas aria-hidden="true"></canvas>
+
+<main>
+    <p class="code">ПОМИЛКА 404</p>
+    <h1>Ця сторінка за <em>горизонтом</em> подій.</h1>
+    <p class="hint">Рухай — щоб дрейфувати · затисни — щоб нагодувати</p>
+    <a class="home" href="/">На головну</a>
+</main>
+
+<script>
+/* [ДОДАТКОВО] Чорна діра з частинок на <canvas>.
+
+   Кожна частинка летить по колу навколо центру; що ближче до центру — то швидше
+   (як планети: швидкість ∝ 1 / r^1.5). Коло стиснуте по вертикалі й нахилене —
+   так плоский диск виглядає в перспективі. Частинки за дірою малюються ДО чорного
+   кола (і воно їх закриває), частинки перед нею — ПІСЛЯ.
+
+   Рух мишею нахиляє диск. Затиснута кнопка (або палець) — діра «їсть»:
+   частинки по спіралі падають усередину, а на краю з'являються нові. */
+
+// посилання «На головну»: на GitHub Pages сайт лежить у підпапці /назва-репозиторію/
+if (location.hostname.endsWith('github.io')) {
+    const repo = location.pathname.split('/')[1];
+    document.querySelector('.home').href = repo ? `/${repo}/` : '/';
+}
+
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+const lessMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const coarse = matchMedia('(pointer: coarse)').matches;
+
+const COUNT = coarse ? 1600 : 3600;
+const particles = [];
+const stars = document.createElement('canvas');   // зорі малюємо один раз
+let width, height, ratio, horizon;
+
+const view = { tilt: .3, turn: -.35 };            // поточний нахил диска
+const target = { tilt: .3, turn: -.35 };          // куди його тягне миша
+let feeding = false;
+let hunger = 0;                                    // 0…1: наскільки сильно «їсть» зараз
+
+// колір: біле розпечене ядро → бузковий → фіолетовий/малиновий на краю
+const PALETTE = ['#FFFFFF', '#E9E3FF', '#C4B5FD', '#A98BF5', '#8B5CF6', '#C026D3', '#BE185D'];
+
+function spawn(particle, edge) {
+    const k = edge ? .85 + Math.random() * .15 : Math.pow(Math.random(), 1.6);
+    particle.r = horizon * (1.35 + k * 7);
+    particle.a = Math.random() * Math.PI * 2;
+    particle.size = Math.random() < .08 ? 1.6 : .9;
+    particle.jitter = Math.random() * 1.2;          // щоб сусідні частинки трохи відрізнялись кольором
+    return particle;
+}
+
+function resize() {
+    ratio = Math.min(window.devicePixelRatio || 1, 2);
+    width = innerWidth;
+    height = innerHeight;
+    horizon = Math.min(width, height) * (coarse ? .1 : .085);
+    for (const c of [canvas, stars]) {
+        c.width = width * ratio;
+        c.height = height * ratio;
+    }
+    const starsCtx = stars.getContext('2d');
+    starsCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    for (let i = 0; i < 260; i++) {
+        starsCtx.fillStyle = `rgb(255 255 255 / ${Math.random() * .6 + .1})`;
+        starsCtx.fillRect(Math.random() * width, Math.random() * height, Math.random() < .1 ? 1.5 : 1, 1);
+    }
+    particles.length = 0;
+    for (let i = 0; i < COUNT; i++) {
+        particles.push(spawn({}, false));
+    }
+}
+
+function project(p) {
+    // точка на колі → стиснули по вертикалі (нахил) → повернули на кут turn
+    const x = p.r * Math.cos(p.a);
+    const y = p.r * Math.sin(p.a) * view.tilt;
+    const cos = Math.cos(view.turn);
+    const sin = Math.sin(view.turn);
+    return [width / 2 + x * cos - y * sin, height * .42 + x * sin + y * cos];
+}
+
+function drawParticles(front) {
+    for (const p of particles) {
+        if ((Math.sin(p.a) > 0) !== front) {
+            continue;                               // ця частинка в іншій половині диска
+        }
+        const [x, y] = project(p);
+        // колір — від поточної відстані: що ближче до діри, то гарячіше (біліше)
+        const t = Math.max(0, (p.r / horizon - 1.35) / 7);
+        ctx.fillStyle = PALETTE[Math.min(PALETTE.length - 1, Math.floor(t * PALETTE.length + p.jitter))];
+        ctx.fillRect(x, y, p.size, p.size);
+    }
+}
+
+function frame() {
+    view.tilt += (target.tilt - view.tilt) * .04;
+    view.turn += (target.turn - view.turn) * .04;
+    hunger += ((feeding ? 1 : 0) - hunger) * .05;
+
+    for (const p of particles) {
+        p.a += (.9 + hunger * 1.5) / Math.pow(p.r / horizon, 1.5) * .05;   // ближче — швидше
+        p.r -= p.r * (.0004 + hunger * .012);                                // повільно падає всередину
+        if (p.r < horizon * 1.05) {
+            spawn(p, true);                                                   // упала — нова на краю
+        }
+    }
+
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    // напівпрозорий фон замість повного стирання — частинки лишають «хвости»
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = 'rgb(5 5 8 / .28)';
+    ctx.fillRect(0, 0, width, height);
+    ctx.globalAlpha = .5;
+    ctx.drawImage(stars, 0, 0, width, height);
+    ctx.globalAlpha = 1;
+
+    ctx.globalCompositeOperation = 'lighter';       // перекриття частинок світиться яскравіше
+    drawParticles(false);                            // 1. задня половина диска
+
+    ctx.globalCompositeOperation = 'source-over';
+    const cx = width / 2;
+    const cy = height * .42;
+    const r = horizon * (1 + hunger * .08);
+    const halo = ctx.createRadialGradient(cx, cy, r, cx, cy, r * 3.2);
+    // світіння малюється щокадру поверх неповністю стертого попереднього кадру й накопичується
+    // (сталий рівень ≈ α / (0.28 + 0.72α)), тому α тут навмисно мала
+    halo.addColorStop(0, `rgb(196 181 253 / ${.05 + hunger * .07})`);
+    halo.addColorStop(1, 'rgb(196 181 253 / 0)');
+    ctx.fillStyle = halo;                             // 2. світіння навколо діри
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 3.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#000000';                        // 3. горизонт подій — закриває все позаду
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.shadowColor = '#FFFFFF';                      // 4. фотонне кільце
+    ctx.shadowBlur = 18 + hunger * 20;
+    ctx.strokeStyle = `rgb(255 255 255 / ${.75 + hunger * .25})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    ctx.globalCompositeOperation = 'lighter';
+    drawParticles(true);                              // 5. передня половина — поверх діри
+
+    if (!lessMotion) {
+        requestAnimationFrame(frame);
+    }
+}
+
+addEventListener('pointermove', (event) => {
+    target.turn = -.7 + (event.clientX / width) * .7;
+    target.tilt = .18 + (event.clientY / height) * .3;
+});
+addEventListener('pointerdown', () => { feeding = true; });
+addEventListener('pointerup', () => { feeding = false; });
+addEventListener('pointercancel', () => { feeding = false; });
+addEventListener('resize', resize);
+
+resize();
+if (lessMotion) {
+    // «менше руху»: один нерухомий кадр замість анімації
+    for (let i = 0; i < 12; i++) frame();
+} else {
+    requestAnimationFrame(frame);
+}
+</script>
+</body>
+</html>

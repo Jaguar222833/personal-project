@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <!-- [ЗАВДАННЯ] viewport: без нього телефон малює сторінку як 980px і зменшує (лекція 3, слайд 4) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Artem Arsentiev · розробка, залізо, фотографія</title>
+    <meta name="description" content="Artem Arsentiev: системи керування для енергетики, автоматизація, ремонт техніки, дизайн і фотографія.">
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+    <!-- [ДОДАТКОВО] шрифти Google Fonts з кирилицею -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap">
+
+    <!-- [ЗАВДАННЯ] зовнішній CSS-файл (лекція 2, слайд 5) -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- [ДОДАТКОВО] застосувати збережену тему ще до малювання сторінки, щоб не було «спалаху» світлої -->
+    <script>try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+
+<!-- [ЗАВДАННЯ] доступність: посилання «до змісту» видно лише при фокусі з клавіатури (Tab) -->
+<a class="skip-link" href="#main">Перейти до змісту</a>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="logo" href="index.html" aria-label="Artem Arsentiev — на головну">
+            <span class="logo-mark" aria-hidden="true">AA</span>
+            <span class="logo-text">Artem Arsentiev</span>
+        </a>
+
+        <!-- [ЗАВДАННЯ] меню-«бургер» без JavaScript на <details> (практика 5, крок 7) -->
+        <nav class="site-nav" aria-label="Головне меню">
+            <details class="menu">
+                <summary>Меню</summary>
+                <ul class="menu-list">
+                    <li><a href="index.html" aria-current="page">Головна</a></li>
+                    <li><a href="gallery.html">Фото</a></li>
+                    <li><a href="blog.html">Блог</a></li>
+                    <li><a href="moodboard/">Мудборд</a></li>
+                </ul>
+            </details>
+        </nav>
+
+        <!-- [ДОДАТКОВО] перемикач теми; без JS схований атрибутом hidden -->
+        <button class="theme-toggle" type="button" aria-label="Темна тема" aria-pressed="false" hidden>☾</button>
+    </div>
+</header>
+
+<main id="main">
+
+    <!-- HERO: фото на весь перший екран -->
+    <section class="hero" aria-labelledby="hero-title">
+        <!-- [ЗАВДАННЯ] <picture>: на телефоні — вертикальний кадр, від 48rem — широкий (лекція 3, слайд 10) -->
+        <picture class="hero-media">
+            <source media="(width >= 48rem)"
+                    srcset="img/hero-wide-960.jpg 960w, img/hero-wide-1600.jpg 1600w"
+                    sizes="100vw" width="1600" height="900">
+            <img src="img/hero-tall-480.jpg"
+                 srcset="img/hero-tall-480.jpg 480w, img/hero-tall-960.jpg 960w, img/hero-tall-1600.jpg 1067w"
+                 sizes="100vw" width="480" height="720"
+                 alt="Дерев'яний стілець серед уламків плит у промені світла між будинками">
+        </picture>
+
+        <div class="container hero-content">
+            <h1 id="hero-title">Роблю те, що цікаво саме зараз</h1>
+            <p class="hero-lead">
+                Розробляю системи керування для енергетики й автоматизую рутину.
+                Ремонтую техніку, малюю інтерфейси та фотографую.
+            </p>
+            <div class="hero-actions">
+                <!-- [ДОДАТКОВО] data-magnetic: кнопка тягнеться за курсором (js/main.js) -->
+                <a class="btn btn--shine" href="#projects" data-magnetic>Проєкти</a>
+                <a class="btn btn--ghost" href="gallery.html" data-magnetic>Фотографії</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- [ЗАВДАННЯ] КАРКАС ГОЛОВНОЇ — CSS Grid + grid-template-areas + медіазапити.
+         Телефон: 1 колонка · від 56.25rem: 2 колонки · від 68.75rem: 3 колонки -->
+    <div class="container home-grid">
+
+        <section class="about" aria-labelledby="about-title">
+            <h2 id="about-title">Про мене</h2>
+            <p>
+                Студент КПІ ім. Ігоря Сікорського. Пишу софт для енергосистем
+                і автоматизую все, що набридає робити руками.
+            </p>
+            <p>
+                Балуюся з технікою, часто успішно: запускав промислові накопичувачі енергії,
+                лагоджу зарядні станції EcoFlow і Jackery, тримаю домашній сервер.
+                А ще дизайн і фотографія.
+            </p>
+        </section>
+
+        <aside class="profile card" aria-labelledby="profile-title">
+            <!-- [ДОДАТКОВО] js/ascii.js малює поверх фото його ASCII-версію; при наведенні видно фото -->
+            <span class="avatar-ascii">
+                <img class="avatar" src="img/avatar-480.jpg"
+                     srcset="img/avatar-480.jpg 480w, img/avatar-960.jpg 960w"
+                     sizes="8rem" width="480" height="480"
+                     alt="Горобець на гілці — один з моїх кадрів">
+            </span>
+            <h2 id="profile-title">Artem Arsentiev</h2>
+            <p class="muted">КПІ ім. Ігоря Сікорського</p>
+            <dl class="facts">
+                <div><dt>Напрям</dt><dd>Енергетика, автоматизація</dd></div>
+                <div><dt>Залізо</dt><dd>BESS, ремонт, home lab</dd></div>
+                <div><dt>Також</dt><dd>Дизайн, фотографія</dd></div>
+            </dl>
+            <a class="btn btn--block" href="#contact">Зв'язатися</a>
+        </aside>
+
+        <section class="projects" id="projects" aria-labelledby="projects-title">
+            <h2 id="projects-title">Проєкти</h2>
+
+            <!-- Картка проєкту: коротко + <details> «Детальніше».
+                 Без JS <details> розкривається просто в картці.
+                 [ДОДАТКОВО] з JS клік по картці відкриває вікно проєкту (js/main.js) -->
+
+            <!-- [ЗАВДАННЯ] Bento-сітка: картки різного розміру, колонки залежать від ширини
+                 секції (container queries у розділі 7 styles.css).
+                 Кожна обгортка .project-wrap — теж контейнер: картка сама вирішує,
+                 бути вертикальною чи горизонтальною -->
+            <ul class="bento">
+                <li class="project-wrap project-wrap--featured bento-big">
+                <article class="project">
+                    <img class="project-img" src="img/ems-flows-960.jpg"
+                         srcset="img/ems-flows-480.jpg 480w, img/ems-flows-960.jpg 960w"
+                         sizes="(width >= 56.25rem) 24rem, 100vw"
+                         width="960" height="493" loading="lazy"
+                         alt="Інтерфейс EMS: потоки потужності між мережею, сонячною генерацією, накопичувачем і навантаженням">
+                    <div class="project-body">
+                        <h3>EMS-платформа для систем накопичення енергії</h3>
+                        <p class="project-status">ALTEN Ltd · 2024–2026</p>
+                        <p>
+                            Система енергоменеджменту для моніторингу й керування парком комерційних
+                            і промислових об'єктів з накопичувачами енергії, сонячною генерацією
+                            та резервними джерелами.
+                        </p>
+                        <ul class="tags" aria-label="Теми">
+                            <li>EMS</li><li>BESS</li><li>SCADA</li><li>Енергоарбітраж</li><li>Острівний режим</li>
+                        </ul>
+                        <details class="project-more">
+                            <summary>Детальніше</summary>
+                            <ul class="features">
+                                <li>Моніторинг у реальному часі: накопичувачі, інвертори, сонячна генерація, лічильники.</li>
+                                <li>Енергоарбітраж на ринку «на добу наперед» з автоматичним плануванням заряду й розряду.</li>
+                                <li>Режими ZeroExport та експорту за диспетчерським планом.</li>
+                                <li>Острівний режим: автоматичний перехід в автономну роботу й повернення на мережу.</li>
+                                <li>Централізоване керування розподіленим парком об'єктів з одного інтерфейсу.</li>
+                            </ul>
+                            <p>
+                                Моя роль: єдиний розробник та інженер проєкту — від розробки до інтеграції
+                                обладнання й пусконалагодження на об'єктах.
+                            </p>
+                            <ul class="project-shots" aria-label="Скріншоти">
+                                <li>
+                                    <a href="img/ems-flows-960.jpg" data-lightbox="ems">
+                                        <img src="img/ems-flows-480.jpg" width="480" height="247" loading="lazy"
+                                             alt="Потоки потужності між мережею, сонцем, накопичувачем і навантаженням">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="img/ems-fleet-960.jpg" data-lightbox="ems">
+                                        <img src="img/ems-fleet-480.jpg" width="480" height="187" loading="lazy"
+                                             alt="Картки установок: заряд, ємність і стан кожного накопичувача">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="img/ems-plan-960.jpg" data-lightbox="ems">
+                                        <img src="img/ems-plan-480.jpg" width="480" height="175" loading="lazy"
+                                             alt="Погодинний план заряду й розряду за цінами ринку на добу наперед">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="img/ems-analytics-960.jpg" data-lightbox="ems">
+                                        <img src="img/ems-analytics-480.jpg" width="480" height="262" loading="lazy"
+                                             alt="Аналітика: план і факт купівлі та продажу енергії по годинах">
+                                    </a>
+                                </li>
+                            </ul>
+                        </details>
+                    </div>
+                </article>
+                </li>
+                <li class="project-wrap project-wrap--featured bento-wide">
+                    <article class="project">
+                        <img class="project-img" src="img/protocol-dash-480.jpg"
+                             srcset="img/protocol-dash-480.jpg 480w, img/protocol-dash-960.jpg 640w"
+                             sizes="(width >= 56.25rem) 24rem, 100vw"
+                             width="480" height="270" loading="lazy"
+                             alt="Панель ProtocolArsentiev: кількість пар і записів, статус ботів, розклад на тиждень">
+                        <div class="project-body">
+                            <h3>ProtocolArsentiev</h3>
+                            <p class="project-status project-status--live">Працює на домашньому сервері · закритий доступ</p>
+                            <p>Помічник для навчання, який сам відвідує онлайн-пари, записує й конспектує їх.</p>
+                            <ul class="tags" aria-label="Можливості">
+                                <li>Записи пар</li><li>Транскрипції</li><li>Підсумки</li><li>Розклад</li>
+                            </ul>
+                            <details class="project-more">
+                                <summary>Детальніше</summary>
+                                <ul class="features">
+                                    <li>Сам підключається до пар у Meet і Zoom за розкладом.</li>
+                                    <li>Записує заняття й робить транскрипції.</li>
+                                    <li>Готує короткий підсумок кожної пари.</li>
+                                    <li>Щодня надсилає розклад у чат групи.</li>
+                                    <li>Імпортує розклад з КПІ на два тижні.</li>
+                                </ul>
+                                <ul class="project-shots" aria-label="Скріншоти">
+                                    <li>
+                                        <a href="img/protocol-dash-960.jpg" data-lightbox="protocol">
+                                            <img src="img/protocol-dash-480.jpg" width="480" height="270" loading="lazy"
+                                                 alt="Панель: кількість пар і записів, статус ботів, розклад на тиждень">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="img/protocol-schedule-960.jpg" data-lightbox="protocol">
+                                            <img src="img/protocol-schedule-480.jpg" width="480" height="270" loading="lazy"
+                                                 alt="Розклад пар на тиждень з типом заняття">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </details>
+                        </div>
+                    </article>
+                </li>
+                <li class="project-wrap">
+                    <article class="project">
+                        <img class="project-img" src="img/stations-480.jpg"
+                             srcset="img/stations-480.jpg 480w, img/stations-960.jpg 960w"
+                             sizes="(width >= 56.25rem) 24rem, 100vw"
+                             width="480" height="320" loading="lazy"
+                             alt="Дві саморобні зарядні станції в зелених металевих корпусах з розетками й дисплеями">
+                        <div class="project-body">
+                            <h3>Зарядні станції</h3>
+                            <p class="project-status">2022</p>
+                            <p>Портативні станції для військових, зібрані власноруч на початку повномасштабної війни.</p>
+                            <ul class="tags" aria-label="Теми"><li>Електрика</li><li>Збирання</li></ul>
+                            <details class="project-more">
+                                <summary>Детальніше</summary>
+                                <p>
+                                    Саморобна батарейна збірка та інвертор у металевому корпусі з ручками:
+                                    розетки, USB-виходи, дисплей стану заряду й аварійна кнопка.
+                                </p>
+                                <ul class="project-shots" aria-label="Фото">
+                                    <li>
+                                        <a href="img/station-front-1600.jpg" data-lightbox="stations">
+                                            <img src="img/station-front-480.jpg" width="480" height="320" loading="lazy"
+                                                 alt="Передня панель станції: розетки, USB, дисплеї й червона кнопка">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="img/station-1600.jpg" data-lightbox="stations">
+                                            <img src="img/station-480.jpg" width="480" height="320" loading="lazy"
+                                                 alt="Зарядна станція в зеленому корпусі, вигляд збоку спереду">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="img/station-pair-1600.jpg" data-lightbox="stations">
+                                            <img src="img/station-pair-480.jpg" width="480" height="320" loading="lazy"
+                                                 alt="Дві станції з інструкціями на кришках">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="img/station-side-1600.jpg" data-lightbox="stations">
+                                            <img src="img/station-side-480.jpg" width="480" height="320" loading="lazy"
+                                                 alt="Дві станції, вигляд збоку">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </details>
+                        </div>
+                    </article>
+                </li>
+                <li class="project-wrap bento-site">
+                    <article class="project">
+                        <img class="project-img" src="img/kpi-480.jpg"
+                             srcset="img/kpi-480.jpg 480w, img/kpi-960.jpg 960w"
+                             sizes="(width >= 56.25rem) 24rem, 100vw"
+                             width="480" height="320" loading="lazy"
+                             alt="Головний корпус КПІ під хмарним небом">
+                        <div class="project-body">
+                            <h3>Особистий сайт</h3>
+                            <p>Портфоліо, фотографії та блог. Дизайн і верстка — власні.</p>
+                            <ul class="tags" aria-label="Теми"><li>Дизайн</li><li>Верстка</li></ul>
+                            <details class="project-more">
+                                <summary>Детальніше</summary>
+                                <p>
+                                    Три сторінки з адаптивною версткою — від телефона на 320 px до великого
+                                    монітора, — світла й темна тема та галерея з переглядом фото.
+                                </p>
+                            </details>
+                        </div>
+                        <div class="project-links">
+                            <a class="btn btn--small btn--ghost" href="https://github.com/Jaguar222833/personal-project">GitHub</a>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="design" aria-labelledby="design-title">
+            <h2 id="design-title">Дизайн</h2>
+            <p class="muted">Айдентика й матеріали, зроблені для ALTEN Ltd.</p>
+            <!-- [ЗАВДАННЯ] ще одна сітка auto-fit без медіазапитів -->
+            <ul class="design-grid">
+                <li>
+                    <figure class="design-item">
+                        <a href="img/design-logo-960.jpg" data-lightbox="design">
+                            <img src="img/design-logo-480.jpg" srcset="img/design-logo-480.jpg 480w, img/design-logo-960.jpg 960w"
+                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="500" loading="lazy"
+                                 alt="Логотип: червона блискавка в зелено-білому колі">
+                        </a>
+                        <figcaption>Логотип</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure class="design-item">
+                        <a href="img/design-infographic-1600.jpg" data-lightbox="design">
+                            <img src="img/design-infographic-480.jpg"
+                                 srcset="img/design-infographic-480.jpg 480w, img/design-infographic-960.jpg 960w, img/design-infographic-1600.jpg 1600w"
+                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="270" loading="lazy"
+                                 alt="Інфографіка з вимогами до встановлення контейнерів із накопичувачами енергії">
+                        </a>
+                        <figcaption>Інфографіка: вимоги до встановлення BESS</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure class="design-item">
+                        <a href="img/design-brochure-960.jpg" data-lightbox="design">
+                            <img src="img/design-brochure-480.jpg" srcset="img/design-brochure-480.jpg 480w, img/design-brochure-960.jpg 960w"
+                                 sizes="(width >= 56.25rem) 16rem, 100vw" width="480" height="679" loading="lazy"
+                                 alt="Обкладинка буклета промислової системи накопичення енергії">
+                        </a>
+                        <figcaption>Буклет системи накопичення</figcaption>
+                    </figure>
+                </li>
+            </ul>
+        </section>
+
+        <section class="skills" aria-labelledby="skills-title">
+            <h2 id="skills-title">Навички</h2>
+            <!-- [ЗАВДАННЯ] таблиця на вузькому екрані прокручується у своїй обгортці,
+                 а не розпирає сторінку (практика 5, крок 5) -->
+            <div class="table-wrap" role="region" aria-labelledby="skills-title" tabindex="0">
+                <table class="skills-table">
+                    <thead>
+                        <tr><th scope="col">Напрям</th><th scope="col">Рівень*</th><th scope="col">Де застосовую</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th scope="row">Системи керування енергетикою</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>EMS-платформа</td></tr>
+                        <tr><th scope="row">Пусконалагодження BESS</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>Промислові об'єкти</td></tr>
+                        <tr><th scope="row">Автоматизація процесів</th><td><span class="level" style="--level: 4">4 з 5</span></td><td>ProtocolArsentiev</td></tr>
+                        <tr><th scope="row">Електрика та ремонт електроніки</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Зарядні станції EcoFlow і Jackery</td></tr>
+                        <tr><th scope="row">Home lab</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Домашній сервер</td></tr>
+                        <tr><th scope="row">Веб-розробка</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Цей сайт</td></tr>
+                        <tr><th scope="row">Дизайн</th><td><span class="level" style="--level: 2">2 з 5</span></td><td>Айдентика, цей сайт</td></tr>
+                        <tr><th scope="row">Фотографія</th><td><span class="level" style="--level: 3">3 з 5</span></td><td>Canon EOS RP, Lightroom</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-note">
+                * Оцінки суб'єктивні й виставлені кількома моїми штучними друзями.
+                Сам я переконаний, що нічого не знаю.
+            </p>
+        </section>
+
+        <section class="contact card" id="contact" aria-labelledby="contact-title">
+            <h2 id="contact-title">Контакти</h2>
+            <p>Поки що краще не пишіть: мені зараз лінь щось робити.</p>
+            <ul class="contact-list">
+                <li><a href="mailto:arartom@gmail.com">arartom@gmail.com</a></li>
+                <li><a href="https://github.com/Jaguar222833">GitHub · Jaguar222833</a></li>
+                <li><a href="https://www.instagram.com/arsentiev.artem/">Instagram · arsentiev.artem</a></li>
+            </ul>
+        </section>
+
+    </div>
+</main>
+
+<!-- [ЗАВДАННЯ] підвал на Flexbox: блоки переносяться, коли не влазять -->
+<footer class="site-footer">
+    <!-- [ДОДАТКОВО] ASCII-напис: заповнює js/ascii.js; без JS порожній і схований -->
+    <pre class="ascii-banner" aria-hidden="true"></pre>
+    <div class="container footer-inner">
+        <div>
+            <p class="footer-brand">Artem Arsentiev</p>
+            <p>Розробка, дизайн, фотографія.</p>
+        </div>
+        <nav aria-label="Меню в підвалі">
+            <ul class="footer-links">
+                <li><a href="index.html" aria-current="page">Головна</a></li>
+                <li><a href="gallery.html">Фото</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="moodboard/">Мудборд</a></li>
+            </ul>
+        </nav>
+        <div>
+            <p><a href="https://github.com/Jaguar222833">GitHub</a> · <a href="https://www.instagram.com/arsentiev.artem/">Instagram</a></p>
+            <p>© 2026 · Усі фото — автора</p>
+        </div>
+    </div>
+</footer>
+
+<!-- [ДОДАТКОВО] скрипти в кінці body з defer: тема, меню, вікно проєкту; перегляд фото -->
+<script src="js/main.js" defer></script>
+<script src="js/lightbox.js" defer></script>
+<script src="js/dotmatrix.js" defer></script>
+<script src="js/ascii.js" defer></script>
+</body>
+</html>

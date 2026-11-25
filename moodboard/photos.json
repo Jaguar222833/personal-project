@@ -1,0 +1,800 @@
+{
+  "categories": [
+    {
+      "id": "city",
+      "label": "Місто"
+    },
+    {
+      "id": "travel",
+      "label": "Подорожі"
+    },
+    {
+      "id": "animals",
+      "label": "Тварини"
+    },
+    {
+      "id": "nature",
+      "label": "Природа"
+    },
+    {
+      "id": "auto",
+      "label": "Авто"
+    },
+    {
+      "id": "concept",
+      "label": "Концепт"
+    }
+  ],
+  "photos": [
+    {
+      "id": "chair",
+      "title": "Стілець у промені",
+      "place": "Постановочний кадр",
+      "category": "concept",
+      "alt": "Дерев'яний стілець серед уламків плит у промені світла між будинками",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/chair-480.jpg",
+        "large": "img/chair-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "kpi",
+      "title": "Головний корпус КПІ",
+      "place": "Київ",
+      "category": "city",
+      "alt": "Головний корпус КПІ під хмарним небом, праворуч ялина",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/kpi-480.jpg",
+        "large": "img/kpi-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "sparrow",
+      "title": "Горобець",
+      "place": "Тварини",
+      "category": "animals",
+      "alt": "Горобець сидить на гілці в теплому світлі",
+      "width": 960,
+      "height": 726,
+      "image": {
+        "small": "img/sparrow-480.jpg",
+        "large": "img/sparrow-960.jpg"
+      },
+      "price": 129
+    },
+    {
+      "id": "bridge",
+      "title": "Міст на заході",
+      "place": "Місто",
+      "category": "city",
+      "alt": "Вантовий міст над річкою на заході сонця",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/bridge-480.jpg",
+        "large": "img/bridge-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "parrot",
+      "title": "Ара",
+      "place": "Тварини",
+      "category": "animals",
+      "alt": "Червоний папуга ара на гілці",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/parrot-480.jpg",
+        "large": "img/parrot-960.jpg"
+      },
+      "price": 199
+    },
+    {
+      "id": "fountain",
+      "title": "Фонтан",
+      "place": "Місто",
+      "category": "city",
+      "alt": "Старий фонтан серед осінніх дерев",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/fountain-480.jpg",
+        "large": "img/fountain-960.jpg"
+      },
+      "price": 179
+    },
+    {
+      "id": "knife-2",
+      "title": "Лезо",
+      "place": "Предметна зйомка",
+      "category": "concept",
+      "alt": "Ніж на карбоновій поверхні, вигляд збоку",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/knife-2-480.jpg",
+        "large": "img/knife-2-960.jpg"
+      },
+      "price": 199
+    },
+    {
+      "id": "autumn",
+      "title": "Осінь у місті",
+      "place": "Київ",
+      "category": "city",
+      "alt": "Осінні дерева перед старими будинками з гострим шпилем",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/autumn-480.jpg",
+        "large": "img/autumn-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "lizard",
+      "title": "Ящірка",
+      "place": "Тварини",
+      "category": "animals",
+      "alt": "Сіра ящірка крупним планом на зеленому тлі",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/lizard-480.jpg",
+        "large": "img/lizard-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "tree",
+      "title": "Дерево проти сонця",
+      "place": "Природа",
+      "category": "nature",
+      "alt": "Самотнє дерево на березі проти сонця",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/tree-480.jpg",
+        "large": "img/tree-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "sunny-street",
+      "title": "Вулиця в сонці",
+      "place": "Місто",
+      "category": "city",
+      "alt": "Міська вулиця зі старими будинками в сонячний день",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/sunny-street-480.jpg",
+        "large": "img/sunny-street-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "pagoda",
+      "title": "Дахи над містом",
+      "place": "Шанхай",
+      "category": "travel",
+      "alt": "Вигнуті дахи традиційної китайської будівлі на тлі неба",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/pagoda-480.jpg",
+        "large": "img/pagoda-960.jpg"
+      },
+      "price": 179
+    },
+    {
+      "id": "dancer",
+      "title": "Вулична сцена",
+      "place": "Шанхай",
+      "category": "travel",
+      "alt": "Жінка в традиційному вбранні з віялом на мосту",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/dancer-480.jpg",
+        "large": "img/dancer-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "street",
+      "title": "Вузька вулиця",
+      "place": "Місто",
+      "category": "city",
+      "alt": "Вузька вулиця між старими будинками з кольоровими вивісками внизу",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/street-480.jpg",
+        "large": "img/street-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "museum",
+      "title": "Музей Porsche",
+      "place": "Штутгарт",
+      "category": "travel",
+      "alt": "Гострий кут будівлі музею Porsche на тлі хмар",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/museum-480.jpg",
+        "large": "img/museum-960.jpg"
+      },
+      "price": 199
+    },
+    {
+      "id": "coupe",
+      "title": "Червоне купе",
+      "place": "Авто",
+      "category": "auto",
+      "alt": "Червоне спортивне купе BMW ззаду на вулиці",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/coupe-480.jpg",
+        "large": "img/coupe-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "moto-side",
+      "title": "Профіль",
+      "place": "Авто",
+      "category": "auto",
+      "alt": "Мотоцикл-круізер збоку на бруківці біля будинку",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/moto-side-480.jpg",
+        "large": "img/moto-side-960.jpg"
+      },
+      "price": 129
+    },
+    {
+      "id": "knife",
+      "title": "Сталь",
+      "place": "Предметна зйомка",
+      "category": "concept",
+      "alt": "Складаний ніж на карбоновій поверхні",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/knife-480.jpg",
+        "large": "img/knife-960.jpg"
+      },
+      "price": 199
+    },
+    {
+      "id": "gorilla",
+      "title": "Горила",
+      "place": "Тварини",
+      "category": "animals",
+      "alt": "Горила біля стіни у вольєрі",
+      "width": 960,
+      "height": 1215,
+      "image": {
+        "small": "img/gorilla-480.jpg",
+        "large": "img/gorilla-960.jpg"
+      },
+      "price": 179
+    },
+    {
+      "id": "crocodile",
+      "title": "Крокодил",
+      "place": "Тварини",
+      "category": "animals",
+      "alt": "Крокодил лежить на камені біля води",
+      "width": 960,
+      "height": 489,
+      "image": {
+        "small": "img/crocodile-480.jpg",
+        "large": "img/crocodile-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "wires",
+      "title": "Дроти й небо",
+      "place": "Місто",
+      "category": "city",
+      "alt": "Ліхтар і дроти на тлі вечірнього неба",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/wires-480.jpg",
+        "large": "img/wires-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "porsche-917-22",
+      "title": "Porsche 917 №22",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Гоночний Porsche 917 з номером 22 у лівреї Martini",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/porsche-917-22-480.jpg",
+        "large": "img/porsche-917-22-960.jpg"
+      },
+      "price": 129
+    },
+    {
+      "id": "porsche-911",
+      "title": "Два покоління 911",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Два червоні Porsche 911 різних поколінь у залі музею",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/porsche-911-480.jpg",
+        "large": "img/porsche-911-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "targa",
+      "title": "Targa",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Напис Targa на червоному кузові крупним планом",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/targa-480.jpg",
+        "large": "img/targa-960.jpg"
+      },
+      "price": 129
+    },
+    {
+      "id": "cathedral",
+      "title": "Собор крізь гілки",
+      "place": "Кельн",
+      "category": "travel",
+      "alt": "Готичний собор крізь розмиті гілки на передньому плані",
+      "width": 960,
+      "height": 768,
+      "image": {
+        "small": "img/cathedral-480.jpg",
+        "large": "img/cathedral-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "tulip",
+      "title": "Тюльпан",
+      "place": "Природа",
+      "category": "nature",
+      "alt": "Рожевий тюльпан на чорно-білому тлі",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/tulip-480.jpg",
+        "large": "img/tulip-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "silver-racer",
+      "title": "Срібний болід",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Срібний гоночний автомобіль у чорно-білій гамі",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/silver-racer-480.jpg",
+        "large": "img/silver-racer-960.jpg"
+      },
+      "price": 199
+    },
+    {
+      "id": "shanghai",
+      "title": "Старе місто",
+      "place": "Шанхай",
+      "category": "travel",
+      "alt": "Багатоярусна будівля з позолоченими вигнутими дахами",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/shanghai-480.jpg",
+        "large": "img/shanghai-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "facade",
+      "title": "Кольоровий фасад",
+      "place": "Місто",
+      "category": "city",
+      "alt": "Кольоровий будинок з башточкою на вузькій вулиці",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/facade-480.jpg",
+        "large": "img/facade-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "forget-me-not",
+      "title": "Незабудки",
+      "place": "Природа",
+      "category": "nature",
+      "alt": "Сині квіти незабудок на розмитому зеленому тлі",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/forget-me-not-480.jpg",
+        "large": "img/forget-me-not-960.jpg"
+      },
+      "price": 129
+    },
+    {
+      "id": "blossom",
+      "title": "Цвітіння",
+      "place": "Природа",
+      "category": "nature",
+      "alt": "Гілка з білими квітами на тлі синього неба",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/blossom-480.jpg",
+        "large": "img/blossom-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "porsche-green",
+      "title": "Зелений 911",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Зелений Porsche 911 Targa в залі музею",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/porsche-green-480.jpg",
+        "large": "img/porsche-green-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "tulips",
+      "title": "Весняні квіти",
+      "place": "Природа",
+      "category": "nature",
+      "alt": "Помаранчеві тюльпани й жовті квіти на клумбі",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/tulips-480.jpg",
+        "large": "img/tulips-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "galleries",
+      "title": "Галереї",
+      "place": "Шанхай",
+      "category": "travel",
+      "alt": "Дерев'яні галереї традиційних будинків проти світла",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/galleries-480.jpg",
+        "large": "img/galleries-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "lion",
+      "title": "Лев",
+      "place": "Тварини",
+      "category": "animals",
+      "alt": "Лев лежить у тіні скелі",
+      "width": 960,
+      "height": 1477,
+      "image": {
+        "small": "img/lion-480.jpg",
+        "large": "img/lion-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "desk",
+      "title": "Робочий стіл",
+      "place": "Предметна зйомка",
+      "category": "concept",
+      "alt": "Ноутбук на темному столі",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/desk-480.jpg",
+        "large": "img/desk-960.jpg"
+      },
+      "price": 199
+    },
+    {
+      "id": "wheel",
+      "title": "Кермо",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Кермо й панель приладів класичного Porsche",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/wheel-480.jpg",
+        "large": "img/wheel-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "lemur",
+      "title": "Лемур",
+      "place": "Тварини",
+      "category": "animals",
+      "alt": "Кільцехвостий лемур сидить на дереві",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/lemur-480.jpg",
+        "large": "img/lemur-960.jpg"
+      },
+      "price": 199
+    },
+    {
+      "id": "toad",
+      "title": "Жаба",
+      "place": "Тварини",
+      "category": "animals",
+      "alt": "Ропуха в тіні під корчем",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/toad-480.jpg",
+        "large": "img/toad-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "balcony",
+      "title": "Місто крізь дерева",
+      "place": "Місто",
+      "category": "city",
+      "alt": "Вид на місто з балкона крізь темні гілки дерев",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/balcony-480.jpg",
+        "large": "img/balcony-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "blossom-2",
+      "title": "Абрикоса",
+      "place": "Природа",
+      "category": "nature",
+      "alt": "Гілка абрикоси в цвіту на тлі синього неба",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/blossom-2-480.jpg",
+        "large": "img/blossom-2-960.jpg"
+      },
+      "price": 199
+    },
+    {
+      "id": "tree-2",
+      "title": "Дерево на березі",
+      "place": "Природа",
+      "category": "nature",
+      "alt": "Осіннє дерево на піщаному березі під синім небом",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/tree-2-480.jpg",
+        "large": "img/tree-2-960.jpg"
+      },
+      "price": 179
+    },
+    {
+      "id": "porsche-904",
+      "title": "Porsche 904",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Срібний Porsche 904 крупним планом",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/porsche-904-480.jpg",
+        "large": "img/porsche-904-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "water-houses",
+      "title": "Будинки над водою",
+      "place": "Шанхай",
+      "category": "travel",
+      "alt": "Традиційні будинки над водою",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/water-houses-480.jpg",
+        "large": "img/water-houses-960.jpg"
+      },
+      "price": 179
+    },
+    {
+      "id": "monument",
+      "title": "Пам'ятник",
+      "place": "Місто",
+      "category": "city",
+      "alt": "Кінний пам'ятник серед зелені на тлі неба",
+      "width": 960,
+      "height": 1440,
+      "image": {
+        "small": "img/monument-480.jpg",
+        "large": "img/monument-960.jpg"
+      },
+      "price": 129
+    },
+    {
+      "id": "cologne",
+      "title": "Кельнський собор",
+      "place": "Кельн",
+      "category": "travel",
+      "alt": "Фасад Кельнського собору, знято знизу вгору",
+      "width": 960,
+      "height": 1200,
+      "image": {
+        "small": "img/cologne-480.jpg",
+        "large": "img/cologne-960.jpg"
+      },
+      "price": 149
+    },
+    {
+      "id": "lanterns",
+      "title": "Червоні ліхтарі",
+      "place": "Шанхай",
+      "category": "travel",
+      "alt": "Червоні китайські ліхтарі біля входу до ресторану",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/lanterns-480.jpg",
+        "large": "img/lanterns-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "porsche-917",
+      "title": "Porsche 917",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Гоночний Porsche 917 у лівреї Martini в залі музею",
+      "width": 960,
+      "height": 768,
+      "image": {
+        "small": "img/porsche-917-480.jpg",
+        "large": "img/porsche-917-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "targa-modern",
+      "title": "Сучасний 911 Targa",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Червоний сучасний Porsche 911 Targa в залі музею",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/targa-modern-480.jpg",
+        "large": "img/targa-modern-960.jpg"
+      },
+      "price": 179
+    },
+    {
+      "id": "porsche-face",
+      "title": "Обличчя 911",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Передня частина червоного класичного Porsche 911",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/porsche-face-480.jpg",
+        "large": "img/porsche-face-960.jpg"
+      },
+      "price": 99
+    },
+    {
+      "id": "porsche-904-side",
+      "title": "Профіль 904",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Срібний Porsche 904 збоку на темному тлі",
+      "width": 960,
+      "height": 559,
+      "image": {
+        "small": "img/porsche-904-side-480.jpg",
+        "large": "img/porsche-904-side-960.jpg"
+      },
+      "price": 129
+    },
+    {
+      "id": "moto",
+      "title": "Вечірнє світло",
+      "place": "Авто",
+      "category": "auto",
+      "alt": "Мотоцикл-круізер на бруківці у вечірньому сонці",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/moto-480.jpg",
+        "large": "img/moto-960.jpg"
+      },
+      "price": 129
+    },
+    {
+      "id": "crowd",
+      "title": "Натовп",
+      "place": "Шанхай",
+      "category": "travel",
+      "alt": "Натовп людей на площі серед традиційних будівель",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/crowd-480.jpg",
+        "large": "img/crowd-960.jpg"
+      },
+      "price": 199
+    },
+    {
+      "id": "lamps",
+      "title": "Ліхтарі на заході",
+      "place": "Місто",
+      "category": "city",
+      "alt": "Вуличні ліхтарі й будинки проти вечірнього сонця",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/lamps-480.jpg",
+        "large": "img/lamps-960.jpg"
+      },
+      "price": 129
+    },
+    {
+      "id": "porsche-classic",
+      "title": "Класичний 911",
+      "place": "Музей Porsche",
+      "category": "auto",
+      "alt": "Червоний класичний Porsche 911 Targa у залі музею",
+      "width": 960,
+      "height": 640,
+      "image": {
+        "small": "img/porsche-classic-480.jpg",
+        "large": "img/porsche-classic-960.jpg"
+      },
+      "price": 179
+    }
+  ]
+}

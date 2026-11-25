@@ -6,6 +6,8 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // сайт живе в підтеці головного сайту: artem.kestrel-nrg.com/moodboard/
+  base: '/moodboard/',
   plugins: [
     vue(),
     vueDevTools(),

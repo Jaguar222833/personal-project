@@ -1,0 +1,261 @@
+/* ============================================================
+   МУДБОРД · Artem Arsentiev — спільні стилі
+   Змінні, теми й типографіка — ті самі, що на головному сайті (КП № 1),
+   щоб мудборд виглядав як його частина.
+
+   Мітки в коментарях:
+     [ЗАВДАННЯ]  — вимога лабораторної
+     [ДОДАТКОВО] — власна ініціатива
+     [1], [2]…   — рядки, що перемикають макет
+
+   Підхід — MOBILE-FIRST: база — телефон, @media (width >= …) лише додають правила.
+   Стилі окремих компонентів — у їхніх <style scoped>.
+   ============================================================ */
+
+
+/* ---------- 1. Змінні та теми ---------- */
+
+/* базова тема — темна */
+:root {
+  --bg:        #0B0C10;
+  --surface:   #13151B;
+  --surface-2: #1C1F27;
+  --text:      #F2F0EC;
+  --muted:     #A3A9B6;
+  --border:    #262A33;
+  --accent:    #A98BF5;
+  --accent-hi: #C4B5FD;
+  --on-accent: #12101A;
+  --accent-2:  #5CC8BC;
+  --focus:     #C4B5FD;
+  --danger:    #F87171;
+  --shadow:    0 1px 2px rgb(0 0 0 / .5), 0 8px 24px rgb(0 0 0 / .35);
+  --glow:      rgb(169 139 245 / .35);
+  --glow-soft: rgb(169 139 245 / .12);
+
+  --radius:   .75rem;
+  --header-h: 4rem;
+  --content:  80rem;
+
+  --font-body:    'Manrope', system-ui, sans-serif;
+  --font-heading: 'Unbounded', 'Manrope', system-ui, sans-serif;
+
+  /* [ДОДАТКОВО] пружинна крива з КП № 1 */
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --spring: linear(0, .009, .035 2.1%, .141, .281 6.7%, .723 12.9%, .938 16.7%, 1.017, 1.077,
+                   1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%,
+                   1.017 43.1%, .991, .977 51%, .974 53.8%, .975 57.1%, .997 69.8%, 1.003 76.9%,
+                   1.004 83.8%, 1);
+
+  color-scheme: dark;
+}
+
+/* [ДОДАТКОВО] світла тема — кнопкою в шапці; вибір спільний із головним сайтом (ключ 'theme') */
+:root[data-theme="light"] {
+  --bg:        #F6F4EF;
+  --surface:   #FFFFFF;
+  --surface-2: #ECE8E0;
+  --text:      #1C1F26;
+  --muted:     #565C6B;
+  --border:    #DAD4C8;
+  --accent:    #6236D6;
+  --accent-hi: #8B5CF6;
+  --on-accent: #FFFFFF;
+  --accent-2:  #0D6A62;
+  --focus:     #1D4ED8;
+  --danger:    #B91C1C;
+  --shadow:    0 1px 2px rgb(0 0 0 / .06), 0 6px 20px rgb(0 0 0 / .06);
+  --glow:      rgb(98 54 214 / .25);
+  --glow-soft: rgb(98 54 214 / .08);
+  color-scheme: light;
+}
+
+
+/* ---------- 2. База ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  /* [ЗАВДАННЯ] жодної горизонтальної прокрутки на телефоні */
+  overflow-x: clip;
+}
+
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3 {
+  margin: 0 0 .75rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+h1 { font-size: clamp(1.6rem, 1.1rem + 2.5vw, 2.75rem); }
+h2 { font-size: clamp(1.25rem, 1rem + 1.2vw, 1.75rem); }
+h3 { font-size: 1rem; }
+
+p { margin: 0 0 1rem; }
+
+a { color: var(--accent-2); }
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* [ДОДАТКОВО] доступність з КП № 1: видимий фокус лише з клавіатури */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.container {
+  width: min(100% - 2rem, var(--content));
+  margin-inline: auto;
+}
+
+.muted { color: var(--muted); }
+
+
+/* ---------- 3. Кнопки ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 2.75rem;             /* зона натискання ≥ 44 px */
+  padding: .5rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .4s var(--spring), border-color .2s, background .2s, box-shadow .2s;
+
+  &:hover { border-color: var(--accent); }
+  &:active { transform: scale(.96); }
+  &:disabled { opacity: .5; cursor: not-allowed; }
+
+  & svg { width: 1.1em; height: 1.1em; flex-shrink: 0; }
+}
+
+.btn--primary {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hi));
+  color: var(--on-accent);
+
+  &:hover { box-shadow: 0 0 0 4px var(--glow-soft), 0 6px 20px var(--glow); }
+}
+
+.btn--ghost {
+  background: transparent;
+}
+
+.btn--small {
+  min-height: 2.25rem;
+  padding: .3rem .8rem;
+  font-size: .875rem;
+}
+
+/* кругла кнопка з іконкою: +, −, × */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .4s var(--spring), border-color .2s;
+
+  &:hover { border-color: var(--accent); }
+  &:active { transform: scale(.9); }
+  &:disabled { opacity: .4; cursor: not-allowed; }
+  & svg { width: 1.1rem; height: 1.1rem; }
+}
+
+
+/* ---------- 4. Поля ---------- */
+
+.input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: .5rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+
+  &::placeholder { color: var(--muted); }
+}
+
+
+/* ---------- 5. Анімації ---------- */
+
+/* [ДОДАТКОВО] <TransitionGroup>: картки плавно з'являються, зникають і пересуваються */
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: transform .5s var(--spring), opacity .3s;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: scale(.9);
+}
+
+.list-leave-active {
+  position: absolute;
+}
+
+/* [ДОДАТКОВО] користувач просить менше руху — вимикаємо анімації */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}

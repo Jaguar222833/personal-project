@@ -1,0 +1,213 @@
+<script setup>
+// [ЗАВДАННЯ] вимога 4: власний компонент.
+// Дані приходять ЛИШЕ через props, а про дії картка лише «повідомляє» батька подіями (emit) —
+// сама вона мудборд не змінює. Так одну й ту саму картку можна вставити будь-де.
+import { computed } from 'vue'
+import { Check, Plus, ScanSearch, WandSparkles } from '@lucide/vue'
+import { imageUrl } from '@/composables/usePhotos'
+import { formatPrice } from '@/utils/format'
+import ColorSwatch from './ColorSwatch.vue'
+
+const props = defineProps({
+  photo: { type: Object, required: true },        // { id, title, place, category, image, price… }
+  categoryLabel: { type: String, default: '' },
+  palette: { type: Array, default: null },        // кольори кадру; null — ще рахуються
+  inBoard: { type: Boolean, default: false },     // чи кадр уже на мудборді
+  activeColor: { type: String, default: '' },     // колір, за яким зараз фільтр
+})
+
+const emit = defineEmits(['add', 'remove', 'similar', 'collect', 'pick-color'])
+
+const src = computed(() => imageUrl(props.photo.image.large))
+const srcset = computed(
+  () => `${imageUrl(props.photo.image.small)} 480w, ${imageUrl(props.photo.image.large)} 960w`,
+)
+</script>
+
+<template>
+  <article class="card" :class="{ 'card--in-board': inBoard }">
+    <div class="card__media">
+      <!-- [ЗАВДАННЯ] адаптивне зображення з КП № 1: srcset + sizes, lazy, розміри від JSON -->
+      <img
+        :src="src"
+        :srcset="srcset"
+        sizes="(width >= 64rem) 20rem, (width >= 40rem) 50vw, 100vw"
+        :width="photo.width"
+        :height="photo.height"
+        :alt="photo.alt"
+        loading="lazy"
+        decoding="async"
+      >
+      <span v-if="categoryLabel" class="card__tag">{{ categoryLabel }}</span>
+    </div>
+
+    <div class="card__body">
+      <h3 class="card__title">{{ photo.title }}</h3>
+      <p class="card__place muted">{{ photo.place }}</p>
+
+      <!-- [ДОДАТКОВО] кольори кадру; клік — показати фото з цим кольором -->
+      <div v-if="palette" class="card__palette" role="group" :aria-label="`Кольори кадру «${photo.title}»`">
+        <ColorSwatch
+          v-for="color in palette"
+          :key="color.hex"
+          :color="color"
+          :active="color.hex === activeColor"
+          size="sm"
+          title-prefix="Знайти фото з кольором"
+          @pick="emit('pick-color', $event)"
+        />
+      </div>
+      <div v-else class="card__palette card__palette--loading" aria-hidden="true" />
+
+      <p class="card__price">
+        Пресет Lightroom · <strong>{{ formatPrice(photo.price) }}</strong>
+      </p>
+
+      <div class="card__actions">
+        <button
+          v-if="!inBoard"
+          type="button"
+          class="btn btn--primary btn--small"
+          @click="emit('add', photo.id)"
+        >
+          <Plus aria-hidden="true" /> У мудборд
+        </button>
+        <button
+          v-else
+          type="button"
+          class="btn btn--small"
+          :aria-label="`Прибрати «${photo.title}» з мудборду`"
+          @click="emit('remove', photo.id)"
+        >
+          <Check aria-hidden="true" /> На дошці
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          :disabled="!palette"
+          :title="`Схожі на «${photo.title}»`"
+          :aria-label="`Показати фото, схожі на «${photo.title}»`"
+          @click="emit('similar', photo.id)"
+        >
+          <ScanSearch aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          class="icon-btn"
+          :disabled="!palette"
+          title="Зібрати мудборд з цього кадру"
+          :aria-label="`Зібрати мудборд з «${photo.title}» і схожих кадрів`"
+          @click="emit('collect', photo.id)"
+        >
+          <WandSparkles aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  </article>
+</template>
+
+<style scoped>
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+  transition: border-color .25s, box-shadow .25s, transform .5s var(--spring);
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+    transform: translateY(-2px);
+  }
+}
+
+/* кадр уже на мудборді — фіолетова рамка */
+.card--in-board {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--glow-soft);
+}
+
+.card__media {
+  position: relative;
+
+  & img {
+    width: 100%;
+    /* [ЗАВДАННЯ] фото різних пропорцій в однакових рамках (КП № 1) */
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    background: var(--surface-2);
+  }
+}
+
+.card__tag {
+  position: absolute;
+  top: .6rem;
+  left: .6rem;
+  padding: .15rem .6rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / .6);
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: .35rem;
+  padding: .9rem 1rem 1rem;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.card__place {
+  margin: 0;
+  font-size: .875rem;
+}
+
+.card__palette {
+  display: flex;
+  gap: .3rem;
+  min-height: 1.75rem;
+  margin-block: .25rem;
+}
+
+/* поки кольори рахуються — «скелет» зі змінним блиском */
+.card__palette--loading {
+  border-radius: .4rem;
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+
+.card__price {
+  margin: 0;
+  font-size: .875rem;
+  color: var(--muted);
+
+  & strong { color: var(--text); }
+}
+
+.card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  margin-top: auto;
+  padding-top: .5rem;
+
+  & .btn { flex-grow: 1; }
+}
+</style>

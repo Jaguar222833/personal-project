@@ -1,5 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
+import { Toaster } from 'vue-sonner'
+import { useColorMode } from '@vueuse/core'
 import { usePhotos } from './composables/usePhotos'
 import { useBoard } from './composables/useBoard'
 import { usePalettes } from './composables/usePalettes'
@@ -17,6 +19,9 @@ function changeView(next) {
 const { photos } = usePhotos()
 const { count, keepOnly } = useBoard()
 const { ensure } = usePalettes()
+
+// тема для сповіщень — та сама, що в шапці (VueUse синхронізує обидва виклики через localStorage)
+const mode = useColorMode({ attribute: 'data-theme', storageKey: 'theme', initialValue: 'dark' })
 
 // коли каталог завантажився: прибрати з мудборду кадри, яких у ньому вже немає,
 // і почати рахувати кольори кадрів (у фоні, сторінка тим часом працює)
@@ -37,6 +42,9 @@ watch(photos, (list) => {
       <BoardView v-else @change-view="changeView" />
     </KeepAlive>
   </main>
+
+  <!-- [ДОДАТКОВО] спливні сповіщення — бібліотека vue-sonner -->
+  <Toaster position="top-center" :theme="mode === 'light' ? 'light' : 'dark'" rich-colors close-button />
 
   <footer class="footer">
     <div class="container">

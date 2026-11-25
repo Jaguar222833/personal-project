@@ -1,10 +1,13 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { LayoutGrid, Trash2 } from '@lucide/vue'
+import { LayoutGrid, Sparkles, Trash2 } from '@lucide/vue'
+import { toast } from 'vue-sonner'
 import { usePhotos } from '@/composables/usePhotos'
 import { useBoard } from '@/composables/useBoard'
 import { useBoardPalette } from '@/composables/useBoardPalette'
+import { useFilters } from '@/composables/useFilters'
+import { useSimilar } from '@/composables/useSimilar'
 import { plural } from '@/utils/format'
 import BoardItem from './BoardItem.vue'
 import EmptyState from './EmptyState.vue'
@@ -13,9 +16,26 @@ import PaletteBar from './PaletteBar.vue'
 const emit = defineEmits(['change-view'])
 
 const { photos } = usePhotos()
-const { board, count, increment, decrement, remove, clear } = useBoard()
+const { board, count, add, increment, decrement, remove, clear } = useBoard()
 
 const { boardPalette } = useBoardPalette()
+const { rank } = useSimilar()
+const filters = useFilters()
+
+// [ДОДАТКОВО] «Доповнити схожими»: 3 кадри, найближчі до палітри всього мудборду
+function addSimilar() {
+  const ids = board.value.map((item) => item.id)
+  const found = rank(boardPalette.value, ids).slice(0, 3).map((r) => r.photo)
+  found.forEach((p) => add(p.id))
+  toast.success(found.length ? `Додано: ${found.map((p) => p.title).join(', ')}` : 'Схожих кадрів більше немає')
+}
+
+// клік по кольору палітри — перейти в галерею з фільтром за цим кольором
+function findByColor(hex) {
+  filters.reset()
+  filters.color.value = hex
+  emit('change-view', 'gallery')
+}
 
 const photosById = computed(() => Object.fromEntries(photos.value.map((p) => [p.id, p])))
 
@@ -40,6 +60,14 @@ function doClear() {
 
       <div v-if="count" class="head__actions">
         <template v-if="!confirmClear">
+          <button
+            type="button"
+            class="btn btn--small"
+            :disabled="!boardPalette.length"
+            @click="addSimilar"
+          >
+            <Sparkles aria-hidden="true" /> Доповнити схожими
+          </button>
           <button type="button" class="btn btn--ghost btn--small" @click="confirmClear = true">
             <Trash2 aria-hidden="true" /> Очистити
           </button>
@@ -90,7 +118,13 @@ function doClear() {
       <!-- палітра — «загальна сума» мудборду: перераховується при кожній зміні -->
       <aside class="side" aria-labelledby="palette-title">
         <h2 id="palette-title" class="side__title">Палітра</h2>
-        <PaletteBar v-if="boardPalette.length" :colors="boardPalette" height="4.5rem" labels />
+        <PaletteBar
+          v-if="boardPalette.length"
+          :colors="boardPalette"
+          height="4.5rem"
+          labels
+          @pick="findByColor"
+        />
         <p v-else class="muted">Рахую кольори…</p>
       </aside>
     </div>
